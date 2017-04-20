@@ -1,3 +1,5 @@
+import * as Rx from 'rx'
+
 var initLogic = function(store) {
 	var inputChangeStream = new Rx.Subject();
 

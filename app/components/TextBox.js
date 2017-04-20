@@ -1,3 +1,5 @@
+import React from 'react'
+
 class TextBox extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +28,7 @@ class TextBox extends React.Component {
 	}
 
 	handleInputChange(event) {
-		commands.changeInput(event.target.value);
+		this.props.commands.changeInput(event.target.value);
 	}
 
 	render() {
