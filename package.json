@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/manisero/RxRedux/issues"
   },
-  "homepage": "https://github.com/manisero/RxRedux#readme"
+  "homepage": "https://github.com/manisero/RxRedux#readme",
+  "devDependencies": {
+    "webpack": "^2.4.1"
+  },
+  "dependencies": {
+    "redux": "^3.6.0"
+  }
 }

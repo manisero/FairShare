@@ -1,3 +1,5 @@
+import { createStore } from 'redux'
+
 var initStore = function() {
 	// events
 	var INPUT_CHANGED = 'INPUT_CHANGED';
@@ -41,7 +43,7 @@ var initStore = function() {
 
 	// store
 	var reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-	var store = Redux.createStore(reducer, state, reduxDevTools);
+	var store = createStore(reducer, state, reduxDevTools);
 
 	return {
 		getState: store.getState,
