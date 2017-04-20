@@ -1,3 +1,7 @@
+import initStore from './store'
+import initLogic from './logic'
+import Root from './components/Root'
+
 var store = initStore();
 var commands = initLogic(store);
 

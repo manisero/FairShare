@@ -18,3 +18,5 @@ var initLogic = function(store) {
 		}
 	};
 };
+
+export default initLogic;

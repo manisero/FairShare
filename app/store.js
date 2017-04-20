@@ -68,3 +68,5 @@ var initStore = function() {
 		}
 	};
 }
+
+export default initStore;
