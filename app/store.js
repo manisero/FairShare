@@ -19,7 +19,7 @@ var initStore = function() {
 	};
 
 	// reducer
-	var reducer = function(state, action) {
+	var reducer = (state, action) => {
 		switch (action.type) {
 		case INPUT_CHANGED:
 			return {
@@ -47,24 +47,16 @@ var initStore = function() {
 
 	return {
 		getState: store.getState,
-		subscribe: function(callback) {
-			return store.subscribe(function() {
-				callback(store.getState())
-			});
-		},
+		subscribe: callback => store.subscribe(() => callback(store.getState())),
 		events: {
-			inputChanged: function(value) {
-				store.dispatch({
-					type: INPUT_CHANGED,
-					value: value
-				});
-			},
-			inputLengthChanged: function(length) {
-				store.dispatch({
-					type: INPUT_LENGTH_CHANGED,
-					length: length
-				});
-			}
+			inputChanged: value => store.dispatch({
+				type: INPUT_CHANGED,
+				value: value
+			}),
+			inputLengthChanged: length => store.dispatch({
+				type: INPUT_LENGTH_CHANGED,
+				length: length
+			})
 		}
 	};
 }

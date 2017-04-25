@@ -14,14 +14,12 @@ class TextBox extends React.Component {
 	}
 
 	componentDidMount() {
-		var self = this;
-
-		this.props.store.subscribe(function(storeState) {
-			self.setState({
+		this.props.store.subscribe(storeState =>
+			this.setState({
 				value: storeState.input.value,
 				valueLength: storeState.input.length
-			});
-		});
+			})
+		);
 	}
 
 	componentWillUnmount() {

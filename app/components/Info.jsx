@@ -12,13 +12,11 @@ class Info extends React.Component {
 	}
 
 	componentDidMount() {
-		var self = this;
-
-		this.props.store.subscribe(function(storeState) {
-			self.setState({
+		this.props.store.subscribe(storeState =>
+			this.setState({
 				inputLength: storeState.info.inputLength
-			});
-		});
+			})
+		);
 	}
 
 	componentWillUnmount() {
