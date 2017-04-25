@@ -1,6 +1,6 @@
 import React from 'react'
 import TextBox from './TextBox'
-import Info from './Info'
+import Info from './Info.jsx'
 
 class Root extends React.Component {
 	constructor(props) {

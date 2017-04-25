@@ -25,11 +25,11 @@ class Info extends React.Component {
 	}
 
 	render() {
-		return React.createElement(
-				'div',
-				null,
-				'Input length: ' + this.state.inputLength
-			);
+		return (
+			<div>
+				Input length: {this.state.inputLength}
+			</div>
+		);
 	}
 }
 
