@@ -1,5 +1,5 @@
 import React from 'react'
-import TextBox from './TextBox'
+import TextBox from './TextBox.jsx'
 import Info from './Info.jsx'
 
 class Root extends React.Component {
@@ -8,12 +8,12 @@ class Root extends React.Component {
 	}
 
 	render() {
-		return React.createElement(
-				'div',
-				null,
-				React.createElement(TextBox, this.props),
-				React.createElement(Info, this.props)
-				);
+		return (
+			<div>
+				<TextBox  {...this.props} />
+				<Info {...this.props} />
+			</div>
+		);
 	}
 }
 

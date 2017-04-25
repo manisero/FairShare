@@ -32,22 +32,12 @@ class TextBox extends React.Component {
 	}
 
 	render() {
-		return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'input',
-					{
-						type: 'text',
-						value: this.state.value,
-						onChange: this.handleInputChange
-					},
-					null),
-				React.createElement(
-					'div',
-					null,
-					'Length: ' + this.state.valueLength)
-			);
+		return (
+			<div>
+				<input type='text' value={this.state.value} onChange={this.handleInputChange} />
+				<div>Length: {this.state.valueLength}</div>
+			</div>
+		);
 	}
 }
 
