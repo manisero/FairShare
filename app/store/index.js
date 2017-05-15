@@ -1,29 +1,21 @@
-import { createStore } from 'redux'
-import events from './events'
+import { createStore as reduxCreateStore } from 'redux'
 import initialState from './initialState'
 import reducer from './reducer'
+import { createActionDispatchers } from './actions'
 
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-let initStore = function() {
-	let store = createStore(reducer, initialState, reduxDevTools);
-
-	let ev = events;
+let createStore = () => {
+	let store = reduxCreateStore(reducer, initialState, reduxDevTools);
+	let actionDispatchers = createActionDispatchers(store);
 
 	return {
+		actions: actionDispatchers,
+		// TODO: Decide on exposed objects (try not to expose store)
+		store: store,
 		getState: store.getState,
 		subscribe: callback => store.subscribe(() => callback(store.getState())),
-		events: {
-			inputChanged: value => store.dispatch({
-				type: events.INPUT_CHANGED,
-				value: value
-			}),
-			inputLengthChanged: length => store.dispatch({
-				type: events.INPUT_LENGTH_CHANGED,
-				length: length
-			})
-		}
 	};
 }
 
-export default initStore;
+export default createStore;

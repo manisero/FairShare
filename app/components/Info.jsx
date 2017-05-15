@@ -20,6 +20,7 @@ class Info extends React.Component {
 	}
 
 	componentWillUnmount() {
+		// TODO: Unsubscribe from store
 	}
 
 	render() {

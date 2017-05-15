@@ -23,6 +23,7 @@ class TextBox extends React.Component {
 	}
 
 	componentWillUnmount() {
+		// TODO: Unsubscribe from store
 	}
 
 	handleInputChange(event) {

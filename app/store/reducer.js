@@ -1,6 +1,17 @@
-import events from './events'
+import { actions } from './actions'
 
-let onInputChanged = (state, action) => ({
+let reducer = (state, action) => {
+	switch (action.type) {
+	case actions.CHANGE_INPUT:
+		return onChangeInput(state, action);
+	case actions.CHANGE_INPUT_LENGTH:
+		return onChangeInputLength(state, action);
+	default:
+		return state;
+	}
+};
+
+let onChangeInput = (state, action) => ({
     input: {
         value: action.value,
         length: action.value.length
@@ -8,20 +19,11 @@ let onInputChanged = (state, action) => ({
     info: state.info
 });
 
-let onInputLengthChanged = (state, action) => ({
+let onChangeInputLength = (state, action) => ({
     input: state.input,
     info: {
         inputLength: action.length
     }
 });
 
-export default (state, action) => {
-	switch (action.type) {
-	case events.INPUT_CHANGED:
-		return onInputChanged(state, action);
-	case events.INPUT_LENGTH_CHANGED:
-		return onInputLengthChanged(state, action);
-	default:
-		return state;
-	}
-};
+export default reducer;
