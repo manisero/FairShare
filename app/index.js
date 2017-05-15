@@ -4,8 +4,8 @@ import initStore from './store'
 import initLogic from './logic'
 import Root from './components/Root.jsx'
 
-var store = initStore();
-var commands = initLogic(store);
+let store = initStore();
+let commands = initLogic(store);
 
 render(
 	React.createElement(

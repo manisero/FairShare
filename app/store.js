@@ -1,16 +1,16 @@
 import { createStore } from 'redux'
 
 // dev tools
-var reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+let reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
 // events
-var INPUT_CHANGED = 'INPUT_CHANGED';
-var INPUT_LENGTH_CHANGED = 'INPUT_LENGTH_CHANGED';
+let INPUT_CHANGED = 'INPUT_CHANGED';
+let INPUT_LENGTH_CHANGED = 'INPUT_LENGTH_CHANGED';
 
 // initial state
-var initialInputValue = 'test';
+let initialInputValue = 'test';
 
-var state = {
+let state = {
 	input: {
 		value: initialInputValue,
 		length: initialInputValue.length
@@ -21,7 +21,7 @@ var state = {
 };
 
 // reducer
-var reducer = (state, action) => {
+let reducer = (state, action) => {
 	switch (action.type) {
 	case INPUT_CHANGED:
 		return {
@@ -44,8 +44,8 @@ var reducer = (state, action) => {
 };
 
 // initStore
-var initStore = function() {
-	var store = createStore(reducer, state, reduxDevTools);
+let initStore = function() {
+	let store = createStore(reducer, state, reduxDevTools);
 
 	return {
 		getState: store.getState,

@@ -4,7 +4,7 @@ class Info extends React.Component {
 	constructor(props) {
 		super(props);
 
-		var storeState = props.store.getState();
+		let storeState = props.store.getState();
 
 		this.state = {
 			inputLength: storeState.info.inputLength

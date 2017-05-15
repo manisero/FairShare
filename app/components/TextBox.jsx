@@ -5,7 +5,7 @@ class TextBox extends React.Component {
 		super(props);
 		this.handleInputChange = this.handleInputChange.bind(this);
 
-		var storeState = props.store.getState();
+		let storeState = props.store.getState();
 
 		this.state = {
 			value: storeState.input.value,

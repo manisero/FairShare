@@ -1,7 +1,7 @@
 import * as Rx from 'rx'
 
-var initLogic = store => {
-	var inputChangeStream = new Rx.Subject();
+let initLogic = store => {
+	let inputChangeStream = new Rx.Subject();
 
 	inputChangeStream.subscribe(value => store.events.inputChanged(value));
 
