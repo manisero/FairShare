@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import initStore from './store'
+import initStore from './store/store'
 import initLogic from './logic'
 import Root from './components/Root.jsx'
 

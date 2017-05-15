@@ -1,11 +1,8 @@
 import { createStore } from 'redux'
+import events from './events'
 
 // dev tools
 let reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-
-// events
-let INPUT_CHANGED = 'INPUT_CHANGED';
-let INPUT_LENGTH_CHANGED = 'INPUT_LENGTH_CHANGED';
 
 // initial state
 let initialInputValue = 'test';
@@ -23,7 +20,7 @@ let state = {
 // reducer
 let reducer = (state, action) => {
 	switch (action.type) {
-	case INPUT_CHANGED:
+	case events.INPUT_CHANGED:
 		return {
 			input: {
 				value: action.value,
@@ -31,7 +28,7 @@ let reducer = (state, action) => {
 			},
 			info: state.info
 		};
-	case INPUT_LENGTH_CHANGED:
+	case events.INPUT_LENGTH_CHANGED:
 		return {
 			input: state.input,
 			info: {
@@ -47,16 +44,18 @@ let reducer = (state, action) => {
 let initStore = function() {
 	let store = createStore(reducer, state, reduxDevTools);
 
+	let ev = events;
+
 	return {
 		getState: store.getState,
 		subscribe: callback => store.subscribe(() => callback(store.getState())),
 		events: {
 			inputChanged: value => store.dispatch({
-				type: INPUT_CHANGED,
+				type: events.INPUT_CHANGED,
 				value: value
 			}),
 			inputLengthChanged: length => store.dispatch({
-				type: INPUT_LENGTH_CHANGED,
+				type: events.INPUT_LENGTH_CHANGED,
 				length: length
 			})
 		}
