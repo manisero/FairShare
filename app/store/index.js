@@ -10,12 +10,9 @@ let createStore = () => {
 	let actionDispatchers = createActionDispatchers(store);
 
 	return {
-		actions: actionDispatchers,
-		// TODO: Decide on exposed objects (try not to expose store)
-		store: store,
-		getState: store.getState,
-		subscribe: callback => store.subscribe(() => callback(store.getState())),
+		store: store, // TODO: Decide on exposed objects (try not to expose store)
+		actions: actionDispatchers
 	};
-}
+};
 
 export default createStore;

@@ -9,6 +9,12 @@ module.exports = {
     ]
   },
 
+  resolve: {
+    alias: {
+      utils: path.resolve(__dirname, 'app/utils/')
+    }
+  },
+
   devtool: 'source-map',
 
   output: {
