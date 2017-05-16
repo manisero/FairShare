@@ -10,6 +10,8 @@ let events = initEvents(store);
 // TODO: Think on some object for queries (querying data from Redux store)
 // so that React components would only have access to commands (events) and queries 
 
+store.store.dispatch.events = events;
+
 let root = (
 	<Provider store={store.store}>
 		<Root store={store} events={events} />
