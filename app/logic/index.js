@@ -1,17 +1,19 @@
 import * as Rx from 'rx'
-import createEventStreams from './events'
+import initEventStreams from './events'
 
-let initEventStreams = store => {
-	let eventStreams = createEventStreams();
+let initEvents = store => {
+	let { eventStreams, eventDispatchers } = initEventStreams();
 
-	eventStreams.inputChanged.stream
-		.subscribe(e => store.actions.changeInput(e.value));
+	eventStreams.inputChanged
+		.subscribe(e => {
+			store.actions.changeInput(e.value);
+		});
 
-	eventStreams.inputChanged.stream
+	eventStreams.inputChanged
 		.debounce(500)
 		.subscribe(e => store.actions.changeInputLength(e.value.length));
 
-	return eventStreams;
+	return eventDispatchers;
 };
 
-export default initEventStreams;
+export default initEvents;

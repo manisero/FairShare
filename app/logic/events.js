@@ -1,21 +1,22 @@
 import * as Rx from 'rx'
 
-let createEventStream = eventCreator => {
-    let stream = new Rx.Subject();
-
-    return {
-        stream: stream,
-        post: (...args) => {
-            stream.onNext(eventCreator(args));
-        }
-    };
-};
-
-let createEventStreams = () => ({
-    inputChanged: createEventStream(value => ({
+let eventCreators = ({
+    inputChanged: value => ({
         type: 'INPUT_CHANGED',
         value: value
-    })) 
+    })
 });
 
-export default createEventStreams;
+let initEventStreams = () => {
+    let eventStreams = {
+        inputChanged: new Rx.Subject()
+    };
+
+    let eventDispatchers = {
+        inputChanged: value => eventStreams.inputChanged.onNext(eventCreators.inputChanged(value)) 
+    };
+
+    return { eventStreams, eventDispatchers };
+};
+
+export default initEventStreams;

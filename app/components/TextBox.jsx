@@ -27,7 +27,7 @@ class TextBox extends React.Component {
 	}
 
 	handleInputChange(event) {
-		this.props.commands.changeInput(event.target.value);
+		this.props.events.inputChanged(event.target.value);
 	}
 
 	render() {
