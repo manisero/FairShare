@@ -1,35 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-class Info extends React.Component {
-	constructor(props) {
-		super(props);
+let Info = ({ inputLength }) => (
+	<div>
+		Input length: {inputLength}
+	</div>
+)
 
-		let storeState = props.store.getState();
+let mapStateToProps = state => ({
+    inputLength: state.info.inputLength
+});
 
-		this.state = {
-			inputLength: storeState.info.inputLength
-		};
-	}
-
-	componentDidMount() {
-		this.props.store.subscribe(storeState =>
-			this.setState({
-				inputLength: storeState.info.inputLength
-			})
-		);
-	}
-
-	componentWillUnmount() {
-		// TODO: Unsubscribe from store
-	}
-
-	render() {
-		return (
-			<div>
-				Input length: {this.state.inputLength}
-			</div>
-		);
-	}
-}
-
-export default Info;
+export default connect(mapStateToProps)(Info);
