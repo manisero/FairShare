@@ -13,7 +13,11 @@ let initEventStreams = () => {
     };
 
     let eventDispatchers = {
-        inputChanged: value => eventStreams.inputChanged.onNext(eventCreators.inputChanged(value)) 
+        inputChanged: value => {
+            let event = eventCreators.inputChanged(value);
+            
+            eventStreams.inputChanged.onNext(event);
+        }
     };
 
     return { eventStreams, eventDispatchers };
