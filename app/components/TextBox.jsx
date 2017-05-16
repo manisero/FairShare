@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'reactReduxUtils'
 
 let TextBox = ({ value, valueLength, onInputChange }) => (
 	<div>
@@ -13,8 +13,8 @@ let mapStateToProps = state => ({
 	valueLength: state.input.length 
 });
 
-let mapDispatchToProps = (dispatch) => ({
-	onInputChange: value => dispatch.events.inputChanged(value)
+let mapEventsToProps = (events) => ({
+	onInputChange: value => events.inputChanged(value)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextBox);
+export default connect(mapStateToProps, mapEventsToProps)(TextBox);
