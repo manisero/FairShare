@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 
 const style = {
-  margin: '15px'
+	margin: '15px'
 };
 
 let AddInputButton = (props) => (

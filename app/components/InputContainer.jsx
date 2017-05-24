@@ -3,7 +3,7 @@ import TextBox from './TextBox.jsx'
 import Info from './Info.jsx'
 
 const style = {
-  margin: '15px'
+	margin: '15px'
 };
 
 let InputContainer = ({ inputId }) => (
