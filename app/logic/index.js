@@ -1,11 +1,11 @@
-import initEventStreams from './events'
+import initEvents from './events'
 import subscribe from './handlers'
 
-let initEvents = store => {
-	let { eventStreams, eventDispatchers } = initEventStreams();
-	subscribe(eventStreams, eventDispatchers, store);
+let initLogic = store => {
+	let events = initEvents();
+	subscribe(events, store);
 
-	return eventDispatchers;
+	return events;
 };
 
-export default initEvents;
+export default initLogic;

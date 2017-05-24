@@ -7,20 +7,14 @@ let eventCreators = ({
     })
 });
 
-let initEventStreams = () => {
-    let eventStreams = {
-        inputChanged: new Rx.Subject()
-    };
+let initEvents = () => {
+    let inputChangedStream = new Rx.Subject();
+    let inputChangedDispatcher = value => inputChangedStream.next(eventCreators.inputChanged(value));
+    inputChangedDispatcher.stream = inputChangedStream; 
 
-    let eventDispatchers = {
-        inputChanged: value => {
-            let event = eventCreators.inputChanged(value);
-            
-            eventStreams.inputChanged.next(event);
-        }
+    return {
+        inputChanged: inputChangedDispatcher
     };
-
-    return { eventStreams, eventDispatchers };
 };
 
-export default initEventStreams;
+export default initEvents;

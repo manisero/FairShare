@@ -3,11 +3,11 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { enableEventsInDispatchMapping } from 'utils/reactReduxUtils'
 import createStore from './store/'
-import initEvents from './logic/'
+import initLogic from './logic/'
 import Root from './components/Root.jsx'
 
 let store = createStore();
-let events = initEvents(store);
+let events = initLogic(store);
 
 enableEventsInDispatchMapping(events, store.store);
 

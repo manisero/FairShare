@@ -1,9 +1,9 @@
-let subscribe = (eventStreams, eventDispatchers, store) => {
+let subscribe = (events, store) => {
 
-	eventStreams.inputChanged
+	events.inputChanged.stream
 		.subscribe(e => store.actions.changeInput(e.value, e));
 
-	eventStreams.inputChanged
+	events.inputChanged.stream
 		.debounceTime(500)
 		.subscribe(e => store.actions.changeInputLength(e.value.length, e));
 
