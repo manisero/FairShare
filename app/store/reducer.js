@@ -31,11 +31,13 @@ let updateInput = (inputId, newInputItemPart, state) => {
 };
 
 let updateGlobalInfo = state => {
-    let inputLengths = state.inputIds.map(id => state.inputs[id].input.value.length);
+    let totalLength = state.inputIds
+                           .map(id => state.inputs[id].input.value.length)
+                           .reduce((x, y) => x + y, 0);
 
     let globalInfo = {
-        totalLength: inputLengths.reduce((x, y) => x + y, 0),
-        averageLength: -1 // TODO
+        totalLength: totalLength,
+        averageLength: totalLength / state.inputIds.length
     };
 
     return Object.assign({}, state, { globalInfo });
