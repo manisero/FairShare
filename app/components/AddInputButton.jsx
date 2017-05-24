@@ -1,10 +1,16 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 
+const style = {
+  margin: '15px'
+};
+
 let AddInputButton = (props) => (
-	<button {...props}>
-		Add
-	</button>
+	<div style={style}>
+		<button {...props}>
+			Add
+		</button>
+	</div>
 );
 
 let mapEventsToProps = events => ({
