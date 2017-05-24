@@ -7,12 +7,9 @@ const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVT
 
 let createStore = () => {
 	let store = reduxCreateStore(reducer, initialState, reduxDevTools);
-	let actionDispatchers = createActionDispatchers(store);
+	store.actions = createActionDispatchers(store);
 
-	return {
-		store: store, // TODO: Decide on exposed objects (try not to expose store)
-		actions: actionDispatchers
-	};
+	return store;
 };
 
 export default createStore;

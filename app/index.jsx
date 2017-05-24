@@ -9,10 +9,10 @@ import Root from './components/Root.jsx'
 let store = createStore();
 let events = initLogic(store);
 
-enableEventsInDispatchMapping(events, store.store);
+enableEventsInDispatchMapping(events, store);
 
 let root = (
-	<Provider store={store.store}>
+	<Provider store={store}>
 		<Root store={store} events={events} />
 	</Provider>
 );
