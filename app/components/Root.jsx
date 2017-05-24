@@ -1,14 +1,21 @@
 import React from 'react'
-import TextBox from './TextBox.jsx'
-import Info from './Info.jsx'
+import { connect } from 'reactReduxUtils'
+import InputContainer from './InputContainer.jsx'
 import AddInputButton from './AddInputButton.jsx'
 
-let Root = props => (
-	<div>
-		<TextBox inputId={1} />
-		<Info inputId={1} />
-		<AddInputButton />
-	</div>
-);
+let Root = ({ inputIds }) => {
+	let inputs = inputIds.map(id => (<InputContainer key={id} inputId={id} />));
 
-export default Root;
+	return (
+		<div>
+			{inputs}
+			<AddInputButton />
+		</div>
+	);
+};
+
+let mapStateToProps = (state) => ({
+    inputIds: state.inputIds
+});
+
+export default connect(mapStateToProps)(Root);

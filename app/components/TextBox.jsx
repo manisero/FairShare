@@ -9,7 +9,7 @@ let TextBox = ({ inputId, value, onInputChange }) => (
 );
 
 let mapStateToProps = (state, { inputId }) => ({
-    value: state.inputs[1].input.value
+    value: state.inputs[inputId].input.value
 });
 
 let mapEventsToProps = (events, { inputId }) => ({
