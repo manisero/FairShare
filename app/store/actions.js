@@ -1,6 +1,6 @@
 let actions = {
     CHANGE_INPUT: 'CHANGE_INPUT',
-    CHANGE_INPUT_LENGTH: 'CHANGE_INPUT_LENGTH'
+    UPDATE_INPUT_INFO: 'UPDATE_INPUT_INFO'
 };
 
 let createActionDispatchers = (store) => ({
@@ -11,8 +11,8 @@ let createActionDispatchers = (store) => ({
         origin
     }),
 
-    changeInputLength: (length, origin) => store.dispatch({
-        type: actions.CHANGE_INPUT_LENGTH,
+    updateInputInfo: (length, origin) => store.dispatch({
+        type: actions.UPDATE_INPUT_INFO,
         length: length,
         origin
     })

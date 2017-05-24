@@ -13,7 +13,7 @@ enableEventsInDispatchMapping(events, store);
 
 let root = (
 	<Provider store={store}>
-		<Root store={store} events={events} />
+		<Root />
 	</Provider>
 );
 

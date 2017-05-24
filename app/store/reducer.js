@@ -13,7 +13,7 @@ let input = (state = { value: '', length: 0 }, action) => {
 };
 
 let info = (state = { inputLength: 0 }, action) => {
-    if (action.type === actions.CHANGE_INPUT_LENGTH) {
+    if (action.type === actions.UPDATE_INPUT_INFO) {
         return {
             inputLength: action.length
         };
