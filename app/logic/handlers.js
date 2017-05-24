@@ -5,7 +5,7 @@ let subscribe = (events, store) => {
 
 	events.inputChanged.stream
 		.debounceTime(500)
-		.subscribe(e => store.actions.updateInputInfo(e.value.length, e));
+		.subscribe(e => store.actions.updateInputInfo(e));
 
 };
 
