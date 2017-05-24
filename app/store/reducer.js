@@ -1,25 +1,21 @@
-import { combineReducers } from "redux";
 import { actions } from './actions'
 
-let input = (state = { value: '', length: 0 }, action) => {
-    if (action.type === actions.CHANGE_INPUT) {
-        return {
+export default (state, action) => {
+    switch (action.type) {
+    case actions.CHANGE_INPUT:
+        let input = {
             value: action.value,
             length: action.value.length
         };
-    } else {
-        return state;
-    }
-};
 
-let info = (state = { inputLength: 0 }, action) => {
-    if (action.type === actions.UPDATE_INPUT_INFO) {
-        return {
-            inputLength: action.length
+        return Object.assign({}, state, { input });
+    case actions.UPDATE_INPUT_INFO:
+        let info = {
+            inputLength: state.input.value.length
         };
-    } else {
+
+        return Object.assign({}, state, { info });
+    default:
         return state;
     }
 };
-
-export default combineReducers({ input, info });
