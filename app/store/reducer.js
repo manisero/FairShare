@@ -1,5 +1,7 @@
 import { actions } from './actions'
 
+// TODO: Consider using some immutability helper
+
 let addInput = (state) => {
     let inputId = state.lastInputId + 1;
 
@@ -13,7 +15,7 @@ let addInput = (state) => {
     };
 
     let newStatePart = {
-         lastInputId: inputId, 
+         lastInputId: inputId,
          inputIds: state.inputIds.concat([inputId]),
          inputs: Object.assign({}, state.inputs, { [inputId]: inputItem })
     };
@@ -26,6 +28,17 @@ let updateInput = (inputId, newInputItemPart, state) => {
     let inputs = Object.assign({}, state.inputs, { [inputId]: inputItem }); 
 
     return Object.assign({}, state, { inputs });
+};
+
+let updateGlobalInfo = state => {
+    let inputLengths = state.inputIds.map(id => state.inputs[id].input.value.length);
+
+    let globalInfo = {
+        totalLength: inputLengths.reduce((x, y) => x + y, 0),
+        averageLength: -1 // TODO
+    };
+
+    return Object.assign({}, state, { globalInfo });
 };
 
 export default (state, action) => {
@@ -47,7 +60,10 @@ export default (state, action) => {
         };
 
         return updateInput(action.inputId, { info }, state);
-        
+    
+    case actions.UPDATE_GLOBAL_INFO:
+        return updateGlobalInfo(state);
+
     default:
         return state;
     }

@@ -13,5 +13,9 @@ export default {
 				inputLength: initialInputValue.length
 			}
 		}
+	},
+	globalInfo: {
+		totalLength: initialInputValue.length,
+		averageLength: initialInputValue.length
 	}
 };

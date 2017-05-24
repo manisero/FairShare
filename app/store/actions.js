@@ -1,7 +1,8 @@
 let actions = {
     ADD_INPUT: 'ADD_INPUT',
     CHANGE_INPUT: 'CHANGE_INPUT',
-    UPDATE_INPUT_INFO: 'UPDATE_INPUT_INFO'
+    UPDATE_INPUT_INFO: 'UPDATE_INPUT_INFO',
+    UPDATE_GLOBAL_INFO: 'UPDATE_GLOBAL_INFO'
 };
 
 let createActionDispatchers = (store) => ({
@@ -21,6 +22,11 @@ let createActionDispatchers = (store) => ({
     updateInputInfo: (inputId, origin) => store.dispatch({
         type: actions.UPDATE_INPUT_INFO,
         inputId,
+        origin
+    }),
+
+    updateGlobalInfo: (origin) => store.dispatch({
+        type: actions.UPDATE_GLOBAL_INFO,
         origin
     })
     
