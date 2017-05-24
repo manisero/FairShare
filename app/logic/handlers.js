@@ -1,5 +1,8 @@
 let subscribe = (events, store) => {
 
+	events.inputAdded.stream
+		.subscribe(e => store.actions.addInput(e));
+
 	events.inputChanged.stream
 		.subscribe(e => store.actions.changeInput(e.inputId, e.value, e));
 

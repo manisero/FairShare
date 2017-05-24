@@ -1,8 +1,11 @@
+const initialInputId = 1;
 const initialInputValue = 'test';
 
 export default {
+	lastInputId: initialInputId,
+	inputIds: [ initialInputId ],
 	inputs: {
-		[1]: {
+		[initialInputId]: {
 			input: {
 				value: initialInputValue
 			},

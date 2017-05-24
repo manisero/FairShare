@@ -1,9 +1,15 @@
 let actions = {
+    ADD_INPUT: 'ADD_INPUT',
     CHANGE_INPUT: 'CHANGE_INPUT',
     UPDATE_INPUT_INFO: 'UPDATE_INPUT_INFO'
 };
 
 let createActionDispatchers = (store) => ({
+
+    addInput: (origin) => store.dispatch({
+        type: actions.ADD_INPUT,
+        origin
+    }),
 
     changeInput: (inputId, value, origin) => store.dispatch({
         type: actions.CHANGE_INPUT,
