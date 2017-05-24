@@ -1,4 +1,4 @@
-import * as Rx from 'rx'
+import Rx from 'rxjs/Rx'
 
 let eventCreators = ({
     inputChanged: value => ({
@@ -16,7 +16,7 @@ let initEventStreams = () => {
         inputChanged: value => {
             let event = eventCreators.inputChanged(value);
             
-            eventStreams.inputChanged.onNext(event);
+            eventStreams.inputChanged.next(event);
         }
     };
 

@@ -1,12 +1,10 @@
 let subscribe = (eventStreams, eventDispatchers, store) => {
 
 	eventStreams.inputChanged
-		.subscribe(e => {
-			store.actions.changeInput(e.value, e);
-		});
+		.subscribe(e => store.actions.changeInput(e.value, e));
 
 	eventStreams.inputChanged
-		.debounce(500)
+		.debounceTime(500)
 		.subscribe(e => store.actions.changeInputLength(e.value.length, e));
 
 };

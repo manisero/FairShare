@@ -1,4 +1,3 @@
-import * as Rx from 'rx'
 import initEventStreams from './events'
 import subscribe from './handlers'
 
