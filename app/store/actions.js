@@ -5,14 +5,16 @@ let actions = {
 
 let createActionDispatchers = (store) => ({
 
-    changeInput: (value, origin) => store.dispatch({
+    changeInput: (inputId, value, origin) => store.dispatch({
         type: actions.CHANGE_INPUT,
-        value: value,
+        inputId,
+        value,
         origin
     }),
 
-    updateInputInfo: (origin) => store.dispatch({
+    updateInputInfo: (inputId, origin) => store.dispatch({
         type: actions.UPDATE_INPUT_INFO,
+        inputId,
         origin
     })
     

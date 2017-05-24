@@ -1,15 +1,16 @@
 import Rx from 'rxjs/Rx'
 
 let eventCreators = ({
-    inputChanged: value => ({
+    inputChanged: (inputId, value) => ({
         type: 'INPUT_CHANGED',
-        value: value
+        inputId,
+        value
     })
 });
 
 let initEvents = () => {
     let inputChangedStream = new Rx.Subject();
-    let inputChangedDispatcher = value => inputChangedStream.next(eventCreators.inputChanged(value));
+    let inputChangedDispatcher = (inputId, value) => inputChangedStream.next(eventCreators.inputChanged(inputId, value));
     inputChangedDispatcher.stream = inputChangedStream; 
 
     return {

@@ -1,5 +1,12 @@
 import { actions } from './actions'
 
+let getNewState = (inputId, newInputItemPart, state) => {
+    let inputItem = Object.assign({}, state.inputs[inputId], newInputItemPart);
+    let inputs = Object.assign({}, state.inputs, { [inputId]: inputItem }); 
+
+    return Object.assign({}, state, { inputs });
+};
+
 export default (state, action) => {
     switch (action.type) {
 
@@ -8,14 +15,14 @@ export default (state, action) => {
             value: action.value
         };
 
-        return Object.assign({}, state, { input });
+        return getNewState(action.inputId, { input }, state);
 
     case actions.UPDATE_INPUT_INFO:
         let info = {
-            inputLength: state.input.value.length
+            inputLength: state.inputs[action.inputId].input.value.length
         };
 
-        return Object.assign({}, state, { info });
+        return getNewState(action.inputId, { info }, state);;
         
     default:
         return state;

@@ -4,8 +4,8 @@ import Info from './Info.jsx'
 
 let Root = props => (
 	<div>
-		<TextBox />
-		<Info />
+		<TextBox inputId={1} />
+		<Info inputId={1} />
 	</div>
 );
 

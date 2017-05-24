@@ -1,19 +1,19 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 
-let TextBox = ({ value, onInputChange }) => (
+let TextBox = ({ inputId, value, onInputChange }) => (
 	<div>
 		<input type='text' value={value} onChange={e => onInputChange(e.target.value)} />
 		<div>Length: {value.length}</div>
 	</div>
 );
 
-let mapStateToProps = state => ({
-    value: state.input.value
+let mapStateToProps = (state, { inputId }) => ({
+    value: state.inputs[1].input.value
 });
 
-let mapEventsToProps = (events) => ({
-	onInputChange: value => events.inputChanged(value)
+let mapEventsToProps = (events, { inputId }) => ({
+	onInputChange: value => events.inputChanged(inputId, value)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(TextBox);

@@ -1,10 +1,14 @@
 const initialInputValue = 'test';
 
 export default {
-	input: {
-		value: initialInputValue
-	},
-	info: {
-		inputLength: initialInputValue.length
+	inputs: {
+		[1]: {
+			input: {
+				value: initialInputValue
+			},
+			info: {
+				inputLength: initialInputValue.length
+			}
+		}
 	}
 };
