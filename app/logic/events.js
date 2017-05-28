@@ -11,6 +11,10 @@ let eventCreators = ({
 
 });
 
+// TODO:
+// Consider the following event structure: { type: 'inputChanged', payload: { inputId: 1, value: 'a' } }.
+// This way eventDispatcher won't modify object returned by eventCreator
+
 let initEvent = (eventName, eventCreator) => {
     let eventStream = new Rx.Subject();
     let eventDispatcher = (...args) => {
