@@ -2,22 +2,21 @@ import Rx from 'rxjs/Rx'
 
 let eventCreators = ({
 
-    inputAdded: () => ({
-        type: 'INPUT_ADDED'
-    }),
+    inputAdded: () => ({}),
 
     inputChanged: (inputId, value) => ({
-        type: 'INPUT_CHANGED',
         inputId,
         value
     })
 
 });
 
-let initEvent = eventCreator => {
+let initEvent = (eventName, eventCreator) => {
     let eventStream = new Rx.Subject();
     let eventDispatcher = (...args) => {
         let event = eventCreator.apply(null, args);
+        event.type = eventName;
+
         eventStream.next(event);
     };
     
@@ -31,7 +30,7 @@ let initEvents = () => {
 
     Object.keys(eventCreators).forEach(eventName => {
         let eventCreator = eventCreators[eventName];
-        events[eventName] = initEvent(eventCreator);
+        events[eventName] = initEvent(eventName, eventCreator);
     });
 
     return events;
