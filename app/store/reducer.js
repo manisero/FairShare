@@ -1,6 +1,5 @@
+import update from 'immutability-helper';
 import { actions } from './actions'
-
-// TODO: Consider using some immutability helper
 
 let addInput = (state) => {
     let inputId = state.lastInputId + 1;
@@ -14,13 +13,13 @@ let addInput = (state) => {
         }
     };
 
-    let newStatePart = {
-         lastInputId: inputId,
-         inputIds: state.inputIds.concat([inputId]),
-         inputs: Object.assign({}, state.inputs, { [inputId]: inputItem })
-    };
-
-    return Object.assign({}, state, newStatePart);
+    return update(state, {
+        lastInputId: { $set: inputId },
+        inputIds: { $push: [ inputId ] },
+        inputs: {
+            [inputId]: { $set: inputItem }
+        }
+    });
 };
 
 let updateInput = (inputId, newInputItemPart, state) => {

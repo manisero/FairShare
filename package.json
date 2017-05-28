@@ -28,6 +28,7 @@
     "webpack": "^2.4.1"
   },
   "dependencies": {
+    "immutability-helper": "^2.2.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
