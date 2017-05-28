@@ -16,30 +16,25 @@ let addInput = (state) => {
     return update(state, {
         lastInputId: { $set: inputId },
         inputIds: { $push: [ inputId ] },
-        inputs: {
-            [inputId]: { $set: inputItem }
-        }
+        inputs: { [inputId]: { $set: inputItem } }
     });
 };
 
-let updateInput = (inputId, newInputItemPart, state) => {
-    let inputItem = Object.assign({}, state.inputs[inputId], newInputItemPart);
-    let inputs = Object.assign({}, state.inputs, { [inputId]: inputItem }); 
-
-    return Object.assign({}, state, { inputs });
-};
+let updateInput = (inputId, updateCommand, state) => update(state, { inputs: { [inputId]: updateCommand } });
 
 let updateGlobalInfo = state => {
     let totalLength = state.inputIds
                            .map(id => state.inputs[id].input.value.length)
                            .reduce((x, y) => x + y, 0);
 
-    let globalInfo = {
-        totalLength: totalLength,
-        averageLength: totalLength / state.inputIds.length
-    };
+    let averageLength = totalLength / state.inputIds.length;
 
-    return Object.assign({}, state, { globalInfo });
+    return update(state, {
+        globalInfo: {
+            totalLength: { $set: totalLength },
+            averageLength: { $set: averageLength }
+        }
+    });
 };
 
 export default (state, action) => {
@@ -49,18 +44,11 @@ export default (state, action) => {
         return addInput(state);
 
     case actions.CHANGE_INPUT:
-        let input = {
-            value: action.value
-        };
-
-        return updateInput(action.inputId, { input }, state);
+        return updateInput(action.inputId, { input: { value: { $set: action.value } } }, state);
 
     case actions.UPDATE_INPUT_INFO:
-        let info = {
-            inputLength: state.inputs[action.inputId].input.value.length
-        };
-
-        return updateInput(action.inputId, { info }, state);
+        let inputLength = state.inputs[action.inputId].input.value.length;
+        return updateInput(action.inputId, { info: { inputLength: { $set: inputLength } } }, state);
     
     case actions.UPDATE_GLOBAL_INFO:
         return updateGlobalInfo(state);
