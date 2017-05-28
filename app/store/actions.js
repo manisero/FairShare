@@ -6,6 +6,7 @@ let actions = {
 };
 
 let createActionDispatchers = (store) => ({
+    // TODO: Consider making action type a property of action dispatcher (problem: this function depends on store, store depends on reducer, reducer depends on action types)
 
     addInput: (origin) => store.dispatch({
         type: actions.ADD_INPUT,

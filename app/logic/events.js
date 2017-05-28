@@ -14,19 +14,27 @@ let eventCreators = ({
 
 });
 
-let initEvents = () => {
-    let inputAddedStream = new Rx.Subject();
-    let inputAddedDispatcher = () => inputAddedStream.next(eventCreators.inputAdded());
-    inputAddedDispatcher.stream = inputAddedStream;
-
-    let inputChangedStream = new Rx.Subject();
-    let inputChangedDispatcher = (inputId, value) => inputChangedStream.next(eventCreators.inputChanged(inputId, value));
-    inputChangedDispatcher.stream = inputChangedStream;
-
-    return {
-        inputAdded: inputAddedDispatcher,
-        inputChanged: inputChangedDispatcher
+let initEvent = eventCreator => {
+    let eventStream = new Rx.Subject();
+    let eventDispatcher = (...args) => {
+        let event = eventCreator.apply(null, args);
+        eventStream.next(event);
     };
+    
+    eventDispatcher.stream = eventStream;
+
+    return eventDispatcher;
+};
+
+let initEvents = () => {
+    let events = {};
+
+    Object.keys(eventCreators).forEach(eventName => {
+        let eventCreator = eventCreators[eventName];
+        events[eventName] = initEvent(eventCreator);
+    });
+
+    return events;
 };
 
 export default initEvents;
