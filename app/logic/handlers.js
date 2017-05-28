@@ -9,9 +9,11 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.changeInput(e.inputId, e.value, e));
 
 	events.inputChanged.stream
-		.debounceTime(500) // TODO: This doesn't work when user quickly changes two inputs (only last one's info gets updated)
-		.subscribe(e => store.actions.updateInputInfo(e.inputId, e));
-	
+		.groupBy(e => e.inputId)
+		.subscribe(group => group
+			.debounceTime(500)
+			.subscribe(e => store.actions.updateInputInfo(e.inputId, e)));
+
 	Rx.Observable.merge(events.inputAdded.stream, events.inputChanged.stream)
 		.debounceTime(700)
 		.subscribe(e => store.actions.updateGlobalInfo(e));
