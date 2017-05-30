@@ -59,9 +59,9 @@ Object.keys(actionCreators).forEach(actionType => {
     let dataCreator = actionCreators[actionType];
 
     let actionCreator = (...args) => {
-        var creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
-        var creatorArgs = args.slice(0, creatorParamsCount);
-        var origin = args.length > creatorParamsCount ? args[creatorParamsCount] : null;
+        let creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
+        let creatorArgs = args.slice(0, creatorParamsCount);
+        let origin = args.length > creatorParamsCount ? args[creatorParamsCount] : null;
 
         return {
             type: actionType,
@@ -74,3 +74,5 @@ Object.keys(actionCreators).forEach(actionType => {
 
     actions2[actionType] = actionCreator;
 });
+
+let createActionDispatchers2 = (dispatch) => actions2.map(x => (...args) => dispatch(x(args)));
