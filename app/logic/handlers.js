@@ -6,13 +6,13 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.addInput(e));
 
 	events.inputChanged.stream
-		.subscribe(e => store.actions.changeInput(e.inputId, e.value, e));
+		.subscribe(e => store.actions.changeInput(e.data.inputId, e.data.value, e));
 
 	events.inputChanged.stream
 		.groupBy(e => e.inputId)
 		.subscribe(group => group
 			.debounceTime(500)
-			.subscribe(e => store.actions.updateInputInfo(e.inputId, e)));
+			.subscribe(e => store.actions.updateInputInfo(e.data.inputId, e)));
 
 	Rx.Observable.merge(events.inputAdded.stream, events.inputChanged.stream)
 		.debounceTime(700)

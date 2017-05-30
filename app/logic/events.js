@@ -11,17 +11,14 @@ let eventCreators = ({
 
 });
 
-// TODO:
-// Consider the following event structure: { type: 'inputChanged', payload: { inputId: 1, value: 'a' } }.
-// This way eventDispatcher won't modify object returned by eventCreator
-
-let initEvent = (eventName, eventCreator) => {
+let initEvent = (eventType, eventCreator) => {
     let eventStream = new Rx.Subject();
+    
     let eventDispatcher = (...args) => {
-        let event = eventCreator.apply(null, args);
-        event.type = eventName;
-
-        eventStream.next(event);
+        eventStream.next({
+            type: eventType,
+            data: eventCreator.apply(null, args)
+        });
     };
     
     eventDispatcher.stream = eventStream;
@@ -32,9 +29,8 @@ let initEvent = (eventName, eventCreator) => {
 let initEvents = () => {
     let events = {};
 
-    Object.keys(eventCreators).forEach(eventName => {
-        let eventCreator = eventCreators[eventName];
-        events[eventName] = initEvent(eventName, eventCreator);
+    Object.keys(eventCreators).forEach(eventType => {
+        events[eventType] = initEvent(eventType, eventCreators[eventType]);
     });
 
     return events;
