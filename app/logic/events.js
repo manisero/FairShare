@@ -11,13 +11,13 @@ let eventCreators = ({
 
 });
 
-let initEvent = (eventType, eventCreator) => {
+let initEvent = (eventType) => {
     let eventStream = new Rx.Subject();
     
     let eventDispatcher = (...args) => {
         eventStream.next({
             type: eventType,
-            data: eventCreator.apply(null, args)
+            data: eventCreators[eventType].apply(null, args)
         });
     };
     
@@ -30,7 +30,7 @@ let initEvents = () => {
     let events = {};
 
     Object.keys(eventCreators).forEach(eventType => {
-        events[eventType] = initEvent(eventType, eventCreators[eventType]);
+        events[eventType] = initEvent(eventType);
     });
 
     return events;

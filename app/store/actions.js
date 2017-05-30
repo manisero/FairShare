@@ -32,50 +32,45 @@ let createActionDispatchers = (store) => ({
     
 });
 
+export { actions, createActionDispatchers };
+
 // Experimental approach:
 
 let actionCreators = {
 
-    addInput: (origin) => ({
-        origin
-    }),
+    addInput: () => ({}),
 
-    changeInput: (inputId, value, origin) => ({
+    changeInput: (inputId, value) => ({
         inputId,
-        value,
-        origin
+        value
     }),
 
-    updateInputInfo: (inputId, origin) => ({
-        inputId,
-        origin
+    updateInputInfo: (inputId) => ({
+        inputId
     }),
 
-    updateGlobalInfo: (origin) => ({
-        origin
-    })
+    updateGlobalInfo: () => ({})
 
 };
 
-// TODO:
-// Consider the following action structure: { type: 'changeInput', payload: { inputId: 1, value: 'a' }, origin: { ... } }.
-// This way:
-// - the below loop won't modify action returned by creator,
-// - actionCreators won't need to accept origin parameter.
+let actions2 = {};
 
 Object.keys(actionCreators).forEach(actionType => {
-    let creator = actionCreators[actionType];
+    let dataCreator = actionCreators[actionType];
 
-    let creatorWithType = (...args) => {
-        let action = creator.apply(null, args);
-        action.type = actionType;
+    let actionCreator = (...args) => {
+        var creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
+        var creatorArgs = args.slice(0, creatorParamsCount);
+        var origin = args.length > creatorParamsCount ? args[creatorParamsCount] : null;
 
-        return action;
+        return {
+            type: actionType,
+            data: dataCreator.apply(null, creatorArgs),
+            origin
+        };
     };
 
-    creatorWithType.type = actionType;
+    actionCreator.type = actionType;
 
-    actionCreators[actionType] = creatorWithType;
+    actions2[actionType] = actionCreator;
 });
-
-export { actions, createActionDispatchers };
