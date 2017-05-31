@@ -1,2 +1,2 @@
-# RxRedux
-RxJS + Redux + React proof of concept
+# FairShare
+Simple app for making settlements with friends.
