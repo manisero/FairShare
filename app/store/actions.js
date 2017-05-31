@@ -1,4 +1,6 @@
-let actionCreators = {
+import { mapObject } from 'jsUtils'
+
+let actionDataCreators = {
 
     addInput: () => ({}),
 
@@ -15,11 +17,7 @@ let actionCreators = {
 
 };
 
-let actions = {};
-
-Object.keys(actionCreators).forEach(actionType => {
-    let dataCreator = actionCreators[actionType];
-
+let createActionCreator = (dataCreator, actionType) => {
     let actionCreator = (...args) => {
         let creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
         let creatorArgs = args.slice(0, creatorParamsCount);
@@ -34,18 +32,11 @@ Object.keys(actionCreators).forEach(actionType => {
 
     actionCreator.type = actionType;
 
-    actions[actionType] = actionCreator;
-});
-
-let createActionDispatchers = (dispatch) => {
-    let dispatchers = {};
-
-    Object.keys(actions).forEach(actionType => {
-        let action = actions[actionType];
-        dispatchers[actionType] = (...args) => dispatch(action.apply(null, args));
-    });
-
-    return dispatchers;
+    return actionCreator;
 };
+
+let actions = mapObject(actionDataCreators, createActionCreator);
+
+let createActionDispatchers = dispatch => mapObject(actions, action => (...args) => dispatch(action.apply(null, args)));
 
 export { actions, createActionDispatchers };

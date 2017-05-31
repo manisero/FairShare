@@ -1,5 +1,5 @@
-import { mapObject } from 'jsUtils'
 import Rx from 'rxjs/Rx'
+import { mapObject } from 'jsUtils'
 
 let eventCreators = ({
 
