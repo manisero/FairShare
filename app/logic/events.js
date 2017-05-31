@@ -1,3 +1,4 @@
+import { mapObject } from 'jsUtils'
 import Rx from 'rxjs/Rx'
 
 let eventCreators = ({
@@ -11,13 +12,13 @@ let eventCreators = ({
 
 });
 
-let initEvent = (eventType) => {
+let initEvent = (eventCreator, eventType) => {
     let eventStream = new Rx.Subject();
     
     let eventDispatcher = (...args) => {
         eventStream.next({
             type: eventType,
-            data: eventCreators[eventType].apply(null, args)
+            data: eventCreator.apply(null, args)
         });
     };
     
@@ -26,14 +27,6 @@ let initEvent = (eventType) => {
     return eventDispatcher;
 };
 
-let initEvents = () => {
-    let events = {};
-
-    Object.keys(eventCreators).forEach(eventType => {
-        events[eventType] = initEvent(eventType);
-    });
-
-    return events;
-};
+let initEvents = () => mapObject(eventCreators, initEvent);
 
 export default initEvents;
