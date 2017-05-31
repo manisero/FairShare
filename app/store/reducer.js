@@ -40,17 +40,17 @@ let updateGlobalInfo = state => {
 export default (state, action) => {
     switch (action.type) {
 
-    case actions.ADD_INPUT:
+    case actions.addInput.type:
         return addInput(state);
 
-    case actions.CHANGE_INPUT:
+    case actions.changeInput.type:
         return updateInput(action.inputId, { input: { value: { $set: action.value } } }, state);
 
-    case actions.UPDATE_INPUT_INFO:
+    case actions.updateInputInfo.type:
         let inputLength = state.inputs[action.inputId].input.value.length;
         return updateInput(action.inputId, { info: { inputLength: { $set: inputLength } } }, state);
     
-    case actions.UPDATE_GLOBAL_INFO:
+    case actions.updateGlobalInfo.type:
         return updateGlobalInfo(state);
 
     default:

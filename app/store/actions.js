@@ -1,8 +1,8 @@
 let actions = {
-    ADD_INPUT: 'ADD_INPUT',
-    CHANGE_INPUT: 'CHANGE_INPUT',
-    UPDATE_INPUT_INFO: 'UPDATE_INPUT_INFO',
-    UPDATE_GLOBAL_INFO: 'UPDATE_GLOBAL_INFO'
+    ADD_INPUT: 'addInput',
+    CHANGE_INPUT: 'changeInput',
+    UPDATE_INPUT_INFO: 'updateInputInfo',
+    UPDATE_GLOBAL_INFO: 'updateGlobalInfo'
 };
 
 let createActionDispatchers = (store) => ({
@@ -31,8 +31,6 @@ let createActionDispatchers = (store) => ({
     })
     
 });
-
-export { actions, createActionDispatchers };
 
 // Experimental approach:
 
@@ -76,3 +74,5 @@ Object.keys(actionCreators).forEach(actionType => {
 });
 
 let createActionDispatchers2 = (dispatch) => actions2.map(x => (...args) => dispatch(x(args)));
+
+export { actions2 as actions, createActionDispatchers };
