@@ -7,7 +7,7 @@ const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVT
 
 let createStore = () => {
 	let store = reduxCreateStore(reducer, initialState, reduxDevTools);
-	store.actions = createActionDispatchers(store);
+	store.actions = createActionDispatchers(store.dispatch);
 
 	return store;
 };

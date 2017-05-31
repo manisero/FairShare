@@ -44,11 +44,11 @@ export default (state, action) => {
         return addInput(state);
 
     case actions.changeInput.type:
-        return updateInput(action.inputId, { input: { value: { $set: action.value } } }, state);
+        return updateInput(action.data.inputId, { input: { value: { $set: action.data.value } } }, state);
 
     case actions.updateInputInfo.type:
-        let inputLength = state.inputs[action.inputId].input.value.length;
-        return updateInput(action.inputId, { info: { inputLength: { $set: inputLength } } }, state);
+        let inputLength = state.inputs[action.data.inputId].input.value.length;
+        return updateInput(action.data.inputId, { info: { inputLength: { $set: inputLength } } }, state);
     
     case actions.updateGlobalInfo.type:
         return updateGlobalInfo(state);
