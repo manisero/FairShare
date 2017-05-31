@@ -2,18 +2,7 @@ import { mapObject } from 'jsUtils'
 
 let actionDataCreators = {
 
-    addInput: () => ({}),
-
-    changeInput: (inputId, value) => ({
-        inputId,
-        value
-    }),
-
-    updateInputInfo: (inputId) => ({
-        inputId
-    }),
-
-    updateGlobalInfo: () => ({})
+    updateParticipant: (participantId, name, contribution) => ({ participantId, name, contribution })
 
 };
 

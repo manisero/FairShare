@@ -1,23 +1,19 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import InputContainer from './InputContainer.jsx'
-import AddInputButton from './AddInputButton.jsx'
-import GlobalInfo from './GlobalInfo.jsx'
+import ParticipantTile from './ParticipantTile.jsx'
 
-let Root = ({ inputIds }) => {
-	let inputs = inputIds.map(id => (<InputContainer key={id} inputId={id} />));
+let Root = ({ participantIds }) => {
+	let participantTiles = participantIds.map(id => (<ParticipantTile key={id} participantId={id} />));
 
 	return (
 		<div>
-			{inputs}
-			<AddInputButton />
-			<GlobalInfo />
+			{participantTiles}
 		</div>
 	);
 };
 
 let mapStateToProps = (state) => ({
-    inputIds: state.inputIds
+    participantIds: state.data.participants.ids
 });
 
 export default connect(mapStateToProps)(Root);

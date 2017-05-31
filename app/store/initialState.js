@@ -1,21 +1,19 @@
-const initialInputId = 1;
-const initialInputValue = 'test';
+const initialParticipantId = 1;
+const initialParticipantName = 'Participant1';
+const initialParticipantContribution = 100.00;
 
 export default {
-	lastInputId: initialInputId,
-	inputIds: [ initialInputId ],
-	inputs: {
-		[initialInputId]: {
-			input: {
-				value: initialInputValue
-			},
-			info: {
-				inputLength: initialInputValue.length
+	data: {
+		participants: {
+			lastId: initialParticipantId,
+			ids: [ initialParticipantId ],
+			items: {
+				[initialParticipantId]: {
+					participantId: initialParticipantId,
+					name: initialParticipantName,
+					contribution: initialParticipantContribution
+				}
 			}
 		}
-	},
-	globalInfo: {
-		totalLength: initialInputValue.length,
-		averageLength: initialInputValue.length
 	}
 };

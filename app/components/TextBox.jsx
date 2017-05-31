@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 
+// TODO: Remove this, as this was left only for reference
+
 let TextBox = ({ inputId, value, onInputChange }) => (
 	<div>
 		<input type='text' value={value} onChange={e => onInputChange(e.target.value)} />

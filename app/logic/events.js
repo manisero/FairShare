@@ -3,12 +3,7 @@ import { mapObject } from 'jsUtils'
 
 let eventDataCreators = ({
 
-    inputAdded: () => ({}),
-
-    inputChanged: (inputId, value) => ({
-        inputId,
-        value
-    })
+    participantEdited: (participantId, name, contribution) => ({ participantId, name, contribution })
 
 });
 
