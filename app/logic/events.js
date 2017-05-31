@@ -1,7 +1,7 @@
 import Rx from 'rxjs/Rx'
 import { mapObject } from 'jsUtils'
 
-let eventCreators = ({
+let eventDataCreators = ({
 
     inputAdded: () => ({}),
 
@@ -12,13 +12,13 @@ let eventCreators = ({
 
 });
 
-let initEvent = (eventCreator, eventType) => {
+let createEventDispatcher = (dataCreator, eventType) => {
     let eventStream = new Rx.Subject();
     
     let eventDispatcher = (...args) => {
         eventStream.next({
             type: eventType,
-            data: eventCreator.apply(null, args)
+            data: dataCreator.apply(null, args)
         });
     };
     
@@ -27,6 +27,6 @@ let initEvent = (eventCreator, eventType) => {
     return eventDispatcher;
 };
 
-let initEvents = () => mapObject(eventCreators, initEvent);
+let createEvents = () => mapObject(eventDataCreators, createEventDispatcher);
 
-export default initEvents;
+export default createEvents;

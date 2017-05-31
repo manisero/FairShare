@@ -1,8 +1,8 @@
-import initEvents from './events'
+import createEvents from './events'
 import subscribe from './handlers'
 
 let initLogic = store => {
-	let events = initEvents();
+	let events = createEvents();
 	subscribe(events, store);
 
 	return events;
