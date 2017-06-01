@@ -6,8 +6,8 @@ import Button from './inputs/Button.jsx'
 
 let ParticipantEditor = participant => (
 	<div>
-		<div>Name: <TextBox defaultValue={participant.name} /></div>
-		<div>Contribution: <NumberBox defaultValue={participant.contribution} /></div>
+		<div>Name: <TextBox value={participant.name} /></div>
+		<div>Contribution: <NumberBox value={participant.contribution} /></div>
 		<Button value='OK' />
 	</div>
 );

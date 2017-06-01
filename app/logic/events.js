@@ -2,9 +2,8 @@ import Rx from 'rxjs/Rx'
 import { mapObject } from 'jsUtils'
 
 let eventDataCreators = ({
-
+    participantSelected: participantId => ({ participantId }),
     participantEdited: (participantId, name, contribution) => ({ participantId, name, contribution })
-
 });
 
 let createEventDispatcher = (dataCreator, eventType) => {

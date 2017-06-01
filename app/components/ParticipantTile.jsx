@@ -1,21 +1,19 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 
-let ParticipantTile = ({ participantId, name, contribution }) => (
-	<div>
-		<div>Id: {participantId}</div>
-		<div>Name: {name}</div>
-		<div>Contribution: {contribution}</div>
+let ParticipantTile = ({ participant, onClick }) => (
+	<div onClick={() => onClick()}>
+		<div>Name: {participant.name}</div>
+		<div>Contribution: {participant.contribution}</div>
 	</div>
 );
 
-let mapStateToProps = (state, { participantId }) => {
-	let participant = state.data.participants.items[participantId]; 
+let mapStateToProps = (state, { participantId }) => ({
+	participant: state.data.participants.items[participantId]
+});
 
-	return {
-		name: participant.name,
-		contribution: participant.contribution
-	};
-};
+let mapEventsToProps = (events, { participantId }) => ({
+	onClick: () => events.participantSelected(participantId)
+});
 
-export default connect(mapStateToProps)(ParticipantTile);
+export default connect(mapStateToProps, mapEventsToProps)(ParticipantTile);

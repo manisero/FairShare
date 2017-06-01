@@ -3,19 +3,20 @@ import { connect } from 'reactReduxUtils'
 import ParticipantTile from './ParticipantTile.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
 
-let Root = ({ participantIds }) => {
+let Root = ({ participantIds, selectedParticipantId }) => {
 	let participantTiles = participantIds.map(id => (<ParticipantTile key={id} participantId={id} />));
 
 	return (
 		<div>
 			{participantTiles}
-			<ParticipantEditor participantId={participantIds[0]} />
+			<ParticipantEditor participantId={selectedParticipantId} />
 		</div>
 	);
 };
 
 let mapStateToProps = (state) => ({
-    participantIds: state.data.participants.ids
+    participantIds: state.data.participants.ids,
+	selectedParticipantId: state.ui.selectedParticipantId
 });
 
 export default connect(mapStateToProps)(Root);
