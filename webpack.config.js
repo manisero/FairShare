@@ -13,7 +13,8 @@ module.exports = {
     alias: {
       utils: path.resolve(__dirname, 'app/utils/'),
       reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
-      jsUtils: path.resolve(__dirname, 'app/utils/jsUtils')
+      jsUtils: path.resolve(__dirname, 'app/utils/jsUtils'),
+      framework: path.resolve(__dirname, 'app/framework/'),
     }
   },
 

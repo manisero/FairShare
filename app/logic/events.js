@@ -1,26 +1,16 @@
-import Rx from 'rxjs/Rx'
-import { mapObject } from 'jsUtils'
-
 let eventDataCreators = ({
     participantSelected: participantId => ({ participantId }),
     participantNameEdited: (participantId, name) => ({ participantId, name })
 });
 
-let createEventDispatcher = (dataCreator, eventType) => {
-    let eventStream = new Rx.Subject();
-    
-    let eventDispatcher = (...args) => {
-        eventStream.next({
-            type: eventType,
-            data: dataCreator.apply(null, args)
-        });
-    };
-    
-    eventDispatcher.stream = eventStream;
+let subscribe = (events, store) => {
 
-    return eventDispatcher;
+	events.participantSelected.stream
+		.subscribe(e => store.actions.selectParticipant(e.data.participantId, e));
+
+	events.participantNameEdited.stream
+		.subscribe(e => store.actions.updateParticipantName(e.data.participantId, e.data.name, e));
+
 };
 
-let createEvents = () => mapObject(eventDataCreators, createEventDispatcher);
-
-export default createEvents;
+export { eventDataCreators, subscribe };
