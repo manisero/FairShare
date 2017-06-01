@@ -5,6 +5,7 @@ let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
     updateParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     selectItem: itemId => ({ itemId }),
+    updateItem: (itemId, updateCommand) => ({ itemId, updateCommand })
 });
 
 let reducer = (state, action) => {
@@ -18,6 +19,9 @@ let reducer = (state, action) => {
 
     case actions.selectItem.type:
         return stateOperations.selectItem(action.data.itemId, state);
+    
+    case actions.updateItem.type:
+        return stateOperations.updateItem(action.data.itemId, action.data.updateCommand, state);
 
     default:
         return state;

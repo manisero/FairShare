@@ -3,12 +3,13 @@ import { connect } from 'reactReduxUtils'
 import ParticipantTile from './ParticipantTile.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
 import ItemTile from './ItemTile.jsx'
+import ItemEditor from './ItemEditor.jsx'
 
 let getEditor = (selectedParticipantId, selectedItemId) => {
 	if (selectedParticipantId != null) {
 		return (<ParticipantEditor participantId={selectedParticipantId} />);
 	} else if (selectedItemId != null) {
-		return null; // TODO: Support ItemEditor
+		return (<ItemEditor itemId={selectedItemId} />);
 	} else {
 		return null;
 	}

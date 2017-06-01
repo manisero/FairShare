@@ -15,7 +15,10 @@ let stateOperations = {
         update(state, { ui: {
             selectedParticipantId: { $set: null },
             selectedItemId: { $set: itemId }
-        } })
+        } }),
+    
+    updateItem: (itemId, updateCommand, state) =>
+        update(state, { data: { items: { items: { [itemId]: updateCommand } } } }),
 };
 
 export default stateOperations;
