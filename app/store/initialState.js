@@ -1,3 +1,5 @@
+// default Participants
+
 const participant1Id = 1;
 const participant1Name = 'Participant1';
 const participant1Contribution = 100.00;
@@ -5,6 +7,22 @@ const participant1Contribution = 100.00;
 const participant2Id = 2;
 const participant2Name = 'Participant2';
 const participant2Contribution = 200.00;
+
+// defaut Items
+
+const item1Id = 1;
+const item1Name = 'Item1';
+const item1Price = 100.00;
+
+const item2Id = 2;
+const item2Name = 'Item2';
+const item2Price = 200.00;
+
+const item3Id = 3;
+const item3Name = 'Item3';
+const item3Price = 300.00;
+
+// state
 
 export default {
 	data: {
@@ -21,6 +39,27 @@ export default {
 					participantId: participant2Id,
 					name: participant2Name,
 					contribution: participant2Contribution
+				}
+			}
+		},
+		items: {
+			lastId: item3Id,
+			ids: [ item1Id, item2Id, item3Id ],
+			items: {
+				[item1Id]: {
+					itemId: item1Id,
+					name: item1Name,
+					price: item1Price
+				},
+				[item2Id]: {
+					itemId: item2Id,
+					name: item2Name,
+					price: item2Price
+				},
+				[item3Id]: {
+					itemId: item3Id,
+					name: item3Name,
+					price: item3Price
 				}
 			}
 		}
