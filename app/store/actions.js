@@ -2,7 +2,7 @@ import { mapObject } from 'jsUtils'
 
 let actionDataCreators = {
     selectParticipant: participantId => ({ participantId }),
-    updateParticipant: (participantId, name, contribution) => ({ participantId, name, contribution })
+    updateParticipantName: (participantId, name) => ({ participantId, name })
 };
 
 let createActionCreator = (dataCreator, actionType) => {
