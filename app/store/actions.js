@@ -1,30 +1,23 @@
-import { mapObject } from 'jsUtils'
+import { createActions } from 'framework/store'
+import stateOperations from './stateOperations'
 
-let actionDataCreators = {
+let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
     updateParticipantName: (participantId, name) => ({ participantId, name })
+});
+
+let reducer = (state, action) => {
+    switch (action.type) {
+
+    case actions.selectParticipant.type:
+        return stateOperations.selectParticipant(action.data.participantId, state);
+
+    case actions.updateParticipantName.type:
+        return stateOperations.updateParticipant(action.data.participantId, { name: { $set: action.data.name } }, state);
+
+    default:
+        return state;
+    }
 };
 
-let createActionCreator = (dataCreator, actionType) => {
-    let actionCreator = (...args) => {
-        let creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
-        let creatorArgs = args.slice(0, creatorParamsCount);
-        let origin = args.length > creatorParamsCount ? args[creatorParamsCount] : null;
-
-        return {
-            type: actionType,
-            data: dataCreator.apply(null, creatorArgs),
-            origin
-        };
-    };
-
-    actionCreator.type = actionType;
-
-    return actionCreator;
-};
-
-let actions = mapObject(actionDataCreators, createActionCreator);
-
-let createActionDispatchers = dispatch => mapObject(actions, action => (...args) => dispatch(action.apply(null, args)));
-
-export { actions, createActionDispatchers };
+export { actions, reducer };
