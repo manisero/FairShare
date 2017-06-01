@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import ParticipantTile from './ParticipantTile.jsx'
+import ParticipantEditor from './ParticipantEditor.jsx'
 
 let Root = ({ participantIds }) => {
 	let participantTiles = participantIds.map(id => (<ParticipantTile key={id} participantId={id} />));
@@ -8,6 +9,7 @@ let Root = ({ participantIds }) => {
 	return (
 		<div>
 			{participantTiles}
+			<ParticipantEditor participantId={participantIds[0]} />
 		</div>
 	);
 };
