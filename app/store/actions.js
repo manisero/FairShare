@@ -3,7 +3,8 @@ import stateOperations from './stateOperations'
 
 let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
-    updateParticipant: (participantId, updateCommand) => ({ participantId, updateCommand })
+    updateParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
+    selectItem: itemId => ({ itemId }),
 });
 
 let reducer = (state, action) => {
@@ -14,6 +15,9 @@ let reducer = (state, action) => {
 
     case actions.updateParticipant.type:
         return stateOperations.updateParticipant(action.data.participantId, action.data.updateCommand, state);
+
+    case actions.selectItem.type:
+        return stateOperations.selectItem(action.data.itemId, state);
 
     default:
         return state;

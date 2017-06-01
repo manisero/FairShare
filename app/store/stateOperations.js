@@ -9,8 +9,13 @@ let stateOperations = {
         } }),
 
     updateParticipant: (participantId, updateCommand, state) =>
-        update(state, { data: { participants: { items: { [participantId]: updateCommand } } } })
+        update(state, { data: { participants: { items: { [participantId]: updateCommand } } } }),
 
+    selectItem: (itemId, state) =>
+        update(state, { ui: {
+            selectedParticipantId: { $set: null },
+            selectedItemId: { $set: itemId }
+        } })
 };
 
 export default stateOperations;
