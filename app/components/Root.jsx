@@ -18,10 +18,12 @@ let Root = ({ selectedParticipantId, selectedItemId }) => {
 	let editor = getEditor(selectedParticipantId, selectedItemId);
 
 	return (
-		<div>
-			<ParticipantList />
-			<ItemList />
-			{editor}
+		<div className='container'>
+			<div className='row'>
+				<div className='col-xs-4'><ParticipantList /></div>
+				<div className='col-xs-4'><ItemList /></div>
+				<div className='col-xs-4'>{editor}</div>
+			</div>
 		</div>
 	);
 };

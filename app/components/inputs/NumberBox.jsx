@@ -1,8 +1,9 @@
 import React from 'react'
 
 let NumberBox = props => (
-	<div>
-		<input type='number' {...props} />
+	<div className='form-group'>
+		<label>{props.label}</label>
+		<input type='number' placeholder={props.label} className='form-control' {...props} />
 	</div>
 );
 

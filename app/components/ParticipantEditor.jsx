@@ -6,8 +6,8 @@ import Button from './inputs/Button.jsx'
 
 let ParticipantEditor = ({ participant, onNameChange, onContributionChange }) => (
 	<div>
-		<div>Name: <TextBox value={participant.name} onChange={e => onNameChange(e.target.value)} /></div>
-		<div>Contribution: <NumberBox value={participant.contribution} onChange={e => onContributionChange(e.target.value)} /></div>
+		<TextBox value={participant.name} label='Name' onChange={e => onNameChange(e.target.value)} />
+		<NumberBox value={participant.contribution} label='Contribution' onChange={e => onContributionChange(e.target.value)} />
 		<Button value='OK' />
 	</div>
 );

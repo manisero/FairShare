@@ -6,8 +6,8 @@ import Button from './inputs/Button.jsx'
 
 let ItemEditor = ({ item, onNameChange, onPriceChange }) => (
 	<div>
-		<div>Name: <TextBox value={item.name} onChange={e => onNameChange(e.target.value)} /></div>
-		<div>Price: <NumberBox value={item.price} onChange={e => onPriceChange(e.target.value)} /></div>
+		<TextBox value={item.name} label='Name' onChange={e => onNameChange(e.target.value)} />
+		<NumberBox value={item.price} label='Price' onChange={e => onPriceChange(e.target.value)} />
 		<Button value='OK' />
 	</div>
 );
