@@ -26,9 +26,14 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "file-loader": "^0.11.2",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
     "webpack": "^2.4.1"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "immutability-helper": "^2.2.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

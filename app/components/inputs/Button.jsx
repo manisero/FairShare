@@ -2,7 +2,7 @@ import React from 'react'
 
 let Button = props => (
 	<div>
-		<input type='button' {...props} />
+		<input type='button' className='btn btn-default' {...props} />
 	</div>
 );
 
