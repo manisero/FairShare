@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import ParticipantTile from './ParticipantTile.jsx'
+import { ParticipantList, ItemList } from './List.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
-import ItemTile from './ItemTile.jsx'
 import ItemEditor from './ItemEditor.jsx'
 
 let getEditor = (selectedParticipantId, selectedItemId) => {
@@ -15,23 +14,19 @@ let getEditor = (selectedParticipantId, selectedItemId) => {
 	}
 };
 
-let Root = ({ participantIds, itemIds, selectedParticipantId, selectedItemId }) => {
-	let participantTiles = participantIds.map(id => (<ParticipantTile key={id} participantId={id} />));
-	let itemTiles = itemIds.map(id => (<ItemTile key={id} itemId={id} />));
+let Root = ({ selectedParticipantId, selectedItemId }) => {
 	let editor = getEditor(selectedParticipantId, selectedItemId);
 
 	return (
 		<div>
-			<div>{participantTiles}</div>
-			<div>{itemTiles}</div>
+			<ParticipantList />
+			<ItemList />
 			{editor}
 		</div>
 	);
 };
 
-let mapStateToProps = (state) => ({
-    participantIds: state.data.participants.ids,
-	itemIds: state.data.items.ids,
+let mapStateToProps = state => ({
 	selectedParticipantId: state.ui.selectedParticipantId,
 	selectedItemId: state.ui.selectedItemId
 });
