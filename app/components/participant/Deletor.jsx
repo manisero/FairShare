@@ -1,14 +1,17 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { Center } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
 let ParticipantDeletor = ({ participant, onDeleteClick, onCancelClick }) => (
 	<div>
 		<div>Delete <b>{participant.name}</b>?</div>
-        <ButtonGroup>
-            <Button onClick={onDeleteClick}>Yes</Button>
-            <Button onClick={onCancelClick}>Cancel</Button>
-        </ButtonGroup>
+        <Center>
+            <ButtonGroup>
+                <Button onClick={onDeleteClick}>Yes</Button>
+                <Button onClick={onCancelClick}>Cancel</Button>
+            </ButtonGroup>
+        </Center>
 	</div>
 );
 
