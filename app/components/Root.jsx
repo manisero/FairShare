@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { ParticipantList, ItemList } from './List.jsx'
-import ParticipantEditor from './ParticipantEditor.jsx'
-import ItemEditor from './ItemEditor.jsx'
+import ParticipantEditor from './participant/Editor.jsx'
+import ItemEditor from './item/Editor.jsx'
 
 let getEditor = (selectedParticipantId, selectedItemId) => {
 	if (selectedParticipantId != null) {

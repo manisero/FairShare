@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import TextBox from './inputs/TextBox.jsx'
-import NumberBox from './inputs/NumberBox.jsx'
-import Button from './inputs/Button.jsx'
+import TextBox from 'inputs/TextBox.jsx'
+import NumberBox from 'inputs/NumberBox.jsx'
+import Button from 'inputs/Button.jsx'
 
 let ParticipantEditor = ({ participant, onNameChange, onContributionChange }) => (
 	<div>

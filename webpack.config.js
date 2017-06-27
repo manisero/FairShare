@@ -36,10 +36,11 @@ module.exports = {
   resolve: {
     alias: {
       utils: path.resolve(__dirname, 'app/utils/'),
-      reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
       jsUtils: path.resolve(__dirname, 'app/utils/jsUtils'),
+      reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
       framework: path.resolve(__dirname, 'app/framework/'),
       model: path.resolve(__dirname, 'app/store/model'),
+      inputs: path.resolve(__dirname, 'app/components/inputs/'),
     }
   },
 

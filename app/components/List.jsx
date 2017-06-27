@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import Button from './inputs/Button.jsx'
-import ParticipantTile from './ParticipantTile.jsx'
-import ItemTile from './ItemTile.jsx'
+import ParticipantTile from './participant/Tile.jsx'
+import ItemTile from './item/Tile.jsx'
 
 let List = ({ title, children, onItemClick, onAddClick }) => {
     let items = children.map(child => (
