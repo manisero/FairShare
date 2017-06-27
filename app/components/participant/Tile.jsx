@@ -1,22 +1,24 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { FocusMode } from 'model'
+import Showcase from './Showcase.jsx'
+import Details from './Details.jsx'
+import Editor from './Editor.jsx'
 
-let defaultNameStyle = {};
-
-let selectedNameStyle = {
-	fontWeight: 'bold'
+let ParticipantTile = ({ participantId, focusMode }) => {
+	switch (focusMode) {
+	case FocusMode.noFocus:
+		return <Showcase participantId={participantId} />;
+	case FocusMode.selected:
+		return <Details participantId={participantId} />;
+	case FocusMode.edited:
+		return <Editor participantId={participantId} />;
+	default:
+		return null;
+	}
 };
 
-let ParticipantTile = ({ participant, focusMode }) => (
-	<div>
-		<div>Name: <span style={focusMode === FocusMode.selected ? selectedNameStyle : defaultNameStyle}>{participant.name}</span></div>
-		<div>Contribution: {participant.contribution}</div>
-	</div>
-);
-
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.data.participants.items[participantId],
 	focusMode: state.ui.participantFocus.itemId === participantId ? state.ui.participantFocus.mode : FocusMode.noFocus 
 });
 
