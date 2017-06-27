@@ -10,6 +10,7 @@ let actions = createActions({
     submitEditingParticipant: () => ({}),
     cancelEditingParticipant: () => ({}),
     startDeletingParticipant: participantId => ({ participantId }),
+    submitDeletingParticipant: () => ({}),
     cancelDeletingParticipant: () => ({}),
     // Item:
     selectItem: itemId => ({ itemId }),
@@ -41,6 +42,9 @@ let reducer = (state, action) => {
     
     case actions.startDeletingParticipant.type:
         return stateOperations.startDeletingParticipant(action.data.participantId, state);
+    
+    case actions.submitDeletingParticipant.type:
+        return stateOperations.submitDeletingParticipant(state);
 
     case actions.cancelDeletingParticipant.type:
         return stateOperations.cancelDeletingParticipant(state);

@@ -7,6 +7,7 @@ let eventDataCreators = ({
 	participantEditingSubmitted: participantId => ({ participantId }),
 	participantEditingCancelled: participantId => ({ participantId }),
 	participantDeletingStarted: participantId => ({ participantId }),
+	participantDeletingSubmitted: participantId => ({ participantId }),
 	participantDeletingCancelled: participantId => ({ participantId }),
 	// Item:
 	itemSelected: itemId => ({ itemId }),
@@ -43,6 +44,9 @@ let subscribe = (events, store) => {
 	events.participantDeletingStarted.stream
 		.subscribe(e => store.actions.startDeletingParticipant(e.data.participantId, e));
 	
+	events.participantDeletingSubmitted.stream
+		.subscribe(e => store.actions.submitDeletingParticipant(e));
+
 	events.participantDeletingCancelled.stream
 		.subscribe(e => store.actions.cancelDeletingParticipant(e));
 

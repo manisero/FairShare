@@ -76,6 +76,25 @@ let stateOperations = {
             mode: { $set: FocusMode.deleted }
         } } }),
     
+    submitDeletingParticipant: state => {
+        let participantId = state.ui.participantFocus.itemId;
+        let idIndex = state.data.participants.ids.indexOf(participantId);
+
+        return update(state, {
+            data: { participants: {
+                ids: { $splice: [[ idIndex, 1 ]] },
+                items: { $unset: [participantId] }
+            } },
+            ui: {
+                participantFocus: {
+                    itemId: { $set: null },
+                    mode: { $set: null }
+                },
+                editedParticipants: { $unset: [ participantId ] }
+            }
+        });
+    },
+    
     cancelDeletingParticipant: state => {
         let participantId = state.ui.participantFocus.itemId;
 

@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { Button, ButtonGroup } from 'inputs'
 
-let ParticipantDeletor = ({ participant, onYesClick, onCancelClick }) => (
+let ParticipantDeletor = ({ participant, onDeleteClick, onCancelClick }) => (
 	<div>
 		<div>Delete <b>{participant.name}</b>?</div>
         <ButtonGroup>
-            <Button onClick={onYesClick}>Yes</Button>
+            <Button onClick={onDeleteClick}>Yes</Button>
             <Button onClick={onCancelClick}>Cancel</Button>
         </ButtonGroup>
 	</div>
@@ -17,7 +17,8 @@ let mapStateToProps = (state, { participantId }) => ({
 });
 
 let mapEventsToProps = (events, { participantId }) => ({
-	onCancelClick: () => events.participantEditingCancelled(participantId)
+    onDeleteClick: () => events.participantDeletingSubmitted(participantId),
+	onCancelClick: () => events.participantDeletingCancelled(participantId)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantDeletor);
