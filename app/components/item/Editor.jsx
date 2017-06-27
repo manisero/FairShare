@@ -1,12 +1,15 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { Right } from 'compUtils'
 import { Button, TextBox, NumberBox } from 'inputs'
 
 let ItemEditor = ({ item, onNameChange, onPriceChange }) => (
 	<div>
 		<TextBox value={item.name} label='Name' onChange={e => onNameChange(e.target.value)} />
 		<NumberBox value={item.price} label='Price' onChange={e => onPriceChange(e.target.value)} />
-		<Button>OK</Button>
+		<Right>
+			<Button>OK</Button>
+		</Right>
 	</div>
 );
 

@@ -40,6 +40,7 @@ module.exports = {
       reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
       framework: path.resolve(__dirname, 'app/framework/'),
       model: path.resolve(__dirname, 'app/store/model'),
+      compUtils: path.resolve(__dirname, 'app/components/compUtils/'),
       inputs: path.resolve(__dirname, 'app/components/inputs/'),
     }
   },

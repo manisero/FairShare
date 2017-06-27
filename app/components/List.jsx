@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { Right } from 'compUtils'
 import { Button } from 'inputs'
 import ParticipantTile from './participant/Tile.jsx'
 import ItemTile from './item/Tile.jsx'
@@ -22,7 +23,9 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
                 <div className="list-group">
                     {items}
                 </div>
-                <Button onClick={() => onAddClick()}>Add</Button>
+                <Right>
+                    <Button onClick={() => onAddClick()}>Add</Button>
+                </Right>
             </div>
         </div>
     );
