@@ -29,6 +29,22 @@ let stateOperations = {
     
     editParticipant: (participantId, updateCommand, state) =>
         update(state, { ui: { editedParticipants: { [participantId]: updateCommand } } }),
+    
+    submitEditingParticipant: state => {
+        let participantId = state.ui.participantFocus.itemId;
+        let participant = state.ui.editedParticipants[participantId];
+
+        return update(state, {
+            data: { participants: { items: { [participantId]: { $set: participant } } } },
+            ui: {
+                participantFocus: {
+                    itemId: { $set: null },
+                    mode: { $set: null }
+                },
+                editedParticipants: { $unset: [ participantId ] }
+            }
+        });
+    },
 
     cancelEditingParticipant: state => {
         let participantId = state.ui.participantFocus.itemId;

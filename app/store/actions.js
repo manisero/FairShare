@@ -5,7 +5,8 @@ let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
     startEditingParticipant: participantId => ({ participantId }),
     editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
-    cancelEditingParticipant: participantId => ({ participantId }),
+    submitEditingParticipant: () => ({}),
+    cancelEditingParticipant: () => ({}),
     addParticipant: participantId => ({ participantId }),
     selectItem: itemId => ({ itemId }),
     addItem: itemId => ({ itemId }),
@@ -24,6 +25,9 @@ let reducer = (state, action) => {
     case actions.editParticipant.type:
         return stateOperations.editParticipant(action.data.participantId, action.data.updateCommand, state);
     
+    case actions.submitEditingParticipant.type:
+        return stateOperations.submitEditingParticipant(state);
+
     case actions.cancelEditingParticipant.type:
         return stateOperations.cancelEditingParticipant(state);
 
