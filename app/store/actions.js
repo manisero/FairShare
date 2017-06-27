@@ -2,12 +2,14 @@ import { createActions } from 'framework/store'
 import stateOperations from './stateOperations'
 
 let actions = createActions({
+    // Participant:
     selectParticipant: participantId => ({ participantId }),
+    addParticipant: participantId => ({ participantId }),
     startEditingParticipant: participantId => ({ participantId }),
     editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     submitEditingParticipant: () => ({}),
     cancelEditingParticipant: () => ({}),
-    addParticipant: participantId => ({ participantId }),
+    // Item:
     selectItem: itemId => ({ itemId }),
     addItem: itemId => ({ itemId }),
     updateItem: (itemId, updateCommand) => ({ itemId, updateCommand })
@@ -16,9 +18,13 @@ let actions = createActions({
 let reducer = (state, action) => {
     switch (action.type) {
 
+    // Participant:
     case actions.selectParticipant.type:
         return stateOperations.selectParticipant(action.data.participantId, state);
     
+    case actions.addParticipant.type:
+        return stateOperations.addParticipant(action.data.participantId, state);
+
     case actions.startEditingParticipant.type:
         return stateOperations.startEditingParticipant(action.data.participantId, state);
     
@@ -31,9 +37,7 @@ let reducer = (state, action) => {
     case actions.cancelEditingParticipant.type:
         return stateOperations.cancelEditingParticipant(state);
 
-    case actions.addParticipant.type:
-        return stateOperations.addParticipant(action.data.participantId, state);
-
+    // Item:
     case actions.selectItem.type:
         return stateOperations.selectItem(action.data.itemId, state);
     

@@ -1,10 +1,12 @@
 let eventDataCreators = ({
+	// Participant:
     participantSelected: participantId => ({ participantId }),
+	participantAdded: () => ({}),
 	participantEditingStarted: participantId => ({ participantId }),
 	participantEdited: (participantId, updateCommand) => ({ participantId, updateCommand }),
 	participantEditingSubmitted: participantId => ({ participantId }),
 	participantEditingCancelled: participantId => ({ participantId }),
-	participantAdded: () => ({}),
+	// Item:
 	itemSelected: itemId => ({ itemId }),
 	itemAdded: itemId => ({ itemId }),
 	itemEdited: (itemId, updateCommand) => ({ itemId, updateCommand })
@@ -12,8 +14,12 @@ let eventDataCreators = ({
 
 let subscribe = (events, store) => {
 
+	// Participant:
 	events.participantSelected.stream
 		.subscribe(e => store.actions.selectParticipant(e.data.participantId, e));
+
+	events.participantAdded.stream
+		.subscribe(e => store.actions.addParticipant(store.getState().data.participants.lastId + 1, e));
 	
 	events.participantEditingStarted.stream
 		.subscribe(e => store.actions.startEditingParticipant(e.data.participantId, e));
@@ -26,10 +32,8 @@ let subscribe = (events, store) => {
 
 	events.participantEditingCancelled.stream
 		.subscribe(e => store.actions.cancelEditingParticipant(e));
-
-	events.participantAdded.stream
-		.subscribe(e => store.actions.addParticipant(store.getState().data.participants.lastId + 1, e));
 	
+	// Item:
 	events.itemSelected.stream
 		.subscribe(e => store.actions.selectItem(e.data.itemId, e));
 	

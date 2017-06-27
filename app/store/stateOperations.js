@@ -4,10 +4,22 @@ import { FocusMode } from 'model'
 
 let stateOperations = {
 
+    // Participant:
     selectParticipant: (participantId, state) =>
         update(state, { ui: { participantFocus: {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.selected }
+        } } }),
+    
+    addParticipant: (participantId, state) =>
+        update(state, { data: { participants: {
+            lastId: { $set: participantId },
+            ids: { $push: [participantId] },
+            items: { [participantId]: { $set: {
+                participantId: participantId,
+                name: '',
+                contribution: 0
+            } } }
         } } }),
     
     startEditingParticipant: (participantId, state) => {
@@ -58,17 +70,7 @@ let stateOperations = {
         } });
     },
 
-    addParticipant: (participantId, state) =>
-        update(state, { data: { participants: {
-            lastId: { $set: participantId },
-            ids: { $push: [participantId] },
-            items: { [participantId]: { $set: {
-                participantId: participantId,
-                name: '',
-                contribution: 0
-            } } }
-        } } }),
-
+    // Item:
     selectItem: (itemId, state) =>
         update(state, { ui: { selectedItemId: { $set: itemId } } }),
     
