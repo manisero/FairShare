@@ -14,6 +14,12 @@ let stateOperations = {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.edited }
         } } }),
+    
+    cancelEditingParticipant: state =>
+        update(state, { ui: { participantFocus: {
+            itemId: { $set: null },
+            mode: { $set: null }
+        } } }),
 
     addParticipant: (participantId, state) =>
         update(state, { data: { participants: {

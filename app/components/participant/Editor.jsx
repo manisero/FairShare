@@ -1,14 +1,17 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { Right } from 'compUtils'
-import { Button, TextBox, NumberBox } from 'inputs'
+import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
-let ParticipantEditor = ({ participant, onNameChange, onContributionChange }) => (
+let ParticipantEditor = ({ participant, onNameChange, onContributionChange, onCancelClick }) => (
 	<div>
 		<TextBox value={participant.name} label='Name' onChange={e => onNameChange(e.target.value)} />
 		<NumberBox value={participant.contribution} label='Contribution' onChange={e => onContributionChange(e.target.value)} />
 		<Right>
-			<Button>OK</Button>
+			<ButtonGroup>
+				<Button>OK</Button>
+				<Button onClick={onCancelClick}>Cancel</Button>
+			</ButtonGroup>
 		</Right>
 	</div>
 );
@@ -19,7 +22,8 @@ let mapStateToProps = (state, { participantId }) => ({
 
 let mapEventsToProps = (events, { participantId }) => ({
 	onNameChange: name => events.participantEdited(participantId, { name: { $set: name } }),
-	onContributionChange: contribution => events.participantEdited(participantId, { contribution: { $set: contribution } })
+	onContributionChange: contribution => events.participantEdited(participantId, { contribution: { $set: contribution } }),
+	onCancelClick: () => events.participantEditingCancelled(participantId)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantEditor);

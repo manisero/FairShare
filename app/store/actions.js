@@ -3,7 +3,8 @@ import stateOperations from './stateOperations'
 
 let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
-    startEditingParticipant: participantId => ({ participantId }), 
+    startEditingParticipant: participantId => ({ participantId }),
+    cancelEditingParticipant: participantId => ({ participantId }),
     addParticipant: participantId => ({ participantId }),
     updateParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     selectItem: itemId => ({ itemId }),
@@ -19,6 +20,9 @@ let reducer = (state, action) => {
     
     case actions.startEditingParticipant.type:
         return stateOperations.startEditingParticipant(action.data.participantId, state);
+    
+    case actions.cancelEditingParticipant.type:
+        return stateOperations.cancelEditingParticipant(state);
 
     case actions.addParticipant.type:
         return stateOperations.addParticipant(action.data.participantId, state);
