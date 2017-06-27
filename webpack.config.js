@@ -39,6 +39,7 @@ module.exports = {
       reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
       jsUtils: path.resolve(__dirname, 'app/utils/jsUtils'),
       framework: path.resolve(__dirname, 'app/framework/'),
+      model: path.resolve(__dirname, 'app/store/model'),
     }
   },
 

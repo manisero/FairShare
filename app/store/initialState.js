@@ -1,3 +1,5 @@
+import { FocusMode } from 'model'
+
 // default Participants
 
 const participant1Id = 1;
@@ -65,7 +67,10 @@ export default {
 		}
 	},
 	ui: {
-		selectedParticipantId: participant1Id,
+		participantFocus: {
+			itemId: participant1Id,
+			mode: FocusMode.selected
+		}, 
 		selectedItemId: null
 	}
 };

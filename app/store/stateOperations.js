@@ -1,12 +1,13 @@
 import update from 'immutability-helper'
+import { FocusMode } from 'model'
 
 let stateOperations = {
 
     selectParticipant: (participantId, state) =>
-        update(state, { ui: {
-            selectedParticipantId: { $set: participantId },
-            selectedItemId: { $set: null }
-        } }),
+        update(state, { ui: { participantFocus: {
+            itemId: { $set: participantId },
+            mode: { $set: FocusMode.selected }
+        } } }),
 
     addParticipant: (participantId, state) =>
         update(state, { data: { participants: {
@@ -23,10 +24,7 @@ let stateOperations = {
         update(state, { data: { participants: { items: { [participantId]: updateCommand } } } }),
 
     selectItem: (itemId, state) =>
-        update(state, { ui: {
-            selectedParticipantId: { $set: null },
-            selectedItemId: { $set: itemId }
-        } }),
+        update(state, { ui: { selectedItemId: { $set: itemId } } }),
     
     addItem: (itemId, state) =>
         update(state, { data: { items: {
