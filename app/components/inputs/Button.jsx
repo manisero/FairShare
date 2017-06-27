@@ -1,9 +1,7 @@
 import React from 'react'
 
 let Button = props => (
-	<div>
-		<input type='button' className='btn btn-default' {...props} />
-	</div>
+	<button type='button' className='btn btn-default' {...props} />
 );
 
 export default Button;

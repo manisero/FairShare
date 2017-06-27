@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import Button from 'inputs/Button.jsx'
+import { Button, ButtonGroup } from 'inputs'
 
 let ParticipantDetails = ({ participant, onEditClick }) => (
 	<div>
 		<div>Name: {participant.name}</div>
 		<div>Contribution: {participant.contribution}</div>
-		<Button value='Edit' onClick={onEditClick} />
-		<Button value='Remove' />
+		<ButtonGroup>
+			<Button onClick={onEditClick}>Edit</Button>
+			<Button>Remove</Button>
+		</ButtonGroup>
 	</div>
 );
 

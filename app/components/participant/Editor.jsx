@@ -1,14 +1,12 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import TextBox from 'inputs/TextBox.jsx'
-import NumberBox from 'inputs/NumberBox.jsx'
-import Button from 'inputs/Button.jsx'
+import { Button, TextBox, NumberBox } from 'inputs'
 
 let ParticipantEditor = ({ participant, onNameChange, onContributionChange }) => (
 	<div>
 		<TextBox value={participant.name} label='Name' onChange={e => onNameChange(e.target.value)} />
 		<NumberBox value={participant.contribution} label='Contribution' onChange={e => onContributionChange(e.target.value)} />
-		<Button value='OK' />
+		<Button>OK</Button>
 	</div>
 );
 
