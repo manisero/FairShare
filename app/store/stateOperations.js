@@ -8,6 +8,12 @@ let stateOperations = {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.selected }
         } } }),
+    
+    startEditingParticipant: (participantId, state) =>
+        update(state, { ui: { participantFocus: {
+            itemId: { $set: participantId },
+            mode: { $set: FocusMode.edited }
+        } } }),
 
     addParticipant: (participantId, state) =>
         update(state, { data: { participants: {

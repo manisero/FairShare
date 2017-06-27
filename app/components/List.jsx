@@ -7,6 +7,7 @@ import ItemTile from './item/Tile.jsx'
 let List = ({ title, children, onItemClick, onAddClick }) => {
     let items = children.map(child => (
         <a key={child.props.itemKey} href="#" onClick={() => onItemClick(child.props.itemKey)} className="list-group-item">{child}</a>
+        //<div key={child.props.itemKey} onClick={() => onItemClick(child.props.itemKey)} className="list-group-item">{child}</div>
     ));
 
     return (

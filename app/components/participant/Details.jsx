@@ -16,7 +16,7 @@ let mapStateToProps = (state, { participantId }) => ({
 });
 
 let mapEventsToProps = (events, { participantId }) => ({
-	onEditClick: () => alert(participantId) 
+	onEditClick: () => events.participantEditingStarted(participantId) 
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantDetails);
