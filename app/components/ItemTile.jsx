@@ -7,8 +7,8 @@ let selectedNameStyle = {
 	fontWeight: 'bold'
 };
 
-let ItemTile = ({ item, isSelected, onClick }) => (
-	<div onClick={() => onClick()}>
+let ItemTile = ({ item, isSelected }) => (
+	<div>
 		<div>Name: <span style={isSelected ? selectedNameStyle : defaultNameStyle}>{item.name}</span></div>
 		<div>Price: {item.price}</div>
 	</div>
@@ -19,8 +19,4 @@ let mapStateToProps = (state, { itemId }) => ({
 	isSelected: itemId === state.ui.selectedItemId 
 });
 
-let mapEventsToProps = (events, { itemId }) => ({
-	onClick: () => events.itemSelected(itemId)
-});
-
-export default connect(mapStateToProps, mapEventsToProps)(ItemTile);
+export default connect(mapStateToProps)(ItemTile);

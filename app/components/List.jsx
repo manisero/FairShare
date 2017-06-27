@@ -4,8 +4,10 @@ import Button from './inputs/Button.jsx'
 import ParticipantTile from './ParticipantTile.jsx'
 import ItemTile from './ItemTile.jsx'
 
-let List = ({ title, children, onAddClick }) => {
-    let items = children.map(child => <a key={child.key} href="#" className="list-group-item">{child}</a>);
+let List = ({ title, children, onItemClick, onAddClick }) => {
+    let items = children.map(child => (
+        <a key={child.props.itemKey} href="#" onClick={() => onItemClick(child.props.itemKey)} className="list-group-item">{child}</a>
+    ));
 
     return (
         <div className="panel panel-default">
@@ -25,9 +27,10 @@ let List = ({ title, children, onAddClick }) => {
 let participantListMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
-	    children: state.data.participants.ids.map(id => (<ParticipantTile key={id} participantId={id} />))
+	    children: state.data.participants.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />))
     }),
     mapEventsToProps: events => ({
+        onItemClick: participantId => events.participantSelected(participantId),
         onAddClick: () => events.participantAdded()
     })
 };
@@ -37,9 +40,10 @@ let ParticipantList = connect(participantListMappings.mapStateToProps, participa
 let itemListMappings = {
     mapStateToProps: state => ({
         title: 'Items',
-	    children: state.data.items.ids.map(id => (<ItemTile key={id} itemId={id} />))
+	    children: state.data.items.ids.map(id => (<ItemTile itemKey={id} itemId={id} />))
     }),
     mapEventsToProps: events => ({
+        onItemClick: itemId => events.itemSelected(itemId),
         onAddClick: () => events.itemAdded()
     })
 };
