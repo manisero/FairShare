@@ -4,11 +4,14 @@ import Button from './inputs/Button.jsx'
 import ParticipantTile from './participant/Tile.jsx'
 import ItemTile from './item/Tile.jsx'
 
-let List = ({ title, children, onItemClick, onAddClick }) => {
-    let items = children.map(child => (
-        <a key={child.props.itemKey} href="#" onClick={() => onItemClick(child.props.itemKey)} className="list-group-item">{child}</a>
-        //<div key={child.props.itemKey} onClick={() => onItemClick(child.props.itemKey)} className="list-group-item">{child}</div>
-    ));
+let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
+    let items = children.map(child => {
+        let key = child.props.itemKey;
+
+        return key === selectedItemKey
+            ? (<div key={key} className="list-group-item">{child}</div>)
+            : (<a key={key} href="#" onClick={() => onItemSelect(key)} className="list-group-item">{child}</a>);
+    });
 
     return (
         <div className="panel panel-default">
@@ -28,10 +31,11 @@ let List = ({ title, children, onItemClick, onAddClick }) => {
 let participantListMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
-	    children: state.data.participants.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />))
+	    children: state.data.participants.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
+        selectedItemKey: state.ui.participantFocus.itemId
     }),
     mapEventsToProps: events => ({
-        onItemClick: participantId => events.participantSelected(participantId),
+        onItemSelect: participantId => events.participantSelected(participantId),
         onAddClick: () => events.participantAdded()
     })
 };
@@ -41,10 +45,11 @@ let ParticipantList = connect(participantListMappings.mapStateToProps, participa
 let itemListMappings = {
     mapStateToProps: state => ({
         title: 'Items',
-	    children: state.data.items.ids.map(id => (<ItemTile itemKey={id} itemId={id} />))
+	    children: state.data.items.ids.map(id => (<ItemTile itemKey={id} itemId={id} />)),
+        selectedItemKey: state.ui.selectedItemId
     }),
     mapEventsToProps: events => ({
-        onItemClick: itemId => events.itemSelected(itemId),
+        onItemSelect: itemId => events.itemSelected(itemId),
         onAddClick: () => events.itemAdded()
     })
 };
