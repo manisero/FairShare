@@ -4,9 +4,9 @@ import stateOperations from './stateOperations'
 let actions = createActions({
     selectParticipant: participantId => ({ participantId }),
     startEditingParticipant: participantId => ({ participantId }),
+    editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     cancelEditingParticipant: participantId => ({ participantId }),
     addParticipant: participantId => ({ participantId }),
-    updateParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     selectItem: itemId => ({ itemId }),
     addItem: itemId => ({ itemId }),
     updateItem: (itemId, updateCommand) => ({ itemId, updateCommand })
@@ -21,14 +21,14 @@ let reducer = (state, action) => {
     case actions.startEditingParticipant.type:
         return stateOperations.startEditingParticipant(action.data.participantId, state);
     
+    case actions.editParticipant.type:
+        return stateOperations.editParticipant(action.data.participantId, action.data.updateCommand, state);
+    
     case actions.cancelEditingParticipant.type:
         return stateOperations.cancelEditingParticipant(state);
 
     case actions.addParticipant.type:
         return stateOperations.addParticipant(action.data.participantId, state);
-
-    case actions.updateParticipant.type:
-        return stateOperations.updateParticipant(action.data.participantId, action.data.updateCommand, state);
 
     case actions.selectItem.type:
         return stateOperations.selectItem(action.data.itemId, state);

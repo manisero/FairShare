@@ -1,4 +1,5 @@
 import update from 'immutability-helper'
+import { copyDeep} from 'jsUtils'
 import { FocusMode } from 'model'
 
 let stateOperations = {
@@ -9,17 +10,37 @@ let stateOperations = {
             mode: { $set: FocusMode.selected }
         } } }),
     
-    startEditingParticipant: (participantId, state) =>
-        update(state, { ui: { participantFocus: {
+    startEditingParticipant: (participantId, state) => {
+        let command = { ui: { participantFocus: {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.edited }
-        } } }),
+        } } };
+        
+        if (state.ui.editedParticipants[participantId] == null) {
+            let participant = copyDeep(state.data.participants.items[participantId]);
+
+            command.ui.editedParticipants = {
+                [participantId]: { $set: participant}
+            };
+        }
+
+        return update(state, command);
+    },
     
-    cancelEditingParticipant: state =>
-        update(state, { ui: { participantFocus: {
-            itemId: { $set: null },
-            mode: { $set: null }
-        } } }),
+    editParticipant: (participantId, updateCommand, state) =>
+        update(state, { ui: { editedParticipants: { [participantId]: updateCommand } } }),
+
+    cancelEditingParticipant: state => {
+        let participantId = state.ui.participantFocus.itemId;
+
+        return update(state, { ui: {
+            participantFocus: {
+                itemId: { $set: null },
+                mode: { $set: null }
+            },
+            editedParticipants: { $unset: [ participantId ] }
+        } });
+    },
 
     addParticipant: (participantId, state) =>
         update(state, { data: { participants: {
@@ -31,9 +52,6 @@ let stateOperations = {
                 contribution: 0
             } } }
         } } }),
-
-    updateParticipant: (participantId, updateCommand, state) =>
-        update(state, { data: { participants: { items: { [participantId]: updateCommand } } } }),
 
     selectItem: (itemId, state) =>
         update(state, { ui: { selectedItemId: { $set: itemId } } }),

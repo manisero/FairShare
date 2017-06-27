@@ -6,4 +6,6 @@ let mapObject = (source, mapper) => {
     return result;
 };
 
-export { mapObject };
+let copyDeep = source => JSON.parse(JSON.stringify(source));
+
+export { mapObject, copyDeep };
