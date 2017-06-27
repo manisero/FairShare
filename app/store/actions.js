@@ -9,6 +9,8 @@ let actions = createActions({
     editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     submitEditingParticipant: () => ({}),
     cancelEditingParticipant: () => ({}),
+    startDeletingParticipant: participantId => ({ participantId }),
+    cancelDeletingParticipant: () => ({}),
     // Item:
     selectItem: itemId => ({ itemId }),
     addItem: itemId => ({ itemId }),
@@ -36,6 +38,12 @@ let reducer = (state, action) => {
 
     case actions.cancelEditingParticipant.type:
         return stateOperations.cancelEditingParticipant(state);
+    
+    case actions.startDeletingParticipant.type:
+        return stateOperations.startDeletingParticipant(action.data.participantId, state);
+
+    case actions.cancelDeletingParticipant.type:
+        return stateOperations.cancelDeletingParticipant(state);
 
     // Item:
     case actions.selectItem.type:

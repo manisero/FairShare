@@ -70,6 +70,23 @@ let stateOperations = {
         } });
     },
 
+    startDeletingParticipant: (participantId, state) =>
+        update(state, { ui: { participantFocus: {
+            itemId: { $set: participantId },
+            mode: { $set: FocusMode.deleted }
+        } } }),
+    
+    cancelDeletingParticipant: state => {
+        let participantId = state.ui.participantFocus.itemId;
+
+        return update(state, { ui: {
+            participantFocus: {
+                itemId: { $set: null },
+                mode: { $set: null }
+            }
+        } });
+    },
+
     // Item:
     selectItem: (itemId, state) =>
         update(state, { ui: { selectedItemId: { $set: itemId } } }),

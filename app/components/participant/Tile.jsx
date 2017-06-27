@@ -4,6 +4,7 @@ import { FocusMode } from 'model'
 import Showcase from './Showcase.jsx'
 import Details from './Details.jsx'
 import Editor from './Editor.jsx'
+import Deletor from './Deletor.jsx'
 
 let ParticipantTile = ({ participantId, focusMode }) => {
 	switch (focusMode) {
@@ -13,6 +14,8 @@ let ParticipantTile = ({ participantId, focusMode }) => {
 		return <Details participantId={participantId} />;
 	case FocusMode.edited:
 		return <Editor participantId={participantId} />;
+	case FocusMode.deleted:
+		return <Deletor participantId={participantId} />;
 	default:
 		return null;
 	}
