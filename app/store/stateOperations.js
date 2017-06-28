@@ -24,16 +24,48 @@ let stateOperations = {
         } } }),
     
     editEntity: {
-        // start: (entity, id, state) =>
-        // updateSelected: (entity, updateCommand) =>
-        // submitSelected: (entity, state) =>
-        // cancelSelected: (entity, state) =>
+        start: (entity, id, state) => {
+            let command = { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.edited) } } };
+            
+            if (state.ui[entity].edit[id] == null) {
+                let item = copyDeep(state.data[entity].items[id]);
+
+                command.ui[entity].edit = { [id]: { $set: item} };
+            }
+
+            return update(state, command);
+        },
+
+        updateFocused: (entity, updateCommand, state) =>
+            update(state, { ui: { [entity]: { edit: { [id]: updateCommand } } } }),
+
+        submitFocused: (entity, state) => {
+            let id = state.ui[entity].focus.itemId;
+            let item = state.ui[entity].edit[id];
+
+            return update(state, {
+                data: { [entity]: { items: { [id]: { $set: item } } } },
+                ui: { [entity]: {
+                    focus: helpers.setFocus(null, null),
+                    edit: { $unset: [ id ] }
+                } }
+            });
+        },
+
+        cancelFocused: (entity, state) => {
+            let id = state.ui[entity].focus.itemId;
+
+            return update(state, { ui: { [entity]: {
+                focus: helpers.setFocus(null, null),
+                edit: { $unset: [ participantId ] }
+            } } });
+        }
     },
 
     deleteEntity: {
         // start: (entity, id, state) =>
-        // submitSelected: (entity, state) =>
-        // cancelSelected: (entity, state) =>
+        // submitFocused: (entity, state) =>
+        // cancelFocused: (entity, state) =>
     },
 
     // Participant:
