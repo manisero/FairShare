@@ -4,6 +4,25 @@ import { FocusMode } from 'model'
 
 let stateOperations = {
 
+    // Generic:
+    selectEntity: (entity, id, state) =>
+        update(state, { ui: { [entity]: { focus: setFocus(id, FocusMode.selected) } } }),
+    
+    // addEntity: (entity, id, data, state) =>
+    // entityEditStart: (entity, id, state) =>
+    // entitySelectedEditUpdate: (entity, updateCommand) =>
+    // entitySelectedEditSubmit: (entity, state) =>
+    // entitySelectedEditCancel: (entity, state) =>
+    // entitySelectedDeleteStart: (entity, state) =>
+    // entitySelectedDeleteSubmit: (entity, state) =>
+    // entitySelectedDeleteCancel: (entity, state) =>
+
+    // Helpers:
+    setFocus: (itemId, mode) => ({
+        itemId: { $set: itemId },
+        mode: { $set: mode }
+    }),
+
     // Participant:
     selectParticipant: (participantId, state) =>
         update(state, { ui: { participant: { focus: {
@@ -16,7 +35,6 @@ let stateOperations = {
             lastId: { $set: participantId },
             ids: { $push: [participantId] },
             items: { [participantId]: { $set: {
-                participantId: participantId,
                 name: '',
                 contribution: 0
             } } }
@@ -113,7 +131,6 @@ let stateOperations = {
             lastId: { $set: itemId },
             ids: { $push: [itemId] },
             items: { [itemId]: { $set: {
-                itemId: itemId,
                 name: '',
                 price: 0
             } } }
