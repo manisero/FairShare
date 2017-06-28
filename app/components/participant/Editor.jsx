@@ -21,10 +21,10 @@ let mapStateToProps = (state, { participantId }) => ({
 });
 
 let mapEventsToProps = (events, { participantId }) => ({
-	onNameChange: name => events.participantEdited(participantId, { name: { $set: name } }),
-	onContributionChange: contribution => events.participantEdited(participantId, { contribution: { $set: contribution } }),
-	onSubmitClick: () => events.participantEditingSubmitted(participantId),
-	onCancelClick: () => events.participantEditingCancelled(participantId)
+	onNameChange: name => events.participantEditUpdated(participantId, { name: { $set: name } }),
+	onContributionChange: contribution => events.participantEditUpdated(participantId, { contribution: { $set: contribution } }),
+	onSubmitClick: () => events.participantEditSubmitted(participantId),
+	onCancelClick: () => events.participantEditCancelled(participantId)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantEditor);

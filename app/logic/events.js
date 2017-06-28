@@ -4,13 +4,13 @@ let eventDataCreators = ({
 	// Participant:
     participantSelected: participantId => ({ participantId }),
 	participantAdded: () => ({}),
-	participantEditingStarted: participantId => ({ participantId }),
-	participantEdited: (participantId, updateCommand) => ({ participantId, updateCommand }),
-	participantEditingSubmitted: participantId => ({ participantId }),
-	participantEditingCancelled: participantId => ({ participantId }),
-	participantDeletingStarted: participantId => ({ participantId }),
-	participantDeletingSubmitted: participantId => ({ participantId }),
-	participantDeletingCancelled: participantId => ({ participantId }),
+	participantEditStarted: participantId => ({ participantId }),
+	participantEditUpdated: (participantId, updateCommand) => ({ participantId, updateCommand }),
+	participantEditSubmitted: participantId => ({ participantId }),
+	participantEditCancelled: participantId => ({ participantId }),
+	participantDeleteStarted: participantId => ({ participantId }),
+	participantDeleteSubmitted: participantId => ({ participantId }),
+	participantDeleteCancelled: participantId => ({ participantId }),
 	// Item:
 	itemSelected: itemId => ({ itemId }),
 	itemAdded: itemId => ({ itemId }),
@@ -35,25 +35,25 @@ let subscribe = (events, store) => {
 			store.actions.editEntity_start(EntityType.participant, participantId, e);
 		});
 	
-	events.participantEditingStarted.stream
+	events.participantEditStarted.stream
 		.subscribe(e => store.actions.editEntity_start(EntityType.participant, e.data.participantId, e));
 	
-	events.participantEdited.stream
+	events.participantEditUpdated.stream
 		.subscribe(e => store.actions.editEntity_updateFocused(EntityType.participant, e.data.updateCommand, e));
 	
-	events.participantEditingSubmitted.stream
+	events.participantEditSubmitted.stream
 		.subscribe(e => store.actions.editEntity_submitFocused(EntityType.participant, e));
 
-	events.participantEditingCancelled.stream
+	events.participantEditCancelled.stream
 		.subscribe(e => store.actions.editEntity_cancelFocused(EntityType.participant, e));
 	
-	events.participantDeletingStarted.stream
+	events.participantDeleteStarted.stream
 		.subscribe(e => store.actions.deleteEntity_start(EntityType.participant, e.data.participantId, e));
 	
-	events.participantDeletingSubmitted.stream
+	events.participantDeleteSubmitted.stream
 		.subscribe(e => store.actions.deleteEntity_submitFocused(EntityType.participant, e));
 
-	events.participantDeletingCancelled.stream
+	events.participantDeleteCancelled.stream
 		.subscribe(e => store.actions.deleteEntity_cancelFocused(EntityType.participant, e));
 
 	// Item:
