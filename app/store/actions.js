@@ -12,16 +12,6 @@ let actions = createActions({
     deleteEntity_start: (entity, id) => ({ entity, id }),
     deleteEntity_submitFocused: entity => ({ entity }),
     deleteEntity_cancelFocused: entity => ({ entity }), 
-    // Participant:
-    selectParticipant: participantId => ({ participantId }),
-    addParticipant: (participantId, data) => ({ participantId, data }),
-    startEditingParticipant: participantId => ({ participantId }),
-    editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
-    submitEditingParticipant: () => ({}),
-    cancelEditingParticipant: () => ({}),
-    startDeletingParticipant: participantId => ({ participantId }),
-    submitDeletingParticipant: () => ({}),
-    cancelDeletingParticipant: () => ({}),
     // Item:
     selectItem: itemId => ({ itemId }),
     addItem: itemId => ({ itemId }),
@@ -57,34 +47,6 @@ let reducer = (state, action) => {
 
     case actions.deleteEntity_cancelFocused.type:
         return stateOperations.deleteEntity.cancelFocused(action.data.entity, state);
-
-    // Participant:
-    case actions.selectParticipant.type:
-        return stateOperations.selectEntity(EntityType.participant, action.data.participantId, state);
-    
-    case actions.addParticipant.type:
-        return stateOperations.addEntity(EntityType.participant, action.data.participantId, action.data.data, state);
-
-    case actions.startEditingParticipant.type:
-        return stateOperations.editEntity.start(EntityType.participant, action.data.participantId, state);
-    
-    case actions.editParticipant.type:
-        return stateOperations.editEntity.updateFocused(EntityType.participant, action.data.updateCommand, state);
-    
-    case actions.submitEditingParticipant.type:
-        return stateOperations.editEntity.submitFocused(EntityType.participant, state);
-
-    case actions.cancelEditingParticipant.type:
-        return stateOperations.editEntity.cancelFocused(EntityType.participant, state);
-    
-    case actions.startDeletingParticipant.type:
-        return stateOperations.deleteEntity.start(EntityType.participant, action.data.participantId, state);
-    
-    case actions.submitDeletingParticipant.type:
-        return stateOperations.deleteEntity.submitFocused(EntityType.participant, state);
-
-    case actions.cancelDeletingParticipant.type:
-        return stateOperations.deleteEntity.cancelFocused(EntityType.participant, state);
 
     // Item:
     case actions.selectItem.type:
