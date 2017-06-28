@@ -66,13 +66,31 @@ let stateOperations = {
     },
 
     deleteEntity: {
-        // start: (entity, id, state) =>
-        // submitFocused: (entity, state) =>
-        // cancelFocused: (entity, state) =>
+        start: (entity, id, state) =>
+            update(state, { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.deleted) } } }),
+
+        submitFocused: (entity, state) => {
+            let id = state.ui[entity].focus.itemId;
+            let idIndex = state.data[entity].ids.indexOf(id);
+
+            return update(state, {
+                data: { [entity]: {
+                    ids: { $splice: [[ idIndex, 1 ]] },
+                    items: { $unset: [id] }
+                } },
+                ui: { [entity]: {
+                    focus: helpers.setFocus(null, null),
+                    edit: { $unset: [ id ] }
+                } }
+            });
+        },
+
+        cancelFocused: (entity, state) =>
+            update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } })
     },
 
     // Participant:
-    
+
     startDeletingParticipant: (participantId, state) =>
         update(state, { ui: { participant: { focus: {
             itemId: { $set: participantId },

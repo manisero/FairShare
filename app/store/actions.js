@@ -42,13 +42,13 @@ let reducer = (state, action) => {
         return stateOperations.editEntity.cancelFocused(EntityType.participant, state);
     
     case actions.startDeletingParticipant.type:
-        return stateOperations.startDeletingParticipant(action.data.participantId, state);
+        return stateOperations.deleteEntity.start(EntityType.participant, action.data.participantId, state);
     
     case actions.submitDeletingParticipant.type:
-        return stateOperations.submitDeletingParticipant(state);
+        return stateOperations.deleteEntity.submitFocused(EntityType.participant, state);
 
     case actions.cancelDeletingParticipant.type:
-        return stateOperations.cancelDeletingParticipant(state);
+        return stateOperations.deleteEntity.cancelFocused(EntityType.participant, state);
 
     // Item:
     case actions.selectItem.type:
