@@ -33,12 +33,10 @@ export default {
 			ids: [ participant1Id, participant2Id ],
 			items: {
 				[participant1Id]: {
-					participantId: participant1Id,
 					name: participant1Name,
 					contribution: participant1Contribution
 				},
 				[participant2Id]: {
-					participantId: participant2Id,
 					name: participant2Name,
 					contribution: participant2Contribution
 				}
@@ -49,17 +47,14 @@ export default {
 			ids: [ item1Id, item2Id, item3Id ],
 			items: {
 				[item1Id]: {
-					itemId: item1Id,
 					name: item1Name,
 					price: item1Price
 				},
 				[item2Id]: {
-					itemId: item2Id,
 					name: item2Name,
 					price: item2Price
 				},
 				[item3Id]: {
-					itemId: item3Id,
 					name: item3Name,
 					price: item3Price
 				}
