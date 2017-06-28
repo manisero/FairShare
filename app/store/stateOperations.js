@@ -89,42 +89,6 @@ let stateOperations = {
             update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } })
     },
 
-    // Participant:
-
-    startDeletingParticipant: (participantId, state) =>
-        update(state, { ui: { participant: { focus: {
-            itemId: { $set: participantId },
-            mode: { $set: FocusMode.deleted }
-        } } } }),
-    
-    submitDeletingParticipant: state => {
-        let participantId = state.ui.participant.focus.itemId;
-        let idIndex = state.data.participant.ids.indexOf(participantId);
-
-        return update(state, {
-            data: { participant: {
-                ids: { $splice: [[ idIndex, 1 ]] },
-                items: { $unset: [participantId] }
-            } },
-            ui: { participant: {
-                focus: {
-                    itemId: { $set: null },
-                    mode: { $set: null }
-                },
-                edit: { $unset: [ participantId ] }
-            } }
-        });
-    },
-    
-    cancelDeletingParticipant: state => {
-        let participantId = state.ui.participant.focus.itemId;
-
-        return update(state, { ui: { participant: { focus: {
-            itemId: { $set: null },
-            mode: { $set: null }
-        } } } });
-    },
-
     // Item:
     selectItem: (itemId, state) =>
         update(state, { ui: { selectedItemId: { $set: itemId } } }),
