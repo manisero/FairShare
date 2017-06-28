@@ -23,7 +23,7 @@ let subscribe = (events, store) => {
 
 	events.participantAdded.stream
 		.subscribe(e => {
-			let participantId = store.getState().data.participants.lastId + 1;
+			let participantId = store.getState().data.participant.lastId + 1;
 
 			store.actions.addParticipant(participantId, e);
 			store.actions.startEditingParticipant(participantId, e);

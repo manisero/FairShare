@@ -17,7 +17,7 @@ let ParticipantEditor = ({ participant, onNameChange, onContributionChange, onSu
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.ui.editedParticipants[participantId]
+	participant: state.ui.editedParticipant[participantId]
 });
 
 let mapEventsToProps = (events, { participantId }) => ({

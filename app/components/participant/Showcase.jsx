@@ -9,7 +9,7 @@ let ParticipantShowcase = ({ participant }) => (
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.data.participants.items[participantId] 
+	participant: state.data.participant.items[participantId] 
 });
 
 export default connect(mapStateToProps)(ParticipantShowcase);

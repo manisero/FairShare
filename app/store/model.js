@@ -1,3 +1,8 @@
+let Entities = {
+    participant: 'participant',
+    item: 'item'
+};
+
 let FocusMode = {
     noFocus: 'noFocus',
     selected: 'selected',

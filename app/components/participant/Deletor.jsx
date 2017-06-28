@@ -16,7 +16,7 @@ let ParticipantDeletor = ({ participant, onDeleteClick, onCancelClick }) => (
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.data.participants.items[participantId] 
+	participant: state.data.participant.items[participantId] 
 });
 
 let mapEventsToProps = (events, { participantId }) => ({

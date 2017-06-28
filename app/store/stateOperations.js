@@ -12,7 +12,7 @@ let stateOperations = {
         } } }),
     
     addParticipant: (participantId, state) =>
-        update(state, { data: { participants: {
+        update(state, { data: { participant: {
             lastId: { $set: participantId },
             ids: { $push: [participantId] },
             items: { [participantId]: { $set: {
@@ -28,10 +28,10 @@ let stateOperations = {
             mode: { $set: FocusMode.edited }
         } } };
         
-        if (state.ui.editedParticipants[participantId] == null) {
-            let participant = copyDeep(state.data.participants.items[participantId]);
+        if (state.ui.editedParticipant[participantId] == null) {
+            let participant = copyDeep(state.data.participant.items[participantId]);
 
-            command.ui.editedParticipants = {
+            command.ui.editedParticipant = {
                 [participantId]: { $set: participant}
             };
         }
@@ -40,20 +40,20 @@ let stateOperations = {
     },
     
     editParticipant: (participantId, updateCommand, state) =>
-        update(state, { ui: { editedParticipants: { [participantId]: updateCommand } } }),
+        update(state, { ui: { editedParticipant: { [participantId]: updateCommand } } }),
     
     submitEditingParticipant: state => {
         let participantId = state.ui.participantFocus.itemId;
-        let participant = state.ui.editedParticipants[participantId];
+        let participant = state.ui.editedParticipant[participantId];
 
         return update(state, {
-            data: { participants: { items: { [participantId]: { $set: participant } } } },
+            data: { participant: { items: { [participantId]: { $set: participant } } } },
             ui: {
                 participantFocus: {
                     itemId: { $set: null },
                     mode: { $set: null }
                 },
-                editedParticipants: { $unset: [ participantId ] }
+                editedParticipant: { $unset: [ participantId ] }
             }
         });
     },
@@ -66,7 +66,7 @@ let stateOperations = {
                 itemId: { $set: null },
                 mode: { $set: null }
             },
-            editedParticipants: { $unset: [ participantId ] }
+            editedParticipant: { $unset: [ participantId ] }
         } });
     },
 
@@ -78,10 +78,10 @@ let stateOperations = {
     
     submitDeletingParticipant: state => {
         let participantId = state.ui.participantFocus.itemId;
-        let idIndex = state.data.participants.ids.indexOf(participantId);
+        let idIndex = state.data.participant.ids.indexOf(participantId);
 
         return update(state, {
-            data: { participants: {
+            data: { participant: {
                 ids: { $splice: [[ idIndex, 1 ]] },
                 items: { $unset: [participantId] }
             } },
@@ -90,7 +90,7 @@ let stateOperations = {
                     itemId: { $set: null },
                     mode: { $set: null }
                 },
-                editedParticipants: { $unset: [ participantId ] }
+                editedParticipant: { $unset: [ participantId ] }
             }
         });
     },

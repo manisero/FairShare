@@ -28,7 +28,7 @@ const item3Price = 300.00;
 
 export default {
 	data: {
-		participants: {
+		participant: {
 			lastId: participant2Id,
 			ids: [ participant1Id, participant2Id ],
 			items: {
@@ -66,7 +66,7 @@ export default {
 			itemId: participant1Id,
 			mode: FocusMode.edited,
 		},
-		editedParticipants: {
+		editedParticipant: {
 			[participant1Id]: {
 				name: participant1Name + 'a',
 				contribution: participant1Contribution + 10
