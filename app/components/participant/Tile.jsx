@@ -22,7 +22,7 @@ let ParticipantTile = ({ participantId, focusMode }) => {
 };
 
 let mapStateToProps = (state, { participantId }) => ({
-	focusMode: state.ui.participantFocus.itemId === participantId ? state.ui.participantFocus.mode : FocusMode.noFocus 
+	focusMode: state.ui.participant.focus.itemId === participantId ? state.ui.participant.focus.mode : FocusMode.noFocus 
 });
 
 export default connect(mapStateToProps)(ParticipantTile);

@@ -6,10 +6,10 @@ let stateOperations = {
 
     // Participant:
     selectParticipant: (participantId, state) =>
-        update(state, { ui: { participantFocus: {
+        update(state, { ui: { participant: { focus: {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.selected }
-        } } }),
+        } } } }),
     
     addParticipant: (participantId, state) =>
         update(state, { data: { participant: {
@@ -23,15 +23,15 @@ let stateOperations = {
         } } }),
     
     startEditingParticipant: (participantId, state) => {
-        let command = { ui: { participantFocus: {
+        let command = { ui: { participant: { focus: {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.edited }
-        } } };
+        } } } };
         
-        if (state.ui.editedParticipant[participantId] == null) {
+        if (state.ui.participant.edit[participantId] == null) {
             let participant = copyDeep(state.data.participant.items[participantId]);
 
-            command.ui.editedParticipant = {
+            command.ui.participant.edit = {
                 [participantId]: { $set: participant}
             };
         }
@@ -40,44 +40,44 @@ let stateOperations = {
     },
     
     editParticipant: (participantId, updateCommand, state) =>
-        update(state, { ui: { editedParticipant: { [participantId]: updateCommand } } }),
+        update(state, { ui: { participant: { edit: { [participantId]: updateCommand } } } }),
     
     submitEditingParticipant: state => {
-        let participantId = state.ui.participantFocus.itemId;
-        let participant = state.ui.editedParticipant[participantId];
+        let participantId = state.ui.participant.focus.itemId;
+        let participant = state.ui.participant.edit[participantId];
 
         return update(state, {
             data: { participant: { items: { [participantId]: { $set: participant } } } },
-            ui: {
-                participantFocus: {
+            ui: { participant: {
+                focus: {
                     itemId: { $set: null },
                     mode: { $set: null }
                 },
-                editedParticipant: { $unset: [ participantId ] }
-            }
+                edit: { $unset: [ participantId ] }
+            } }
         });
     },
 
     cancelEditingParticipant: state => {
-        let participantId = state.ui.participantFocus.itemId;
+        let participantId = state.ui.participant.focus.itemId;
 
-        return update(state, { ui: {
-            participantFocus: {
+        return update(state, { ui: { participant: {
+            focus: {
                 itemId: { $set: null },
                 mode: { $set: null }
             },
-            editedParticipant: { $unset: [ participantId ] }
-        } });
+            edit: { $unset: [ participantId ] }
+        } } });
     },
 
     startDeletingParticipant: (participantId, state) =>
-        update(state, { ui: { participantFocus: {
+        update(state, { ui: { participant: { focus: {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.deleted }
-        } } }),
+        } } } }),
     
     submitDeletingParticipant: state => {
-        let participantId = state.ui.participantFocus.itemId;
+        let participantId = state.ui.participant.focus.itemId;
         let idIndex = state.data.participant.ids.indexOf(participantId);
 
         return update(state, {
@@ -85,25 +85,23 @@ let stateOperations = {
                 ids: { $splice: [[ idIndex, 1 ]] },
                 items: { $unset: [participantId] }
             } },
-            ui: {
-                participantFocus: {
+            ui: { participant: {
+                focus: {
                     itemId: { $set: null },
                     mode: { $set: null }
                 },
-                editedParticipant: { $unset: [ participantId ] }
-            }
+                edit: { $unset: [ participantId ] }
+            } }
         });
     },
     
     cancelDeletingParticipant: state => {
-        let participantId = state.ui.participantFocus.itemId;
+        let participantId = state.ui.participant.focus.itemId;
 
-        return update(state, { ui: {
-            participantFocus: {
-                itemId: { $set: null },
-                mode: { $set: null }
-            }
-        } });
+        return update(state, { ui: { participant: { focus: {
+            itemId: { $set: null },
+            mode: { $set: null }
+        } } } });
     },
 
     // Item:

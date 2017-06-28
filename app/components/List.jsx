@@ -35,7 +35,7 @@ let participantListMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
 	    children: state.data.participant.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
-        selectedItemKey: state.ui.participantFocus.itemId
+        selectedItemKey: state.ui.participant.focus.itemId
     }),
     mapEventsToProps: events => ({
         onItemSelect: participantId => events.participantSelected(participantId),

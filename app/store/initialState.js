@@ -62,14 +62,16 @@ export default {
 		}
 	},
 	ui: {
-		participantFocus: {
-			itemId: participant1Id,
-			mode: FocusMode.edited,
-		},
-		editedParticipant: {
-			[participant1Id]: {
-				name: participant1Name + 'a',
-				contribution: participant1Contribution + 10
+		participant: {
+			focus: {
+				itemId: participant1Id,
+				mode: FocusMode.edited,
+			},
+			edit: {
+				[participant1Id]: {
+					name: participant1Name + 'a',
+					contribution: participant1Contribution + 10
+				}
 			}
 		},
 		selectedItemId: null
