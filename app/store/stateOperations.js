@@ -2,26 +2,39 @@ import update from 'immutability-helper'
 import { copyDeep} from 'jsUtils'
 import { FocusMode } from 'model'
 
-let stateOperations = {
+// Helpers:
 
-    // Generic:
-    selectEntity: (entity, id, state) =>
-        update(state, { ui: { [entity]: { focus: setFocus(id, FocusMode.selected) } } }),
-    
-    // addEntity: (entity, id, data, state) =>
-    // entityEditStart: (entity, id, state) =>
-    // entitySelectedEditUpdate: (entity, updateCommand) =>
-    // entitySelectedEditSubmit: (entity, state) =>
-    // entitySelectedEditCancel: (entity, state) =>
-    // entitySelectedDeleteStart: (entity, state) =>
-    // entitySelectedDeleteSubmit: (entity, state) =>
-    // entitySelectedDeleteCancel: (entity, state) =>
-
-    // Helpers:
+let helpers = {
     setFocus: (itemId, mode) => ({
         itemId: { $set: itemId },
         mode: { $set: mode }
-    }),
+    })
+};
+
+let stateOperations = {
+
+    selectEntity: (entity, id, state) =>
+        update(state, { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.selected) } } }),
+    
+    addEntity: (entity, id, data, state) =>
+        update(state, { data: { [entity]: {
+            lastId: { $set: id },
+            ids: { $push: [id] },
+            items: { [id]: { $set: data } }
+        } } }),
+    
+    editEntity: {
+        // start: (entity, id, state) =>
+        // updateSelected: (entity, updateCommand) =>
+        // submitSelected: (entity, state) =>
+        // cancelSelected: (entity, state) =>
+    },
+
+    deleteEntity: {
+        // start: (entity, id, state) =>
+        // submitSelected: (entity, state) =>
+        // cancelSelected: (entity, state) =>
+    },
 
     // Participant:
     selectParticipant: (participantId, state) =>
@@ -29,16 +42,6 @@ let stateOperations = {
             itemId: { $set: participantId },
             mode: { $set: FocusMode.selected }
         } } } }),
-    
-    addParticipant: (participantId, state) =>
-        update(state, { data: { participant: {
-            lastId: { $set: participantId },
-            ids: { $push: [participantId] },
-            items: { [participantId]: { $set: {
-                name: '',
-                contribution: 0
-            } } }
-        } } }),
     
     startEditingParticipant: (participantId, state) => {
         let command = { ui: { participant: { focus: {

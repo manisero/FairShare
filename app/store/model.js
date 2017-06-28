@@ -1,4 +1,4 @@
-let Entities = {
+let EntityType = {
     participant: 'participant',
     item: 'item'
 };
@@ -10,4 +10,4 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
-export { FocusMode };
+export { EntityType, FocusMode };

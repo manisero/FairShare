@@ -1,10 +1,11 @@
 import { createActions } from 'framework/store'
+import { EntityType } from 'model'
 import stateOperations from './stateOperations'
 
 let actions = createActions({
     // Participant:
     selectParticipant: participantId => ({ participantId }),
-    addParticipant: participantId => ({ participantId }),
+    addParticipant: (participantId, data) => ({ participantId, data }),
     startEditingParticipant: participantId => ({ participantId }),
     editParticipant: (participantId, updateCommand) => ({ participantId, updateCommand }),
     submitEditingParticipant: () => ({}),
@@ -23,10 +24,10 @@ let reducer = (state, action) => {
 
     // Participant:
     case actions.selectParticipant.type:
-        return stateOperations.selectParticipant(action.data.participantId, state);
+        return stateOperations.selectEntity(EntityType.participant, action.data.participantId, state);
     
     case actions.addParticipant.type:
-        return stateOperations.addParticipant(action.data.participantId, state);
+        return stateOperations.addEntity(EntityType.participant, action.data.participantId, action.data.data, state);
 
     case actions.startEditingParticipant.type:
         return stateOperations.startEditingParticipant(action.data.participantId, state);
