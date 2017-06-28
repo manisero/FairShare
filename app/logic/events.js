@@ -55,7 +55,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.selectItem(e.data.itemId, e));
 	
 	events.itemAdded.stream
-		.subscribe(e => store.actions.addItem(store.getState().data.items.lastId + 1, e));
+		.subscribe(e => store.actions.addItem(store.getState().data.item.lastId + 1, e));
 
 	events.itemEdited.stream
 		.subscribe(e => store.actions.updateItem(e.data.itemId, e.data.updateCommand, e));

@@ -111,7 +111,7 @@ let stateOperations = {
         update(state, { ui: { selectedItemId: { $set: itemId } } }),
     
     addItem: (itemId, state) =>
-        update(state, { data: { items: {
+        update(state, { data: { item: {
             lastId: { $set: itemId },
             ids: { $push: [itemId] },
             items: { [itemId]: { $set: {
@@ -122,7 +122,7 @@ let stateOperations = {
         } } }),
     
     updateItem: (itemId, updateCommand, state) =>
-        update(state, { data: { items: { items: { [itemId]: updateCommand } } } }),
+        update(state, { data: { item: { items: { [itemId]: updateCommand } } } }),
 };
 
 export default stateOperations;

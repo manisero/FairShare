@@ -42,7 +42,7 @@ export default {
 				}
 			}
 		},
-		items: {
+		item: {
 			lastId: item3Id,
 			ids: [ item1Id, item2Id, item3Id ],
 			items: {

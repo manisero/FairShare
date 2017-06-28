@@ -48,7 +48,7 @@ let ParticipantList = connect(participantListMappings.mapStateToProps, participa
 let itemListMappings = {
     mapStateToProps: state => ({
         title: 'Items',
-	    children: state.data.items.ids.map(id => (<ItemTile itemKey={id} itemId={id} />)),
+	    children: state.data.item.ids.map(id => (<ItemTile itemKey={id} itemId={id} />)),
         selectedItemKey: state.ui.selectedItemId
     }),
     mapEventsToProps: events => ({

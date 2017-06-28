@@ -15,7 +15,7 @@ let ItemTile = ({ item, isSelected }) => (
 );
 
 let mapStateToProps = (state, { itemId }) => ({
-	item: state.data.items.items[itemId],
+	item: state.data.item.items[itemId],
 	isSelected: itemId === state.ui.selectedItemId 
 });
 
