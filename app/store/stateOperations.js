@@ -36,8 +36,11 @@ let stateOperations = {
             return update(state, command);
         },
 
-        updateFocused: (entity, updateCommand, state) =>
-            update(state, { ui: { [entity]: { edit: { [id]: updateCommand } } } }),
+        updateFocused: (entity, updateCommand, state) => {
+            let id = state.ui[entity].focus.itemId;
+
+            return update(state, { ui: { [entity]: { edit: { [id]: updateCommand } } } });
+        },
 
         submitFocused: (entity, state) => {
             let id = state.ui[entity].focus.itemId;
@@ -57,7 +60,7 @@ let stateOperations = {
 
             return update(state, { ui: { [entity]: {
                 focus: helpers.setFocus(null, null),
-                edit: { $unset: [ participantId ] }
+                edit: { $unset: [ id ] }
             } } });
         }
     },
@@ -69,60 +72,7 @@ let stateOperations = {
     },
 
     // Participant:
-    selectParticipant: (participantId, state) =>
-        update(state, { ui: { participant: { focus: {
-            itemId: { $set: participantId },
-            mode: { $set: FocusMode.selected }
-        } } } }),
     
-    startEditingParticipant: (participantId, state) => {
-        let command = { ui: { participant: { focus: {
-            itemId: { $set: participantId },
-            mode: { $set: FocusMode.edited }
-        } } } };
-        
-        if (state.ui.participant.edit[participantId] == null) {
-            let participant = copyDeep(state.data.participant.items[participantId]);
-
-            command.ui.participant.edit = {
-                [participantId]: { $set: participant}
-            };
-        }
-
-        return update(state, command);
-    },
-    
-    editParticipant: (participantId, updateCommand, state) =>
-        update(state, { ui: { participant: { edit: { [participantId]: updateCommand } } } }),
-    
-    submitEditingParticipant: state => {
-        let participantId = state.ui.participant.focus.itemId;
-        let participant = state.ui.participant.edit[participantId];
-
-        return update(state, {
-            data: { participant: { items: { [participantId]: { $set: participant } } } },
-            ui: { participant: {
-                focus: {
-                    itemId: { $set: null },
-                    mode: { $set: null }
-                },
-                edit: { $unset: [ participantId ] }
-            } }
-        });
-    },
-
-    cancelEditingParticipant: state => {
-        let participantId = state.ui.participant.focus.itemId;
-
-        return update(state, { ui: { participant: {
-            focus: {
-                itemId: { $set: null },
-                mode: { $set: null }
-            },
-            edit: { $unset: [ participantId ] }
-        } } });
-    },
-
     startDeletingParticipant: (participantId, state) =>
         update(state, { ui: { participant: { focus: {
             itemId: { $set: participantId },
