@@ -14,7 +14,16 @@ let eventDataCreators = ({
 	participantDeleteCancelled: participantId => ({ participantId }),
 	// Item:
 	itemSelected: itemId => ({ itemId }),
-	itemAdded: itemId => ({ itemId }),
+	itemDeselected: () => ({}),
+	itemAdded: () => ({}),
+	itemEditStarted: itemId => ({ itemId }),
+	itemEditUpdated: (itemId, updateCommand) => ({ itemId, updateCommand }),
+	itemEditSubmitted: itemId => ({ itemId }),
+	itemEditCancelled: itemId => ({ itemId }),
+	itemDeleteStarted: itemId => ({ itemId }),
+	itemDeleteSubmitted: itemId => ({ itemId }),
+	itemDeleteCancelled: itemId => ({ itemId }),
+	// Obsolete:
 	itemEdited: (itemId, updateCommand) => ({ itemId, updateCommand })
 });
 
@@ -62,11 +71,45 @@ let subscribe = (events, store) => {
 
 	// Item:
 	events.itemSelected.stream
-		.subscribe(e => store.actions.selectItem(e.data.itemId, e));
+		.subscribe(e => store.actions.selectEntity(EntityType.item, e.data.itemId, e));
 	
-	events.itemAdded.stream
-		.subscribe(e => store.actions.addItem(store.getState().data.item.lastId + 1, e));
+	events.itemDeselected.stream
+		.subscribe(e => store.actions.deselectEntity(EntityType.item, e));
 
+	events.itemAdded.stream
+		.subscribe(e => {
+			let itemId = store.getState().data.item.lastId + 1;
+			let item = {
+				name: '',
+				price: 0
+			};
+
+			store.actions.addEntity(EntityType.item, itemId, item, e);
+			store.actions.editEntity_start(EntityType.item, itemId, e);
+		});
+	
+	events.itemEditStarted.stream
+		.subscribe(e => store.actions.editEntity_start(EntityType.item, e.data.itemId, e));
+	
+	events.itemEditUpdated.stream
+		.subscribe(e => store.actions.editEntity_updateFocused(EntityType.item, e.data.updateCommand, e));
+	
+	events.itemEditSubmitted.stream
+		.subscribe(e => store.actions.editEntity_submitFocused(EntityType.item, e));
+
+	events.itemEditCancelled.stream
+		.subscribe(e => store.actions.editEntity_cancelFocused(EntityType.item, e));
+	
+	events.itemDeleteStarted.stream
+		.subscribe(e => store.actions.deleteEntity_start(EntityType.item, e.data.itemId, e));
+	
+	events.itemDeleteSubmitted.stream
+		.subscribe(e => store.actions.deleteEntity_submitFocused(EntityType.item, e));
+
+	events.itemDeleteCancelled.stream
+		.subscribe(e => store.actions.deleteEntity_cancelFocused(EntityType.item, e));
+
+	// Obsolete:
 	events.itemEdited.stream
 		.subscribe(e => store.actions.updateItem(e.data.itemId, e.data.updateCommand, e));
 

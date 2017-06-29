@@ -65,7 +65,7 @@ export default {
 		participant: {
 			focus: {
 				itemId: participant1Id,
-				mode: FocusMode.edited,
+				mode: FocusMode.edited
 			},
 			edit: {
 				[participant1Id]: {
@@ -73,6 +73,13 @@ export default {
 					contribution: participant1Contribution + 10
 				}
 			}
+		},
+		item: {
+			focus: {
+				itemId: null,
+				mode: null
+			},
+			edit: { }
 		},
 		selectedItemId: null
 	}
