@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { Right } from 'compUtils'
 import { Button } from 'inputs'
-import ParticipantTile from './participant/Tile.jsx'
+import ParticipantTile from './sourceData/Tile.jsx'
 import ItemTile from './item/Tile.jsx'
 
 let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {

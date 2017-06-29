@@ -1,19 +1,19 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { FocusMode } from 'model'
-import Showcase from './Showcase.jsx'
-import Details from './Details.jsx'
-import Editor from './Editor.jsx'
+import ParticipantShowcase from './ParticipantShowcase.jsx'
+import ParticipantDetails from './ParticipantDetails.jsx'
+import ParticipantEditor from './ParticipantEditor.jsx'
 import { ParticipantDeletor } from './Deletor.jsx'
 
 let ParticipantTile = ({ participantId, focusMode }) => {
 	switch (focusMode) {
 	case FocusMode.noFocus:
-		return <Showcase participantId={participantId} />;
+		return <ParticipantShowcase participantId={participantId} />;
 	case FocusMode.selected:
-		return <Details participantId={participantId} />;
+		return <ParticipantDetails participantId={participantId} />;
 	case FocusMode.edited:
-		return <Editor participantId={participantId} />;
+		return <ParticipantEditor participantId={participantId} />;
 	case FocusMode.deleted:
 		return <ParticipantDeletor participantId={participantId} />;
 	default:

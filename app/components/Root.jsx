@@ -1,21 +1,18 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { ParticipantList, ItemList } from './List.jsx'
-import ParticipantEditor from './participant/Editor.jsx'
 import ItemEditor from './item/Editor.jsx'
 
-let getEditor = (selectedParticipantId, selectedItemId) => {
-	if (selectedParticipantId != null) {
-		return (<ParticipantEditor participantId={selectedParticipantId} />);
-	} else if (selectedItemId != null) {
+let getEditor = (selectedItemId) => {
+	if (selectedItemId != null) {
 		return (<ItemEditor itemId={selectedItemId} />);
 	} else {
 		return null;
 	}
 };
 
-let Root = ({ selectedParticipantId, selectedItemId }) => {
-	let editor = getEditor(selectedParticipantId, selectedItemId);
+let Root = ({ selectedItemId }) => {
+	let editor = getEditor(selectedItemId);
 
 	return (
 		<div className='container'>
@@ -29,7 +26,6 @@ let Root = ({ selectedParticipantId, selectedItemId }) => {
 };
 
 let mapStateToProps = state => ({
-	selectedParticipantId: state.ui.selectedParticipantId,
 	selectedItemId: state.ui.selectedItemId
 });
 
