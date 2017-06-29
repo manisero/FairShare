@@ -22,9 +22,7 @@ let eventDataCreators = ({
 	itemEditCancelled: itemId => ({ itemId }),
 	itemDeleteStarted: itemId => ({ itemId }),
 	itemDeleteSubmitted: itemId => ({ itemId }),
-	itemDeleteCancelled: itemId => ({ itemId }),
-	// Obsolete:
-	itemEdited: (itemId, updateCommand) => ({ itemId, updateCommand })
+	itemDeleteCancelled: itemId => ({ itemId })
 });
 
 let subscribe = (events, store) => {
@@ -108,10 +106,6 @@ let subscribe = (events, store) => {
 
 	events.itemDeleteCancelled.stream
 		.subscribe(e => store.actions.deleteEntity_cancelFocused(EntityType.item, e));
-
-	// Obsolete:
-	events.itemEdited.stream
-		.subscribe(e => store.actions.updateItem(e.data.itemId, e.data.updateCommand, e));
 
 };
 

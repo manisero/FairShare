@@ -80,7 +80,6 @@ export default {
 				mode: null
 			},
 			edit: { }
-		},
-		selectedItemId: null
+		}
 	}
 };

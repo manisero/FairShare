@@ -12,11 +12,7 @@ let actions = createActions({
     editEntity_cancelFocused: entity => ({ entity }),
     deleteEntity_start: (entity, id) => ({ entity, id }),
     deleteEntity_submitFocused: entity => ({ entity }),
-    deleteEntity_cancelFocused: entity => ({ entity }), 
-    // Item:
-    selectItem: itemId => ({ itemId }),
-    addItem: itemId => ({ itemId }),
-    updateItem: (itemId, updateCommand) => ({ itemId, updateCommand })
+    deleteEntity_cancelFocused: entity => ({ entity })
 });
 
 let reducer = (state, action) => {
@@ -51,16 +47,6 @@ let reducer = (state, action) => {
 
     case actions.deleteEntity_cancelFocused.type:
         return stateOperations.deleteEntity.cancelFocused(action.data.entity, state);
-
-    // Item:
-    case actions.selectItem.type:
-        return stateOperations.selectItem(action.data.itemId, state);
-    
-    case actions.addItem.type:
-        return stateOperations.addItem(action.data.itemId, state);
-    
-    case actions.updateItem.type:
-        return stateOperations.updateItem(action.data.itemId, action.data.updateCommand, state);
 
     default:
         return state;

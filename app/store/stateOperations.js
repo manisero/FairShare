@@ -90,24 +90,8 @@ let stateOperations = {
 
         cancelFocused: (entity, state) =>
             update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } })
-    },
-
-    // Item:
-    selectItem: (itemId, state) =>
-        update(state, { ui: { selectedItemId: { $set: itemId } } }),
+    }
     
-    addItem: (itemId, state) =>
-        update(state, { data: { item: {
-            lastId: { $set: itemId },
-            ids: { $push: [itemId] },
-            items: { [itemId]: { $set: {
-                name: '',
-                price: 0
-            } } }
-        } } }),
-    
-    updateItem: (itemId, updateCommand, state) =>
-        update(state, { data: { item: { items: { [itemId]: updateCommand } } } }),
 };
 
 export default stateOperations;
