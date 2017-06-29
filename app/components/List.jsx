@@ -31,7 +31,9 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
     );
 };
 
-let participantListMappings = {
+// Participant:
+
+let participantMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
 	    children: state.data.participant.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
@@ -43,13 +45,15 @@ let participantListMappings = {
     })
 };
 
-let ParticipantList = connect(participantListMappings.mapStateToProps, participantListMappings.mapEventsToProps)(List);
+let ParticipantList = connect(participantMappings.mapStateToProps, participantMappings.mapEventsToProps)(List);
 
-let itemListMappings = {
+// Item:
+
+let itemMappings = {
     mapStateToProps: state => ({
         title: 'Items',
 	    children: state.data.item.ids.map(id => (<ItemTile itemKey={id} itemId={id} />)),
-        selectedItemKey: state.ui.selectedItemId
+        selectedItemKey: state.ui.item.focus.itemId
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.itemSelected(itemId),
@@ -57,6 +61,6 @@ let itemListMappings = {
     })
 };
 
-let ItemList = connect(itemListMappings.mapStateToProps, itemListMappings.mapEventsToProps)(List);
+let ItemList = connect(itemMappings.mapStateToProps, itemMappings.mapEventsToProps)(List);
 
 export { ParticipantList, ItemList };
