@@ -5,8 +5,8 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
 let ItemEditor = ({ item, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox value={item.name} label='Name' onChange={e => onNameChange(e.target.value)} />
-		<NumberBox value={item.price} label='Price' onChange={e => onPriceChange(e.target.value)} />
+		<TextBox value={item.name} label='Name' onChange={x => onNameChange(x)} />
+		<NumberBox value={item.price} label='Price' onChange={x => onPriceChange(x)} />
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick}>Submit</Button>
