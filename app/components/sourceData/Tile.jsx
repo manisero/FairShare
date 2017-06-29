@@ -6,23 +6,31 @@ import ParticipantDetails from './ParticipantDetails.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
 import { ParticipantDeletor } from './Deletor.jsx'
 
-let ParticipantTile = ({ participantId, focusMode }) => {
+let Tile = ({ focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory }) => {
 	switch (focusMode) {
 	case FocusMode.noFocus:
-		return <ParticipantShowcase participantId={participantId} />;
+		return showcaseFactory();
 	case FocusMode.selected:
-		return <ParticipantDetails participantId={participantId} />;
+		return detailsFactory();
 	case FocusMode.edited:
-		return <ParticipantEditor participantId={participantId} />;
+		return editorFactory();
 	case FocusMode.deleted:
-		return <ParticipantDeletor participantId={participantId} />;
+		return deletorFactory();
 	default:
 		return null;
 	}
 };
 
-let mapStateToProps = (state, { participantId }) => ({
-	focusMode: state.ui.participant.focus.itemId === participantId ? state.ui.participant.focus.mode : FocusMode.noFocus 
+// Participant
+
+let participantMapStateToProps = (state, { participantId }) => ({
+	focusMode: state.ui.participant.focus.itemId === participantId ? state.ui.participant.focus.mode : FocusMode.noFocus,
+	showcaseFactory: () => <ParticipantShowcase participantId={participantId} />,
+	detailsFactory: () => <ParticipantDetails participantId={participantId} />,
+	editorFactory: () => <ParticipantEditor participantId={participantId} />,
+	deletorFactory: () => <ParticipantDeletor participantId={participantId} />
 });
 
-export default connect(mapStateToProps)(ParticipantTile);
+let ParticipantTile = connect(participantMapStateToProps)(Tile); 
+
+export { ParticipantTile };
