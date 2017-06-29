@@ -16,6 +16,9 @@ let stateOperations = {
     selectEntity: (entity, id, state) =>
         update(state, { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.selected) } } }),
     
+    deselectEntity: (entity, state) =>
+        update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } }),
+
     addEntity: (entity, id, data, state) =>
         update(state, { data: { [entity]: {
             lastId: { $set: id },

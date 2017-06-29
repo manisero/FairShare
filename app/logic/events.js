@@ -3,6 +3,7 @@ import { EntityType } from 'model'
 let eventDataCreators = ({
 	// Participant:
     participantSelected: participantId => ({ participantId }),
+	participantDeselected: () => ({}),
 	participantAdded: () => ({}),
 	participantEditStarted: participantId => ({ participantId }),
 	participantEditUpdated: (participantId, updateCommand) => ({ participantId, updateCommand }),
@@ -22,6 +23,9 @@ let subscribe = (events, store) => {
 	// Participant:
 	events.participantSelected.stream
 		.subscribe(e => store.actions.selectEntity(EntityType.participant, e.data.participantId, e));
+	
+	events.participantDeselected.stream
+		.subscribe(e => store.actions.deselectEntity(EntityType.participant, e));
 
 	events.participantAdded.stream
 		.subscribe(e => {

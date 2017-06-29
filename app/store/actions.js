@@ -4,6 +4,7 @@ import stateOperations from './stateOperations'
 
 let actions = createActions({
     selectEntity: (entity, id) => ({ entity, id }),
+    deselectEntity: entity => ({ entity }),
     addEntity: (entity, id, data) => ({ entity, id, data }),
     editEntity_start: (entity, id) => ({ entity, id }),
     editEntity_updateFocused: (entity, updateCommand) => ({ entity, updateCommand }),
@@ -23,6 +24,9 @@ let reducer = (state, action) => {
 
     case actions.selectEntity.type:
         return stateOperations.selectEntity(action.data.entity, action.data.id, state);
+    
+    case actions.deselectEntity.type:
+        return stateOperations.deselectEntity(action.data.entity, state);
     
     case actions.addEntity.type:
         return stateOperations.addEntity(action.data.entity, action.data.id, action.data.data, state);
