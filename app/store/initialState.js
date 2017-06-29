@@ -69,6 +69,7 @@ export default {
 			},
 			edit: {
 				[participant1Id]: {
+					participantId: participant1Id,
 					name: participant1Name + 'a',
 					contribution: participant1Contribution + 10
 				}
