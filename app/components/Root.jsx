@@ -1,5 +1,5 @@
 import React from 'react'
-import { ParticipantList, ItemList } from './List.jsx'
+import { ParticipantList, ItemList } from './sourceData/List.jsx'
 
 let Root = () => (
 	<div className='container'>

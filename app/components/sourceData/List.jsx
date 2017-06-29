@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { Right } from 'compUtils'
 import { Button } from 'inputs'
-import { ParticipantTile, ItemTile } from './sourceData/Tile.jsx'
+import { ParticipantTile, ItemTile } from './Tile.jsx'
 
 let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
     let items = children.map(child => {
