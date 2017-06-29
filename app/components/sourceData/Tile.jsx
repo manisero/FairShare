@@ -1,10 +1,13 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { FocusMode } from 'model'
+import ItemShowcase from './ItemShowcase.jsx'
+import ItemDetails from './ItemDetails.jsx'
+import ItemEditor from './ItemEditor.jsx'
 import ParticipantShowcase from './ParticipantShowcase.jsx'
 import ParticipantDetails from './ParticipantDetails.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
-import { ParticipantDeletor } from './Deletor.jsx'
+import { ParticipantDeletor, ItemDeletor } from './Deletor.jsx'
 
 let Tile = ({ focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory }) => {
 	switch (focusMode) {
@@ -33,4 +36,16 @@ let participantMapStateToProps = (state, { participantId }) => ({
 
 let ParticipantTile = connect(participantMapStateToProps)(Tile); 
 
-export { ParticipantTile };
+// Item
+
+let itemMapStateToProps = (state, { itemId }) => ({
+	focusMode: state.ui.item.focus.itemId === itemId ? state.ui.item.focus.mode : FocusMode.noFocus,
+	showcaseFactory: () => <ItemShowcase itemId={itemId} />,
+	detailsFactory: () => <ItemDetails itemId={itemId} />,
+	editorFactory: () => <ItemEditor itemId={itemId} />,
+	deletorFactory: () => <ItemDeletor itemId={itemId} />
+});
+
+let ItemTile = connect(itemMapStateToProps)(Tile); 
+
+export { ParticipantTile, ItemTile };
