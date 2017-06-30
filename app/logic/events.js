@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { EntityType } from 'model'
 
 let eventDataCreators = ({
@@ -50,22 +51,22 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.editEntity_start(EntityType.participant, e.data.participantId, e));
 	
 	events.participantEditUpdated.stream
-		.subscribe(e => store.actions.editEntity_updateFocused(EntityType.participant, e.data.updateCommand, e));
-	
-	events.participantEditSubmitted.stream
 		.subscribe(e => {
 			let state = store.getState();
 			let participantId = state.ui.participant.focus.itemId;
 			let participant = state.ui.participant.edit[participantId];
+			let newParticipant = update(participant, e.data.updateCommand);
+			let validationError = validateParticipant(newParticipant);
 
-			let validationError = validateParticipant(participant);
+			store.actions.editEntity_updateFocused(EntityType.participant, newParticipant, e);
 
-			if (validationError == null) {
-				store.actions.editEntity_submitFocused(EntityType.participant, e);
-			} else {
+			if (validationError != null) {
 				console.log(validationError);
-			};
+			}
 		});
+	
+	events.participantEditSubmitted.stream
+		.subscribe(e => store.actions.editEntity_submitFocused(EntityType.participant, e));
 
 	events.participantEditCancelled.stream
 		.subscribe(e => store.actions.editEntity_cancelFocused(EntityType.participant, e));
@@ -102,7 +103,14 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.editEntity_start(EntityType.item, e.data.itemId, e));
 	
 	events.itemEditUpdated.stream
-		.subscribe(e => store.actions.editEntity_updateFocused(EntityType.item, e.data.updateCommand, e));
+		.subscribe(e => {
+			let state = store.getState();
+			let itemId = state.ui.item.focus.itemId;
+			let item = state.ui.item.edit[itemId];
+			let newItem = update(item, e.data.updateCommand);
+
+			store.actions.editEntity_updateFocused(EntityType.item, newItem, e);
+		});
 	
 	events.itemEditSubmitted.stream
 		.subscribe(e => store.actions.editEntity_submitFocused(EntityType.item, e));

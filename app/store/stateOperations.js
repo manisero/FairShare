@@ -39,10 +39,10 @@ let stateOperations = {
             return update(state, command);
         },
 
-        updateFocused: (entity, updateCommand, state) => {
+        updateFocused: (entity, newData, state) => {
             let id = state.ui[entity].focus.itemId;
 
-            return update(state, { ui: { [entity]: { edit: { [id]: updateCommand } } } });
+            return update(state, { ui: { [entity]: { edit: { [id]: { $set: newData } } } } });
         },
 
         submitFocused: (entity, state) => {
