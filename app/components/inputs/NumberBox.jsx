@@ -6,11 +6,22 @@ let getNewValue = e => {
 	return !isNaN(value) ? value : 0;
 }
 
-let NumberBox = props => (
-	<div className='form-group'>
-		<label>{props.label}</label>
-		<input type='number' placeholder={props.label} className='form-control' {...props} onChange={e => props.onChange(getNewValue(e))} />
-	</div>
-);
+let NumberBox = props => {
+	let rootClass = props.errorMessage == null
+		? 'form-group'
+		: 'form-group has-error';
+	
+	let error = props.errorMessage == null
+		? null
+		: <span className='help-block'>{props.errorMessage}</span>;
+
+	return (
+		<div className={rootClass}>
+			<label className='control-label'>{props.label}</label>
+			<input type='number' value={props.value} placeholder={props.label} className='form-control' onChange={e => props.onChange(getNewValue(e))} />
+			{error}
+		</div>
+	);
+};
 
 export default NumberBox;
