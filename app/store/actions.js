@@ -5,9 +5,9 @@ import stateOperations from './stateOperations'
 let actions = createActions({
     selectEntity: (entity, id) => ({ entity, id }),
     deselectEntity: entity => ({ entity }),
-    addEntity: (entity, id, newData) => ({ entity, id, newData }),
+    addEntity: (entity, id, data) => ({ entity, id, data }),
     editEntity_start: (entity, id) => ({ entity, id }),
-    editEntity_updateFocused: (entity, data) => ({ entity, data }),
+    editEntity_updateFocused: (entity, newData) => ({ entity, newData }),
     editEntity_submitFocused: entity => ({ entity }),
     editEntity_cancelFocused: entity => ({ entity }),
     deleteEntity_start: (entity, id) => ({ entity, id }),
@@ -31,7 +31,7 @@ let reducer = (state, action) => {
         return stateOperations.editEntity.start(action.data.entity, action.data.id, state);
     
     case actions.editEntity_updateFocused.type:
-        return stateOperations.editEntity.updateFocused(action.data.entity, action.data.data, state);
+        return stateOperations.editEntity.updateFocused(action.data.entity, action.data.newData, state);
     
     case actions.editEntity_submitFocused.type:
         return stateOperations.editEntity.submitFocused(action.data.entity, state);
