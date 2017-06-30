@@ -53,7 +53,19 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.editEntity_updateFocused(EntityType.participant, e.data.updateCommand, e));
 	
 	events.participantEditSubmitted.stream
-		.subscribe(e => store.actions.editEntity_submitFocused(EntityType.participant, e));
+		.subscribe(e => {
+			let state = store.getState();
+			let participantId = state.ui.participant.focus.itemId;
+			let participant = state.ui.participant.edit[participantId];
+
+			let validationError = validateParticipant(participant);
+
+			if (validationError == null) {
+				store.actions.editEntity_submitFocused(EntityType.participant, e);
+			} else {
+				console.log(validationError);
+			};
+		});
 
 	events.participantEditCancelled.stream
 		.subscribe(e => store.actions.editEntity_cancelFocused(EntityType.participant, e));
@@ -108,5 +120,23 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.deleteEntity_cancelFocused(EntityType.item, e));
 
 };
+
+let validateParticipant = participant => {
+	let invalid = false;
+	let error = {};
+
+	if (participant.name == null || participant.name == 0) {
+		invalid = true;
+		error.name = 'Name cannot be empty.'
+	}
+
+	if (participant.contribution != null && participant.contribution < 0) {
+		invalid = true;
+		error.contribution = 'Contribution cannot be negative.'
+	}
+
+	return invalid ? error : null;
+};
+
 
 export { eventDataCreators, subscribe };
