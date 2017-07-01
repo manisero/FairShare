@@ -20,6 +20,4 @@ let createActionCreator = (dataCreator, actionType) => {
 
 let createActions = actionDataCreators => mapObject(actionDataCreators, createActionCreator);
 
-let createActionDispatchers = (actions, dispatch) => mapObject(actions, action => (...args) => dispatch(action.apply(null, args)));
-
-export { createActions, createActionDispatchers };
+export { createActions };

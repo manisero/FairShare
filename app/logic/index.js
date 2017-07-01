@@ -1,4 +1,4 @@
-import createEvents from 'framework/logic'
+import { createEvents } from 'framework/logic'
 import { eventDataCreators, subscribe } from './events'
 
 let initLogic = store => {

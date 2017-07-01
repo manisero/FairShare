@@ -1,5 +1,6 @@
 import update from 'immutability-helper'
 import { EntityType, entityConstructors } from 'model'
+import { actions } from 'actions'
 import validators from './validators'
 
 let eventDataCreators = ({
@@ -18,10 +19,10 @@ let eventDataCreators = ({
 let subscribe = (events, store) => {
 	
 	events.entitySelected.stream
-		.subscribe(e => store.actions.selectEntity(e.data.entity, e.data.id, e));
+		.subscribe(e => store.dispatch(actions.selectEntity(e.data.entity, e.data.id, e)));
 	
 	events.entityDeselected.stream
-		.subscribe(e => store.actions.deselectEntity(e.data.entity, e));
+		.subscribe(e => store.dispatch(actions.deselectEntity(e.data.entity, e)));
 
 	events.entityAdded.stream
 		.subscribe(e => {
@@ -29,12 +30,12 @@ let subscribe = (events, store) => {
 			let id = store.getState().data[entity].lastId + 1;
 			let item = entityConstructors[entity]();
 
-			store.actions.addEntity(entity, id, item, e);
-			store.actions.editEntity_start(entity, id, e);
+			store.dispatch(actions.addEntity(entity, id, item, e));
+			store.dispatch(actions.editEntity_start(entity, id, e));
 		});
 	
 	events.entityEdit_Started.stream
-		.subscribe(e => store.actions.editEntity_start(e.data.entity, e.data.id, e));
+		.subscribe(e => store.dispatch(actions.editEntity_start(e.data.entity, e.data.id, e)));
 	
 	events.entityEdit_Updated.stream
 		.subscribe(e => {
@@ -44,7 +45,7 @@ let subscribe = (events, store) => {
 			let item = state.ui[entity].edit[id];
 			let newItem = update(item, e.data.updateCommand);
 			
-			store.actions.editEntity_update(entity, id, newItem, e);
+			store.dispatch(actions.editEntity_update(entity, id, newItem, e));
 
 			if (validators[entity] != null) {
 				let validationError = validators[entity](newItem, state);
@@ -56,19 +57,19 @@ let subscribe = (events, store) => {
 		});
 	
 	events.entityEdit_Submitted.stream
-		.subscribe(e => store.actions.editEntity_submitFocused(e.data.entity, e));
+		.subscribe(e => store.dispatch(actions.editEntity_submitFocused(e.data.entity, e)));
 
 	events.entityEdit_Cancelled.stream
-		.subscribe(e => store.actions.editEntity_cancelFocused(e.data.entity, e));
+		.subscribe(e => store.dispatch(actions.editEntity_cancelFocused(e.data.entity, e)));
 	
 	events.entityDelete_Started.stream
-		.subscribe(e => store.actions.deleteEntity_start(e.data.entity, e.data.id, e));
+		.subscribe(e => store.dispatch(actions.deleteEntity_start(e.data.entity, e.data.id, e)));
 	
 	events.entityDelete_Submitted.stream
-		.subscribe(e => store.actions.deleteEntity_submitFocused(e.data.entity, e));
+		.subscribe(e => store.dispatch(actions.deleteEntity_submitFocused(e.data.entity, e)));
 
 	events.entityDelete_Cancelled.stream
-		.subscribe(e => store.actions.deleteEntity_cancelFocused(e.data.entity, e));
+		.subscribe(e => store.dispatch(actions.deleteEntity_cancelFocused(e.data.entity, e)));
 
 };
 

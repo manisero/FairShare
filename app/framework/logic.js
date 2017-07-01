@@ -18,4 +18,4 @@ let createEventDispatcher = (dataCreator, eventType) => {
 
 let createEvents = eventDataCreators => mapObject(eventDataCreators, createEventDispatcher);
 
-export default createEvents;
+export { createEvents };
