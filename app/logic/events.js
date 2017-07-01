@@ -1,5 +1,6 @@
 import update from 'immutability-helper'
-import { EntityType } from 'model'
+import { EntityType, entityConstructors } from 'model'
+import validators from './validators'
 
 let eventDataCreators = ({
     entitySelected: (entity, id) => ({ entity,id }),
@@ -47,10 +48,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let entity = e.data.entity;
 			let id = store.getState().data[entity].lastId + 1;
-			let item = { // TODO: Make generic
-				name: '',
-				contribution: 0
-			};
+			let item = entityConstructors[entity]();
 
 			store.actions.addEntity(entity, id, item, e);
 			store.actions.editEntity_start(entity, id, e);
@@ -61,16 +59,20 @@ let subscribe = (events, store) => {
 	
 	events.entityEdit_Updated.stream
 		.subscribe(e => {
+			let state = store.getState();
 			let entity = e.data.entity;
 			let id = e.data.id;
-			let item = store.getState().ui[entity].edit[id];
+			let item = state.ui[entity].edit[id];
 			let newItem = update(item, e.data.updateCommand);
-			let validationError = validateParticipant(newItem); // TODO: Make generic
-
+			
 			store.actions.editEntity_update(entity, id, newItem, e);
 
-			if (validationError != null) {
-				console.log(validationError);
+			if (validators[entity] != null) {
+				let validationError = validators[entity](newItem, state);
+
+				if (validationError != null) {
+					console.log(validationError);
+				}
 			}
 		});
 	
@@ -116,7 +118,7 @@ let subscribe = (events, store) => {
 			let participantId = e.data.participantId;
 			let participant = store.getState().ui.participant.edit[participantId];
 			let newParticipant = update(participant, e.data.updateCommand);
-			let validationError = validateParticipant(newParticipant);
+			let validationError = validators[EntityType.participant](newParticipant);
 
 			store.actions.editEntity_update(EntityType.participant, participantId, newParticipant, e);
 
@@ -187,23 +189,5 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.actions.deleteEntity_cancelFocused(EntityType.item, e));
 
 };
-
-let validateParticipant = participant => {
-	let invalid = false;
-	let error = {};
-
-	if (participant.name == null || participant.name == 0) {
-		invalid = true;
-		error.name = 'Name cannot be empty.'
-	}
-
-	if (participant.contribution != null && participant.contribution < 0) {
-		invalid = true;
-		error.contribution = 'Contribution cannot be negative.'
-	}
-
-	return invalid ? error : null;
-};
-
 
 export { eventDataCreators, subscribe };
