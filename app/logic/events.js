@@ -19,10 +19,10 @@ let eventDataCreators = ({
 let subscribe = (events, store) => {
 	
 	events.entitySelected.stream
-		.subscribe(e => store.dispatch(actions.selectEntity(e.data.entity, e.data.id, e)));
+		.subscribe(e => store.dispatch(actions.setFocus(e.data.entity, e.data.id, FocusMode.selected, e)));
 	
 	events.entityDeselected.stream
-		.subscribe(e => store.dispatch(actions.deselectEntity(e.data.entity, e)));
+		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
 	events.entityAdded.stream
 		.subscribe(e => {
@@ -72,7 +72,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.dispatch(actions.deleteEntity_submitFocused(e.data.entity, e)));
 
 	events.entityDelete_Cancelled.stream
-		.subscribe(e => store.dispatch(actions.deleteEntity_cancelFocused(e.data.entity, e)));
+		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
 };
 

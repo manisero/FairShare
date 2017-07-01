@@ -9,20 +9,20 @@ let actions = createActions({
     new_updateEntity: (entity, id, data) => ({ entity, id, data }),
     new_deleteEntity: (entity, id) => ({ entity, id }),
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
-    new_clearFocus: entity => ({ entity }),
+    clearFocus: entity => ({ entity }),
     setEdit: (entity, id, data) => ({ entity, id, data }),
     new_clearEdit: (entity, id) => ({ entity, id }),
     // Obsolete:
-    selectEntity: (entity, id) => ({ entity, id }),
-    deselectEntity: entity => ({ entity }),
-    //addEntity: (entity, id, data) => ({ entity, id, data }),
+    selectEntity: (entity, id) => ({ entity, id }), // remove
+    deselectEntity: entity => ({ entity }), // remove
+    //addEntity: (entity, id, data) => ({ entity, id, data }), // remove
     editEntity_start: (entity, id) => ({ entity, id }),
     editEntity_update: (entity, id, newData) => ({ entity, id, newData }),
     editEntity_submitFocused: entity => ({ entity }),
     editEntity_cancelFocused: entity => ({ entity }),
     deleteEntity_start: (entity, id) => ({ entity, id }),
     deleteEntity_submitFocused: entity => ({ entity }),
-    deleteEntity_cancelFocused: entity => ({ entity })
+    deleteEntity_cancelFocused: entity => ({ entity }) // remove
 });
 
 let reducer = (state, action) => {
