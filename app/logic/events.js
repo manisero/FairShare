@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import { EntityType, entityConstructors } from 'model'
+import { EntityType, entityConstructors, FocusMode } from 'model'
 import { actions } from 'actions'
 import validators from './validators'
 
@@ -28,11 +28,12 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let entity = e.data.entity;
 			let id = store.getState().data[entity].lastId + 1;
-			let item = entityConstructors[entity]();
+			let data = entityConstructors[entity]();
 
 			store.dispatchBatch(
-				actions.addEntity(entity, id, item, e),
-				actions.editEntity_start(entity, id, e)
+				actions.addEntity(entity, id, data, e),
+				actions.setEdit(entity, id, data, e),
+				actions.setFocus(entity, id, FocusMode.edited, e)
 			);
 		});
 	

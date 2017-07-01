@@ -5,17 +5,17 @@ import { stateOperations, stateCommands } from './stateOperations'
 
 let actions = createActions({
     BATCH: actions => ({ actions }),
-    new_addEntity: (entity, id, data) => {(entity, id, data)},
-    new_updateEntity: (entity, id, data) => {(entity, id, data)},
-    new_deleteEntity: (entity, id) => {(entity, id)},
-    new_setFocus: (entity, id, mode) => {(entity, id, mode)},
-    new_clearFocus: entity => {(entity)},
-    new_setEdit: (entity, id, data) => {(entity, id, data)},
-    new_clearEdit: (entity, id) => {(entity, id)},
+    addEntity: (entity, id, data) => ({ entity, id, data }),
+    new_updateEntity: (entity, id, data) => ({ entity, id, data }),
+    new_deleteEntity: (entity, id) => ({ entity, id }),
+    setFocus: (entity, id, mode) => ({ entity, id, mode }),
+    new_clearFocus: entity => ({ entity }),
+    setEdit: (entity, id, data) => ({ entity, id, data }),
+    new_clearEdit: (entity, id) => ({ entity, id }),
     // Obsolete:
     selectEntity: (entity, id) => ({ entity, id }),
     deselectEntity: entity => ({ entity }),
-    addEntity: (entity, id, data) => ({ entity, id, data }),
+    //addEntity: (entity, id, data) => ({ entity, id, data }),
     editEntity_start: (entity, id) => ({ entity, id }),
     editEntity_update: (entity, id, newData) => ({ entity, id, newData }),
     editEntity_submitFocused: entity => ({ entity }),
@@ -29,7 +29,8 @@ let reducer = (state, action) => {
     let command = stateCommands[action.type];
 
     if (command != null) {
-        return update(state, Object.values(action.data));
+        let commandArgs = Object.values(action.data);
+        return update(state, command(...commandArgs));
     }
 
     switch (action.type) {
