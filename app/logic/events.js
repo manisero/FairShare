@@ -30,8 +30,10 @@ let subscribe = (events, store) => {
 			let id = store.getState().data[entity].lastId + 1;
 			let item = entityConstructors[entity]();
 
-			store.dispatch(actions.addEntity(entity, id, item, e));
-			store.dispatch(actions.editEntity_start(entity, id, e));
+			store.dispatchBatch(
+				actions.addEntity(entity, id, item, e),
+				actions.editEntity_start(entity, id, e)
+			);
 		});
 	
 	events.entityEdit_Started.stream

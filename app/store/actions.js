@@ -3,6 +3,7 @@ import { EntityType } from 'model'
 import stateOperations from './stateOperations'
 
 let actions = createActions({
+    BATCH: actions => ({ actions }),
     selectEntity: (entity, id) => ({ entity, id }),
     deselectEntity: entity => ({ entity }),
     addEntity: (entity, id, data) => ({ entity, id, data }),
@@ -53,4 +54,12 @@ let reducer = (state, action) => {
     }
 };
 
-export { actions, reducer };
+let reducerWithBatchSupport = (state, action) => {
+    if (action.type == actions.BATCH.type) {
+        return action.data.actions.reduce(reducer, state);
+    } else {
+        return reducer(state, action);
+    };
+};
+
+export { actions, reducerWithBatchSupport as reducer };

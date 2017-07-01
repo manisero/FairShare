@@ -8,6 +8,7 @@ import initLogic from './logic/'
 import Root from './components/Root.jsx'
 
 let store = createStore();
+store.subscribe(() => console.log('state changed'));
 let events = initLogic(store);
 
 enableEventsInDispatchMapping(events, store);
