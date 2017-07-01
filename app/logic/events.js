@@ -52,13 +52,12 @@ let subscribe = (events, store) => {
 	
 	events.participantEditUpdated.stream
 		.subscribe(e => {
-			let state = store.getState();
-			let participantId = state.ui.participant.focus.itemId;
-			let participant = state.ui.participant.edit[participantId];
+			let participantId = e.data.participantId;
+			let participant = store.getState().ui.participant.edit[participantId];
 			let newParticipant = update(participant, e.data.updateCommand);
 			let validationError = validateParticipant(newParticipant);
 
-			store.actions.editEntity_updateFocused(EntityType.participant, newParticipant, e);
+			store.actions.editEntity_update(EntityType.participant, participantId, newParticipant, e);
 
 			if (validationError != null) {
 				console.log(validationError);
@@ -104,12 +103,11 @@ let subscribe = (events, store) => {
 	
 	events.itemEditUpdated.stream
 		.subscribe(e => {
-			let state = store.getState();
-			let itemId = state.ui.item.focus.itemId;
-			let item = state.ui.item.edit[itemId];
+			let itemId = e.data.itemId;
+			let item = store.getState().ui.item.edit[itemId];
 			let newItem = update(item, e.data.updateCommand);
 
-			store.actions.editEntity_updateFocused(EntityType.item, newItem, e);
+			store.actions.editEntity_update(EntityType.item, itemId, newItem, e);
 		});
 	
 	events.itemEditSubmitted.stream

@@ -39,9 +39,7 @@ let stateOperations = {
             return update(state, command);
         },
 
-        updateFocused: (entity, newData, state) => {
-            let id = state.ui[entity].focus.itemId;
-
+        update: (entity, id, newData, state) => {
             return update(state, { ui: { [entity]: { edit: { [id]: { $set: newData } } } } });
         },
 
