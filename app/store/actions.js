@@ -1,9 +1,18 @@
+import update from 'immutability-helper'
 import { createActions } from 'framework/store'
 import { EntityType } from 'model'
-import stateOperations from './stateOperations'
+import { stateOperations, stateCommands } from './stateOperations'
 
 let actions = createActions({
     BATCH: actions => ({ actions }),
+    new_addEntity: (entity, id, data) => {(entity, id, data)},
+    new_updateEntity: (entity, id, data) => {(entity, id, data)},
+    new_deleteEntity: (entity, id) => {(entity, id)},
+    new_setFocus: (entity, id, mode) => {(entity, id, mode)},
+    new_clearFocus: entity => {(entity)},
+    new_setEdit: (entity, id, data) => {(entity, id, data)},
+    new_clearEdit: (entity, id) => {(entity, id)},
+    // Obsolete:
     selectEntity: (entity, id) => ({ entity, id }),
     deselectEntity: entity => ({ entity }),
     addEntity: (entity, id, data) => ({ entity, id, data }),
@@ -17,6 +26,12 @@ let actions = createActions({
 });
 
 let reducer = (state, action) => {
+    let command = stateCommands[action.type];
+
+    if (command != null) {
+        return update(state, Object.values(action.data));
+    }
+
     switch (action.type) {
 
     case actions.selectEntity.type:

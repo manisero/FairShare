@@ -11,6 +11,47 @@ let helpers = {
     })
 };
 
+let stateCommands = {
+
+    // data
+
+    addEntity: (entity, id, data) =>
+        ({ data: { [entity]: {
+            lastId: { $set: id },
+            ids: { $push: [id] },
+            items: { [id]: { $set: data } }
+        } } }),
+    
+    updateEntity: (entity, id, data) =>
+        ({ data: { [entity]: { items: { [id]: { $set: data } } } } }),
+
+    deleteEntity: (entity, id) => {
+        let idIndex = state.data[entity].ids.indexOf(id);
+
+        return update(state, {
+            data: { [entity]: {
+                ids: { $splice: [[ idIndex, 1 ]] },
+                items: { $unset: [id] }
+            } }
+        });
+    },
+
+    // ui
+
+    setFocus: (entity, id, mode) =>
+        ({ ui: { [entity]: { focus: helpers.setFocus(id, mode) } } }),
+    
+    clearFocus: entity =>
+        ({ ui: { [entity]: { focus: helpers.setFocus(null, null) } } }),
+
+    setEdit: (entity, id, data) =>
+        ({ ui: { [entity]: { edit: { [id]: { $set: data } } } } }),
+    
+    clearEdit: (entity, id) =>
+        ({ ui: { [entity]: { edit: { $unset: [id] } } } })
+    
+};
+
 let stateOperations = {
 
     selectEntity: (entity, id, state) =>
@@ -92,4 +133,4 @@ let stateOperations = {
     
 };
 
-export default stateOperations;
+export { stateOperations, stateCommands };
