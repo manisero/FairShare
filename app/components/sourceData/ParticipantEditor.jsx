@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
@@ -21,10 +22,10 @@ let mapStateToProps = (state, { participantId }) => ({
 });
 
 let mapEventsToProps = (events, { participantId }) => ({
-	onNameChange: name => events.participantEditUpdated(participantId, { name: { $set: name } }),
-	onContributionChange: contribution => events.participantEditUpdated(participantId, { contribution: { $set: contribution } }),
-	onSubmitClick: () => events.participantEditSubmitted(participantId),
-	onCancelClick: () => events.participantEditCancelled(participantId)
+	onNameChange: name => events.entityEdit_Updated(EntityType.participant, participantId, { name: { $set: name } }),
+	onContributionChange: contribution => events.entityEdit_Updated(EntityType.participant, participantId, { contribution: { $set: contribution } }),
+	onSubmitClick: () => events.entityEdit_Submitted(EntityType.participant, participantId),
+	onCancelClick: () => events.entityEdit_Cancelled(EntityType.participant, participantId)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantEditor);

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
@@ -53,10 +54,10 @@ let mapStateToProps = (state, { itemId }) => ({
 });
 
 let mapEventsToProps = (events, { itemId }) => ({
-	onNameChange: name => events.itemEditUpdated(itemId, { name: { $set: name } }),
-	onPriceChange: price => events.itemEditUpdated(itemId, { price: { $set: price } }),
-	onSubmitClick: () => events.itemEditSubmitted(itemId),
-	onCancelClick: () => events.itemEditCancelled(itemId)
+	onNameChange: name => events.entityEdit_Updated(EntityType.item, itemId, { name: { $set: name } }),
+	onPriceChange: price => events.entityEdit_Updated(EntityType.item, itemId, { price: { $set: price } }),
+	onSubmitClick: () => events.entityEdit_Submitted(EntityType.item, itemId),
+	onCancelClick: () => events.entityEdit_Cancelled(EntityType.item, itemId)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ItemEditor);

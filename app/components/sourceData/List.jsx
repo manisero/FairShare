@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import { Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
@@ -39,8 +40,8 @@ let participantMappings = {
         selectedItemKey: state.ui.participant.focus.itemId
     }),
     mapEventsToProps: events => ({
-        onItemSelect: participantId => events.participantSelected(participantId),
-        onAddClick: () => events.participantAdded()
+        onItemSelect: participantId => events.entitySelected(EntityType.participant, participantId),
+        onAddClick: () => events.entityAdded(EntityType.participant)
     })
 };
 
@@ -55,8 +56,8 @@ let itemMappings = {
         selectedItemKey: state.ui.item.focus.itemId
     }),
     mapEventsToProps: events => ({
-        onItemSelect: itemId => events.itemSelected(itemId),
-        onAddClick: () => events.itemAdded()
+        onItemSelect: itemId => events.entitySelected(EntityType.item, itemId),
+        onAddClick: () => events.entityAdded(EntityType.item)
     })
 };
 

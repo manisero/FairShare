@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import { Center } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
@@ -22,8 +23,8 @@ let participantMappings = {
         itemName: state.data.participant.items[participantId].name
     }),
     mapEventsToProps: (events, { participantId }) => ({
-        onDeleteClick: () => events.participantDeleteSubmitted(participantId),
-        onCancelClick: () => events.participantDeleteCancelled(participantId)
+        onDeleteClick: () => events.entityDelete_Submitted(EntityType.participant, participantId),
+        onCancelClick: () => events.entityDelete_Cancelled(EntityType.participant, participantId)
     })
 };
 
@@ -36,8 +37,8 @@ let itemMappings = {
         itemName: state.data.item.items[itemId].name
     }),
     mapEventsToProps: (events, { itemId }) => ({
-        onDeleteClick: () => events.itemDeleteSubmitted(itemId),
-        onCancelClick: () => events.itemDeleteCancelled(itemId)
+        onDeleteClick: () => events.entityDelete_Submitted(EntityType.item, itemId),
+        onCancelClick: () => events.entityDelete_Cancelled(EntityType.item, itemId)
     })
 };
 

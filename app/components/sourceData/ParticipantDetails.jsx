@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
@@ -22,9 +23,9 @@ let mapStateToProps = (state, { participantId }) => ({
 });
 
 let mapEventsToProps = (events, { participantId }) => ({
-	onEditClick: () => events.participantEditStarted(participantId),
-	onDeleteClick: () => events.participantDeleteStarted(participantId),
-	onCancelClick: () => events.participantDeselected()
+	onEditClick: () => events.entityEdit_Started(EntityType.participant, participantId),
+	onDeleteClick: () => events.entityDelete_Started(EntityType.participant, participantId),
+	onCancelClick: () => events.entityDeselected(EntityType.participant)
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipantDetails);
