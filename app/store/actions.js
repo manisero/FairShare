@@ -5,9 +5,11 @@ import { stateOperations, stateCommands } from './stateOperations'
 
 let actions = createActions({
     BATCH: actions => ({ actions }),
+    // data:
     addEntity: (entity, id, data) => ({ entity, id, data }),
     new_updateEntity: (entity, id, data) => ({ entity, id, data }),
     new_deleteEntity: (entity, id) => ({ entity, id }),
+    // ui:
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
     clearFocus: entity => ({ entity }),
     setEdit: (entity, id, data) => ({ entity, id, data }),
@@ -16,7 +18,7 @@ let actions = createActions({
     selectEntity: (entity, id) => ({ entity, id }), // remove
     deselectEntity: entity => ({ entity }), // remove
     //addEntity: (entity, id, data) => ({ entity, id, data }), // remove
-    editEntity_start: (entity, id) => ({ entity, id }),
+    editEntity_start: (entity, id) => ({ entity, id }), // remove
     editEntity_update: (entity, id, newData) => ({ entity, id, newData }),
     editEntity_submitFocused: entity => ({ entity }),
     editEntity_cancelFocused: entity => ({ entity }),

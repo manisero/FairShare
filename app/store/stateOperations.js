@@ -13,7 +13,7 @@ let helpers = {
 
 let stateCommands = {
 
-    // data
+    // data:
 
     addEntity: (entity, id, data) =>
         ({ data: { [entity]: {
@@ -36,7 +36,7 @@ let stateCommands = {
         });
     },
 
-    // ui
+    // ui:
 
     setFocus: (entity, id, mode) =>
         ({ ui: { [entity]: { focus: helpers.setFocus(id, mode) } } }),

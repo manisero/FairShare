@@ -6,7 +6,13 @@ const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVT
 
 let createStore = () => {
     let store = reduxCreateStore(reducer, initialState, reduxDevTools);
-    store.dispatchBatch = (...args) => store.dispatch(actions.BATCH(args));
+    store.dispatchBatch = actionsBatch => {
+        if (actionsBatch.length == 1) {
+            store.dispatch(actionsBatch[0]);
+        } else {
+            store.dispatch(actions.BATCH(actionsBatch));
+        }
+    };
 
     return store;
 };

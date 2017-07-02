@@ -1,4 +1,5 @@
 import update from 'immutability-helper'
+import { copyDeep} from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import { actions } from 'actions'
 import validators from './validators'
@@ -30,15 +31,29 @@ let subscribe = (events, store) => {
 			let id = store.getState().data[entity].lastId + 1;
 			let data = entityConstructors[entity]();
 
-			store.dispatchBatch(
+			store.dispatchBatch([
 				actions.addEntity(entity, id, data, e),
 				actions.setEdit(entity, id, data, e),
 				actions.setFocus(entity, id, FocusMode.edited, e)
-			);
+			]);
 		});
 	
 	events.entityEdit_Started.stream
-		.subscribe(e => store.dispatch(actions.editEntity_start(e.data.entity, e.data.id, e)));
+		.subscribe(e => {
+			let state = store.getState();
+			let entity = e.data.entity;
+			let id = e.data.id;
+			let actionsBatch = [];
+
+			if (state.ui[entity].edit[id] == null) {
+                let data = copyDeep(state.data[entity].items[id]);
+
+				actionsBatch.push(actions.setEdit(entity, id, data, e));
+            }
+
+			actionsBatch.push(actions.setFocus(entity, id, FocusMode.edited, e));
+			store.dispatchBatch(actionsBatch);
+		});
 	
 	events.entityEdit_Updated.stream
 		.subscribe(e => {
