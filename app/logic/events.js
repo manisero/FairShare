@@ -41,8 +41,7 @@ let subscribe = (events, store) => {
 	events.entityEdit_Started.stream
 		.subscribe(e => {
 			let state = store.getState();
-			let entity = e.data.entity;
-			let id = e.data.id;
+			let { entity, id } = e.data;
 			let actionsBatch = [];
 
 			if (state.ui[entity].edit[id] == null) {
@@ -58,8 +57,7 @@ let subscribe = (events, store) => {
 	events.entityEdit_Updated.stream
 		.subscribe(e => {
 			let state = store.getState();
-			let entity = e.data.entity;
-			let id = e.data.id;
+			let { entity, id } = e.data;
 			let data = state.ui[entity].edit[id];
 			let newData = update(data, e.data.updateCommand);
 			
@@ -87,7 +85,14 @@ let subscribe = (events, store) => {
 		});
 
 	events.entityEdit_Cancelled.stream
-		.subscribe(e => store.dispatch(actions.editEntity_cancelFocused(e.data.entity, e)));
+		.subscribe(e => {
+			let { entity, id } = e.data;
+
+			store.dispatchBatch([
+				actions.clearFocus(entity, e),
+				actions.clearEdit(entity, id, e)
+			]);
+		});
 	
 	events.entityDelete_Started.stream
 		.subscribe(e => store.dispatch(actions.deleteEntity_start(e.data.entity, e.data.id, e)));
