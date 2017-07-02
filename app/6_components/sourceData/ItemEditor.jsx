@@ -3,29 +3,36 @@ import { ifNull } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Right } from 'compUtils'
+import { Center, Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
-let ParticipantsEditor = ({ participantIds, participants, checkedParticipantIds, onParticipantCheckChange }) => {
+let ParticipantsEditor = ({ participantIds, participants, participatingParticipantIds, onContributionChange, onParticipatesChange }) => {
 	let rows = participantIds.map(id => {
-		let isChecked = checkedParticipantIds.includes(id);
+		let contribution = 0;
+		let participates = participatingParticipantIds.includes(id);
 
 		return (
 			<tr key={id}>
 				<td>{participants[id].name}</td>
-				<td><Checkbox checked={isChecked} onChange={val => onParticipantCheckChange(id, val)} /></td>
-				<td><Checkbox checked={isChecked} onChange={val => onParticipantCheckChange(id, val)} /></td>
+				<td>
+					<NumberBox value={contribution} noMargin onChange={val => onContributionChange(id, val)} />
+				</td>
+				<td>
+					<Center>
+						<Checkbox checked={participates} onChange={val => onParticipatesChange(id, val)} />
+					</Center>
+				</td>
 			</tr>
 		);
 	});
 
 	return (
-		<table className="table table-stripped table-condensed">
+		<table className="table table-striped table-condensed">
 			<thead>
 				<tr>
-					<th>Participants</th>
-					<th>Paid</th>
-					<th>Ate</th>
+					<th className='col-xs-6'>Participants</th>
+					<th className='col-xs-4'>Paid</th>
+					<th className='col-xs-2'>Ate</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,10 +46,10 @@ ParticipantsEditor = connect(
 	(state, { itemId }) => ({
 		participantIds: queries.entityIds(state, EntityType.participant),
 		participants: queries.entityAllData(state, EntityType.participant),
-		checkedParticipantIds: [ 1 ]
+		participatingParticipantIds: [ 1 ]
 	}),
 	(events, { itemId }) => ({
-		onParticipantCheckChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)
+		onParticipatesChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)
 	})
 )(ParticipantsEditor);
 
