@@ -20,10 +20,10 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
             <div className="panel-heading">
                 <h3 className="panel-title">{title}</h3>
             </div>
+            <div className="list-group">
+                {items}
+            </div>
             <div className="panel-body">
-                <div className="list-group">
-                    {items}
-                </div>
                 <Right>
                     <Button onClick={() => onAddClick()}>Add</Button>
                 </Right>
