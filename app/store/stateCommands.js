@@ -46,4 +46,4 @@ let stateCommands = {
     
 };
 
-export { stateCommands };
+export default stateCommands;

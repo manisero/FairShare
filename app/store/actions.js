@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import { createActions } from 'framework/store'
-import { stateCommands } from './stateOperations'
+import stateCommands from './stateCommands'
 
 let actions = createActions({
     BATCH: actions => ({ actions }),
