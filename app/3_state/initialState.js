@@ -59,6 +59,18 @@ export default {
 					price: item3Price
 				}
 			}
+		},
+		contributions: {
+			[item1Id]: {
+				participantId: participant1Id,
+				contribution: item1Price,
+				participates: true
+			},
+			[item1Id]: {
+				participantId: participant2Id,
+				contribution: 0,
+				participates: true
+			}
 		}
 	},
 	ui: {
