@@ -35,14 +35,21 @@ module.exports = {
 
   resolve: {
     alias: {
-      utils: path.resolve(__dirname, 'app/utils/'),
-      jsUtils: path.resolve(__dirname, 'app/utils/jsUtils'),
-      reactReduxUtils: path.resolve(__dirname, 'app/utils/reactReduxUtils'),
-      framework: path.resolve(__dirname, 'app/framework/'),
-      model: path.resolve(__dirname, 'app/store/model'),
-      actions: path.resolve(__dirname, 'app/store/actions'),
-      compUtils: path.resolve(__dirname, 'app/components/compUtils/'),
-      inputs: path.resolve(__dirname, 'app/components/inputs/'),
+      // utils:
+      jsUtils: path.resolve(__dirname, 'app/1_utils/jsUtils'),
+      reactReduxUtils: path.resolve(__dirname, 'app/1_utils/reactReduxUtils'),
+      // framework:
+      framework: path.resolve(__dirname, 'app/2_framework/'),
+      // store:
+      store: path.resolve(__dirname, 'app/3_store/'),
+      model: path.resolve(__dirname, 'app/3_store/model'),
+      actions: path.resolve(__dirname, 'app/3_store/actions'),
+      // logic:
+      logic: path.resolve(__dirname, 'app/4_logic/'),
+      // components:
+      components: path.resolve(__dirname, 'app/5_components/'),
+      compUtils: path.resolve(__dirname, 'app/5_components/compUtils/'),
+      inputs: path.resolve(__dirname, 'app/5_components/inputs/'),
     }
   },
 
