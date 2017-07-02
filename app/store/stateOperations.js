@@ -25,15 +25,13 @@ let stateCommands = {
     updateEntity: (entity, id, data) =>
         ({ data: { [entity]: { items: { [id]: { $set: data } } } } }),
 
-    deleteEntity: (entity, id) => {
+    deleteEntity: (entity, id, state) => {
         let idIndex = state.data[entity].ids.indexOf(id);
 
-        return update(state, {
-            data: { [entity]: {
-                ids: { $splice: [[ idIndex, 1 ]] },
-                items: { $unset: [id] }
-            } }
-        });
+        return { data: { [entity]: {
+            ids: { $splice: [[ idIndex, 1 ]] },
+            items: { $unset: [id] }
+        } } };
     },
 
     // ui:

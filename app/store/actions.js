@@ -32,7 +32,7 @@ let reducer = (state, action) => {
 
     if (command != null) {
         let commandArgs = Object.values(action.data);
-        return update(state, command(...commandArgs));
+        return update(state, command(...commandArgs, state));
     }
 
     switch (action.type) {

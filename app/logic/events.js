@@ -95,10 +95,18 @@ let subscribe = (events, store) => {
 		});
 	
 	events.entityDelete_Started.stream
-		.subscribe(e => store.dispatch(actions.deleteEntity_start(e.data.entity, e.data.id, e)));
+		.subscribe(e => store.dispatch(actions.setFocus(e.data.entity, e.data.id, FocusMode.deleted, e)));
 	
 	events.entityDelete_Submitted.stream
-		.subscribe(e => store.dispatch(actions.deleteEntity_submitFocused(e.data.entity, e)));
+		.subscribe(e => {
+			let { entity, id } = e.data;
+
+			store.dispatchBatch([
+				actions.deleteEntity(entity, id, e),
+				actions.clearFocus(entity, e),
+				actions.clearEdit(entity, id, e)
+			]);
+		});
 
 	events.entityDelete_Cancelled.stream
 		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
