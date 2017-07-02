@@ -1,13 +1,9 @@
-// Helpers:
-
 let setFocus = (itemId, mode) => ({
     itemId: { $set: itemId },
     mode: { $set: mode }
 });
 
-// Commands:
-
-let stateCommands = {
+export default {
 
     // data:
 
@@ -56,5 +52,3 @@ let stateCommands = {
         ({ ui: { [entity]: { edit: { [id]: { $unset: ['error'] } } } } })
     
 };
-
-export default stateCommands;

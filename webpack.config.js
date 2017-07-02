@@ -40,16 +40,18 @@ module.exports = {
       reactReduxUtils: path.resolve(__dirname, 'app/1_utils/reactReduxUtils'),
       // framework:
       framework: path.resolve(__dirname, 'app/2_framework/'),
+      // state:
+      state: path.resolve(__dirname, 'app/3_state/'),
+      model: path.resolve(__dirname, 'app/3_state/model'),
       // store:
-      store: path.resolve(__dirname, 'app/3_store/'),
-      model: path.resolve(__dirname, 'app/3_store/model'),
-      actions: path.resolve(__dirname, 'app/3_store/actions'),
+      store: path.resolve(__dirname, 'app/4_store/'),
+      actions: path.resolve(__dirname, 'app/4_store/actions'),
       // logic:
-      logic: path.resolve(__dirname, 'app/4_logic/'),
+      logic: path.resolve(__dirname, 'app/5_logic/'),
       // components:
-      components: path.resolve(__dirname, 'app/5_components/'),
-      compUtils: path.resolve(__dirname, 'app/5_components/compUtils/'),
-      inputs: path.resolve(__dirname, 'app/5_components/inputs/'),
+      components: path.resolve(__dirname, 'app/6_components/'),
+      compUtils: path.resolve(__dirname, 'app/6_components/compUtils/'),
+      inputs: path.resolve(__dirname, 'app/6_components/inputs/'),
     }
   },
 
