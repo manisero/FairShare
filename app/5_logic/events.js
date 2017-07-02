@@ -45,8 +45,8 @@ let subscribe = (events, store) => {
 			let { entity, id } = e.data;
 			let actionsBatch = [];
 
-			if (state.ui[entity].edit[id] == null) {
-                let data = copyDeep(state.data[entity].items[id]);
+			if (queries.edit(state, entity, id) == null) {
+                let data = copyDeep(queries.entityData(state, entity, id));
 
 				actionsBatch.push(actions.setEdit(entity, id, data, e));
             }
@@ -59,7 +59,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let state = store.getState();
 			let { entity, id } = e.data;
-			let { data, error } = state.ui[entity].edit[id];
+			let { data, error } = queries.edit(state, entity, id);
 			let actionsBatch = [];
 
 			let newData = update(data, e.data.updateCommand);
@@ -81,7 +81,7 @@ let subscribe = (events, store) => {
 	events.entityEdit_Submitted.stream
 		.subscribe(e => {
 			let { entity, id } = e.data;
-			let data = store.getState().ui[entity].edit[id].data;
+			let { data } = queries.edit(store.getState(), entity, id);
 
 			store.dispatchBatch([
 				actions.updateEntity(entity, id, data, e),
