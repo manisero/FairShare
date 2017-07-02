@@ -38,8 +38,13 @@ let stateCommands = {
     clearFocus: entity =>
         ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
 
-    setEdit: (entity, id, data) =>
-        ({ ui: { [entity]: { edit: { [id]: { $set: data } } } } }),
+    setEdit: (entity, id, data, state) => {
+        if (state.ui[entity].edit[id] == null) {
+            return { ui: { [entity]: { edit: { [id]: { $set: { data: data } } } } } };
+        } else {
+            return { ui: { [entity]: { edit: { [id]: { data: { $set: data } } } } } };
+        };
+    },
     
     clearEdit: (entity, id) =>
         ({ ui: { [entity]: { edit: { $unset: [id] } } } })

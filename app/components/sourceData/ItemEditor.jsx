@@ -50,7 +50,7 @@ let ItemEditor = ({ itemId, item, onNameChange, onPriceChange, onSubmitClick, on
 );
 
 let mapStateToProps = (state, { itemId }) => ({
-	item: state.ui.item.edit[itemId]
+	item: state.ui.item.edit[itemId].data
 });
 
 let mapEventsToProps = (events, { itemId }) => ({

@@ -58,7 +58,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let state = store.getState();
 			let { entity, id } = e.data;
-			let data = state.ui[entity].edit[id];
+			let data = state.ui[entity].edit[id].data;
 			let newData = update(data, e.data.updateCommand);
 			
 			store.dispatch(actions.setEdit(entity, id, newData, e));
@@ -75,7 +75,7 @@ let subscribe = (events, store) => {
 	events.entityEdit_Submitted.stream
 		.subscribe(e => {
 			let { entity, id } = e.data;
-			let data = store.getState().ui[entity].edit[id];
+			let data = store.getState().ui[entity].edit[id].data;
 
 			store.dispatchBatch([
 				actions.updateEntity(entity, id, data, e),
