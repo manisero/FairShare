@@ -7,13 +7,13 @@ let actions = createActions({
     BATCH: actions => ({ actions }),
     // data:
     addEntity: (entity, id, data) => ({ entity, id, data }),
-    new_updateEntity: (entity, id, data) => ({ entity, id, data }),
-    new_deleteEntity: (entity, id) => ({ entity, id }),
+    updateEntity: (entity, id, data) => ({ entity, id, data }),
+    deleteEntity: (entity, id) => ({ entity, id }),
     // ui:
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
     clearFocus: entity => ({ entity }),
     setEdit: (entity, id, data) => ({ entity, id, data }),
-    new_clearEdit: (entity, id) => ({ entity, id }),
+    clearEdit: (entity, id) => ({ entity, id }),
     // Obsolete:
     selectEntity: (entity, id) => ({ entity, id }), // remove
     deselectEntity: entity => ({ entity }), // remove

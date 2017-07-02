@@ -75,7 +75,16 @@ let subscribe = (events, store) => {
 		});
 	
 	events.entityEdit_Submitted.stream
-		.subscribe(e => store.dispatch(actions.editEntity_submitFocused(e.data.entity, e)));
+		.subscribe(e => {
+			let { entity, id } = e.data;
+			let data = store.getState().ui[entity].edit[id];
+
+			store.dispatchBatch([
+				actions.updateEntity(entity, id, data, e),
+				actions.clearFocus(entity, e),
+				actions.clearEdit(entity, id, e)
+			]);
+		});
 
 	events.entityEdit_Cancelled.stream
 		.subscribe(e => store.dispatch(actions.editEntity_cancelFocused(e.data.entity, e)));
