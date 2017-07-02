@@ -60,13 +60,13 @@ let subscribe = (events, store) => {
 			let state = store.getState();
 			let entity = e.data.entity;
 			let id = e.data.id;
-			let item = state.ui[entity].edit[id];
-			let newItem = update(item, e.data.updateCommand);
+			let data = state.ui[entity].edit[id];
+			let newData = update(data, e.data.updateCommand);
 			
-			store.dispatch(actions.editEntity_update(entity, id, newItem, e));
+			store.dispatch(actions.setEdit(entity, id, newData, e));
 
 			if (validators[entity] != null) {
-				let validationError = validators[entity](newItem, state);
+				let validationError = validators[entity](newData, state);
 
 				if (validationError != null) {
 					console.log(validationError);
