@@ -7,22 +7,31 @@ import { Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
 let ParticipantsEditor = ({ participantIds, participants, checkedParticipantIds, onParticipantCheckChange }) => {
-	let participantCheckboxes = participantIds.map(x => {
-		let name = participants[x].name;
-		let isChecked = checkedParticipantIds.includes(x);
+	let rows = participantIds.map(id => {
+		let isChecked = checkedParticipantIds.includes(id);
 
 		return (
-			<div key={x}>
-				<Checkbox checked={isChecked} label={name} onChange={val => onParticipantCheckChange(x, val)} />
-			</div>
+			<tr key={id}>
+				<td>{participants[id].name}</td>
+				<td><Checkbox checked={isChecked} onChange={val => onParticipantCheckChange(id, val)} /></td>
+				<td><Checkbox checked={isChecked} onChange={val => onParticipantCheckChange(id, val)} /></td>
+			</tr>
 		);
 	});
 
 	return (
-		<div>
-			Participants:
-			<div>{participantCheckboxes}</div>
-		</div>
+		<table className="table table-stripped table-condensed">
+			<thead>
+				<tr>
+					<th>Participants</th>
+					<th>Paid</th>
+					<th>Ate</th>
+				</tr>
+			</thead>
+			<tbody>
+				{rows}
+			</tbody>
+		</table>
 	);
 };
 
