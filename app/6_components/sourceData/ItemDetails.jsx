@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
@@ -19,7 +20,7 @@ let ItemDetails = ({ item, onEditClick, onDeleteClick, onCancelClick }) => (
 );
 
 let mapStateToProps = (state, { itemId }) => ({
-	item: state.data.item.items[itemId] 
+	item: queries.entityData(state, EntityType.item, itemId) 
 });
 
 let mapEventsToProps = (events, { itemId }) => ({

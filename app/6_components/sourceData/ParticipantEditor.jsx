@@ -2,6 +2,7 @@ import React from 'react'
 import { ifNull } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
@@ -19,8 +20,8 @@ let ParticipantEditor = ({ participant, error, onNameChange, onContributionChang
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.ui.participant.edit[participantId].data,
-	error: ifNull(state.ui.participant.edit[participantId].error, () => ({}))
+	participant: queries.edit(state, EntityType.participant, participantId).data,
+	error: ifNull(queries.edit(state, EntityType.participant, participantId).error, () => ({}))
 });
 
 let mapEventsToProps = (events, { participantId }) => ({

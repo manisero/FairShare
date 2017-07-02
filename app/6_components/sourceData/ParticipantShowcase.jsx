@@ -1,4 +1,6 @@
 import React from 'react'
+import { EntityType } from 'model'
+import queries from 'queries'
 import { connect } from 'reactReduxUtils'
 
 let ParticipantShowcase = ({ participant }) => (
@@ -9,7 +11,7 @@ let ParticipantShowcase = ({ participant }) => (
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.data.participant.items[participantId] 
+	participant: queries.entityData(state, EntityType.participant, participantId) 
 });
 
 export default connect(mapStateToProps)(ParticipantShowcase);

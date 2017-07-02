@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
@@ -19,7 +20,7 @@ let ParticipantDetails = ({ participant, onEditClick, onDeleteClick, onCancelCli
 );
 
 let mapStateToProps = (state, { participantId }) => ({
-	participant: state.data.participant.items[participantId] 
+	participant: queries.entityData(state, EntityType.participant, participantId)
 });
 
 let mapEventsToProps = (events, { participantId }) => ({

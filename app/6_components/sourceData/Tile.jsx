@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import { FocusMode } from 'model'
+import { EntityType, FocusMode } from 'model'
+import queries from 'queries'
 import ItemShowcase from './ItemShowcase.jsx'
 import ItemDetails from './ItemDetails.jsx'
 import ItemEditor from './ItemEditor.jsx'
@@ -27,7 +28,7 @@ let Tile = ({ focusMode, showcaseFactory, detailsFactory, editorFactory, deletor
 // Participant
 
 let participantMapStateToProps = (state, { participantId }) => ({
-	focusMode: state.ui.participant.focus.itemId === participantId ? state.ui.participant.focus.mode : FocusMode.noFocus,
+	focusMode: queries.focus(state, EntityType.participant).itemId === participantId ? queries.focus(state, EntityType.participant).mode : FocusMode.noFocus,
 	showcaseFactory: () => <ParticipantShowcase participantId={participantId} />,
 	detailsFactory: () => <ParticipantDetails participantId={participantId} />,
 	editorFactory: () => <ParticipantEditor participantId={participantId} />,
@@ -39,7 +40,7 @@ let ParticipantTile = connect(participantMapStateToProps)(Tile);
 // Item
 
 let itemMapStateToProps = (state, { itemId }) => ({
-	focusMode: state.ui.item.focus.itemId === itemId ? state.ui.item.focus.mode : FocusMode.noFocus,
+	focusMode: queries.focus(state, EntityType.item).itemId === itemId ? queries.focus(state, EntityType.item).mode : FocusMode.noFocus,
 	showcaseFactory: () => <ItemShowcase itemId={itemId} />,
 	detailsFactory: () => <ItemDetails itemId={itemId} />,
 	editorFactory: () => <ItemEditor itemId={itemId} />,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Center } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 
@@ -20,7 +21,7 @@ let Deletor = ({ itemName, onDeleteClick, onCancelClick }) => (
 
 let participantMappings = {
     mapStateToProps: (state, { participantId }) => ({
-        itemName: state.data.participant.items[participantId].name
+        itemName: queries.entityData(state, EntityType.participant, participantId).name
     }),
     mapEventsToProps: (events, { participantId }) => ({
         onDeleteClick: () => events.entityDelete_Submitted(EntityType.participant, participantId),
@@ -34,7 +35,7 @@ let ParticipantDeletor = connect(participantMappings.mapStateToProps, participan
 
 let itemMappings = {
     mapStateToProps: (state, { itemId }) => ({
-        itemName: state.data.item.items[itemId].name
+        itemName: queries.entityData(state, EntityType.item, itemId).name
     }),
     mapEventsToProps: (events, { itemId }) => ({
         onDeleteClick: () => events.entityDelete_Submitted(EntityType.item, itemId),

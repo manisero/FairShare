@@ -2,6 +2,7 @@ import React from 'react'
 import { ifNull } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
@@ -27,8 +28,8 @@ let ParticipantsEditor = ({ participantIds, participants, checkedParticipantIds,
 
 ParticipantsEditor = connect(
 	(state, { itemId }) => ({
-		participantIds: state.data.participant.ids,
-		participants: state.data.participant.items,
+		participantIds: queries.entityIds(state, EntityType.participant),
+		participants: queries.entityAllData(state, EntityType.participant),
 		checkedParticipantIds: [ 1 ]
 	}),
 	(events, { itemId }) => ({
@@ -51,8 +52,8 @@ let ItemEditor = ({ itemId, item, error, onNameChange, onPriceChange, onSubmitCl
 );
 
 let mapStateToProps = (state, { itemId }) => ({
-	item: state.ui.item.edit[itemId].data,
-	error: ifNull(state.ui.item.edit[itemId].error, () => ({}))
+	item: queries.edit(state, EntityType.item, itemId).data,
+	error: ifNull(queries.edit(state, EntityType.item, itemId).error, () => ({}))
 });
 
 let mapEventsToProps = (events, { itemId }) => ({

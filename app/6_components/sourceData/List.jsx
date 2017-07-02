@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
+import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
@@ -36,8 +37,8 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
 let participantMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
-	    children: state.data.participant.ids.map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
-        selectedItemKey: state.ui.participant.focus.itemId
+	    children: queries.entityIds(state, EntityType.participant).map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
+        selectedItemKey: queries.focus(state, EntityType.participant).itemId
     }),
     mapEventsToProps: events => ({
         onItemSelect: participantId => events.entitySelected(EntityType.participant, participantId),
@@ -52,8 +53,8 @@ let ParticipantList = connect(participantMappings.mapStateToProps, participantMa
 let itemMappings = {
     mapStateToProps: state => ({
         title: 'Items',
-	    children: state.data.item.ids.map(id => (<ItemTile itemKey={id} itemId={id} />)),
-        selectedItemKey: state.ui.item.focus.itemId
+	    children: queries.entityIds(state, EntityType.item).map(id => (<ItemTile itemKey={id} itemId={id} />)),
+        selectedItemKey: queries.focus(state, EntityType.item).itemId
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.entitySelected(EntityType.item, itemId),
