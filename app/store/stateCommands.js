@@ -45,9 +45,15 @@ let stateCommands = {
             return { ui: { [entity]: { edit: { [id]: { data: { $set: data } } } } } };
         };
     },
-    
+
     clearEdit: (entity, id) =>
-        ({ ui: { [entity]: { edit: { $unset: [id] } } } })
+        ({ ui: { [entity]: { edit: { $unset: [id] } } } }),
+
+    setEditError: (entity, id, error) =>
+        ({ ui: { [entity]: { edit: { [id]: { error: { $set: error } } } } } }),
+
+    clearEditError: (entity, id, error) =>
+        ({ ui: { [entity]: { edit: { [id]: { $unset: ['error'] } } } } })
     
 };
 

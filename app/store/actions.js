@@ -12,7 +12,9 @@ let actions = createActions({
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
     clearFocus: entity => ({ entity }),
     setEdit: (entity, id, data) => ({ entity, id, data }),
-    clearEdit: (entity, id) => ({ entity, id })
+    clearEdit: (entity, id) => ({ entity, id }),
+    setEditError: (entity, id, error) => ({ entity, id, error }),
+    clearEditError: (entity, id, error) => ({ entity, id, error })
 });
 
 let reducer = (state, action) => {
