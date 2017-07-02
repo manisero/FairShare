@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import { copyDeep} from 'jsUtils'
+import { copyDeep } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import { actions } from 'actions'
 import validators from './validators'

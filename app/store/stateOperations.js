@@ -1,15 +1,11 @@
-import update from 'immutability-helper'
-import { copyDeep} from 'jsUtils'
-import { FocusMode } from 'model'
-
 // Helpers:
 
-let helpers = {
-    setFocus: (itemId, mode) => ({
-        itemId: { $set: itemId },
-        mode: { $set: mode }
-    })
-};
+let setFocus = (itemId, mode) => ({
+    itemId: { $set: itemId },
+    mode: { $set: mode }
+});
+
+// Commands:
 
 let stateCommands = {
 
@@ -37,10 +33,10 @@ let stateCommands = {
     // ui:
 
     setFocus: (entity, id, mode) =>
-        ({ ui: { [entity]: { focus: helpers.setFocus(id, mode) } } }),
+        ({ ui: { [entity]: { focus: setFocus(id, mode) } } }),
     
     clearFocus: entity =>
-        ({ ui: { [entity]: { focus: helpers.setFocus(null, null) } } }),
+        ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
 
     setEdit: (entity, id, data) =>
         ({ ui: { [entity]: { edit: { [id]: { $set: data } } } } }),
@@ -50,85 +46,4 @@ let stateCommands = {
     
 };
 
-let stateOperations = {
-
-    selectEntity: (entity, id, state) =>
-        update(state, { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.selected) } } }),
-    
-    deselectEntity: (entity, state) =>
-        update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } }),
-
-    addEntity: (entity, id, data, state) =>
-        update(state, { data: { [entity]: {
-            lastId: { $set: id },
-            ids: { $push: [id] },
-            items: { [id]: { $set: data } }
-        } } }),
-    
-    editEntity: {
-        start: (entity, id, state) => {
-            let command = { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.edited) } } };
-            
-            if (state.ui[entity].edit[id] == null) {
-                let item = copyDeep(state.data[entity].items[id]);
-
-                command.ui[entity].edit = { [id]: { $set: item} };
-            }
-
-            return update(state, command);
-        },
-
-        update: (entity, id, newData, state) => {
-            return update(state, { ui: { [entity]: { edit: { [id]: { $set: newData } } } } });
-        },
-
-        submitFocused: (entity, state) => {
-            let id = state.ui[entity].focus.itemId;
-            let item = state.ui[entity].edit[id];
-
-            return update(state, {
-                data: { [entity]: { items: { [id]: { $set: item } } } },
-                ui: { [entity]: {
-                    focus: helpers.setFocus(null, null),
-                    edit: { $unset: [ id ] }
-                } }
-            });
-        },
-
-        cancelFocused: (entity, state) => {
-            let id = state.ui[entity].focus.itemId;
-
-            return update(state, { ui: { [entity]: {
-                focus: helpers.setFocus(null, null),
-                edit: { $unset: [ id ] }
-            } } });
-        }
-    },
-
-    deleteEntity: {
-        start: (entity, id, state) =>
-            update(state, { ui: { [entity]: { focus: helpers.setFocus(id, FocusMode.deleted) } } }),
-
-        submitFocused: (entity, state) => {
-            let id = state.ui[entity].focus.itemId;
-            let idIndex = state.data[entity].ids.indexOf(id);
-
-            return update(state, {
-                data: { [entity]: {
-                    ids: { $splice: [[ idIndex, 1 ]] },
-                    items: { $unset: [id] }
-                } },
-                ui: { [entity]: {
-                    focus: helpers.setFocus(null, null),
-                    edit: { $unset: [ id ] }
-                } }
-            });
-        },
-
-        cancelFocused: (entity, state) =>
-            update(state, { ui: { [entity]: { focus: helpers.setFocus(null, null) } } })
-    }
-    
-};
-
-export { stateOperations, stateCommands };
+export { stateCommands };
