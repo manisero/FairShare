@@ -8,4 +8,6 @@ let mapObject = (source, mapper) => {
 
 let copyDeep = source => JSON.parse(JSON.stringify(source));
 
-export { mapObject, copyDeep };
+let ifNull = (object, valueGetter) => object != null ? object : valueGetter();
+
+export { mapObject, copyDeep, ifNull };

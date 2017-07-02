@@ -72,6 +72,9 @@ export default {
 					data: {
 						name: participant1Name + 'a',
 						contribution: participant1Contribution + 10
+					},
+					error: {
+						name: '[MOCK] Name is too boring.'
 					}
 				}
 			}

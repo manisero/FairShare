@@ -1,4 +1,5 @@
 import React from 'react'
+import { ifNull } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import { Right } from 'compUtils'
@@ -35,10 +36,10 @@ ParticipantsEditor = connect(
 	})
 )(ParticipantsEditor);
 
-let ItemEditor = ({ itemId, item, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
+let ItemEditor = ({ itemId, item, error, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox value={item.name} label='Name' onChange={x => onNameChange(x)} />
-		<NumberBox value={item.price} label='Price' onChange={x => onPriceChange(x)} />
+		<TextBox label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
+		<NumberBox label='Price' value={item.price} error={error.price} onChange={x => onPriceChange(x)} />
 		<ParticipantsEditor itemId={itemId} />
 		<Right>
 			<ButtonGroup>
@@ -50,7 +51,8 @@ let ItemEditor = ({ itemId, item, onNameChange, onPriceChange, onSubmitClick, on
 );
 
 let mapStateToProps = (state, { itemId }) => ({
-	item: state.ui.item.edit[itemId].data
+	item: state.ui.item.edit[itemId].data,
+	error: ifNull(state.ui.item.edit[itemId].error, () => ({}))
 });
 
 let mapEventsToProps = (events, { itemId }) => ({
