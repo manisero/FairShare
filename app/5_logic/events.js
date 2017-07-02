@@ -1,6 +1,7 @@
 import update from 'immutability-helper'
 import { copyDeep } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
+import queries from 'queries'
 import { actions } from 'actions'
 import validators from './validators'
 
@@ -28,7 +29,7 @@ let subscribe = (events, store) => {
 	events.entityAdded.stream
 		.subscribe(e => {
 			let entity = e.data.entity;
-			let id = store.getState().data[entity].lastId + 1;
+			let id = queries.entityLastId(store.getState(), entity) + 1;
 			let data = entityConstructors[entity]();
 
 			store.dispatchBatch([
