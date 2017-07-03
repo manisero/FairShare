@@ -32,7 +32,33 @@ let validateItem = (item, state) => {
 	return invalid ? error : null;
 };
 
+let validateParticipations = (participations, state) => {
+	let invalid = false;
+	let error = {};
+
+	Object.keys(participations).forEach(
+		participantId => {
+			let participation = participations[participantId];
+			let innerInvalid = false;
+			let innerError = {};
+
+			if (participation.contribution != null && participation.contribution < 0) {
+				innerInvalid = true;
+				innerError.contribution = 'Contribution cannot be negative.'
+			}
+
+			if (innerInvalid) {
+				invalid = true;
+				error[participantId] = innerError;
+			}
+		}
+	);
+
+	return invalid ? error : null;
+};
+
 export default {
 	participant: validateParticipant,
-	item: validateItem
+	item: validateItem,
+	participation: validateParticipations
 };

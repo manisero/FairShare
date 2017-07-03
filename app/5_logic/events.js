@@ -134,6 +134,7 @@ let subscribe = (events, store) => {
 			let state = store.getState();
 			let itemId = e.data.itemId;
 
+			// TODO: Note that new Participants won't be added to existing edit
 			if (queries.edit(state, EntityType.participation, itemId) == null) {
 				let participantIds = queries.entityIds(state, EntityType.participant);
 				let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));

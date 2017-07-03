@@ -1,32 +1,34 @@
 import React from 'react'
-import { mapObjectFields } from 'jsUtils'
+import { ifNull, mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Center } from 'compUtils'
 import { Checkbox, NumberBox } from 'inputs'
 
-let ParticipationEditor = ({ participation, participant, onContributionChange, onParticipatesChange }) => (
+let ParticipationEditor = ({ participation, participant, error, onContributionChange, onParticipatesChange }) => (
     <tr>
         <td>{participant.name}</td>
         <td>
-            <NumberBox value={participation.contribution} noMargin onChange={onContributionChange} />
+            <NumberBox value={participation.contribution} error={error.contribution} noMargin onChange={onContributionChange} />
         </td>
         <td>
             <Center>
-                <Checkbox checked={participation.participates} onChange={onParticipatesChange} />
+                <Checkbox checked={participation.participates} error={error.participates} onChange={onParticipatesChange} />
             </Center>
         </td>
     </tr>
 );
 
-let ParticipationsEditor = ({ participations, participants, onContributionChange, onParticipatesChange }) => {
+let ParticipationsEditor = ({ participations, participants, error, onContributionChange, onParticipatesChange }) => {
 	let participationEditors = mapObjectFields(
 		participations,
 		(participation, participantId) => (
-            <ParticipationEditor key={participantId}
+            <ParticipationEditor
+                key={participantId}
                 participation={participation}
                 participant={participants[participantId]}
+                error={ifNull(error[participantId], () => ({}))}
                 onContributionChange={val => onContributionChange(participantId, val)}
                 onParticipatesChange={val => onParticipatesChange(participantId, val)} />
         )
@@ -48,10 +50,15 @@ let ParticipationsEditor = ({ participations, participants, onContributionChange
 	);
 };
 
-let mapStateToProps = (state, { itemId }) => ({
-    participations: queries.edit(state, EntityType.participation, itemId).data,
-    participants: queries.entityAllData(state, EntityType.participant)
-});
+let mapStateToProps = (state, { itemId }) => {
+    let { data, error } = queries.edit(state, EntityType.participation, itemId);
+
+    return {
+        participations: data,
+        error: ifNull(error, () => ({})),
+        participants: queries.entityAllData(state, EntityType.participant)
+    };
+};
 
 let mapEventsToProps = (events, { itemId }) => ({
     onContributionChange: (participantId, val) => events.entityEdit_Updated(EntityType.participation, itemId, { [participantId]: { contribution: { $set: val } } }),
