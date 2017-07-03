@@ -24,6 +24,19 @@ let eventDataCreators = ({
 });
 
 let actionBatches = {
+	entityEdit_Submitted: (state, entity, id, origin) => {
+		let { data, error } = queries.edit(state, entity, id);
+
+		if (error != null) {
+			return;
+		}
+
+		return [
+			actions.updateEntity(entity, id, data, origin),
+			actions.clearFocus(entity, origin),
+			actions.clearEdit(entity, id, origin)
+		];
+	},
 	entityEdit_Cancelled: (entity, origin) => [
 		actions.clearFocus(entity, origin),
 		actions.clearEdit(entity, origin)
@@ -93,20 +106,7 @@ let subscribe = (events, store) => {
 		});
 	
 	events.entityEdit_Submitted.stream
-		.subscribe(e => {
-			let { entity, id } = e.data;
-			let { data, error } = queries.edit(store.getState(), entity, id);
-
-			if (error != null) {
-				return;
-			}
-
-			store.dispatchBatch([
-				actions.updateEntity(entity, id, data, e),
-				actions.clearFocus(entity, e),
-				actions.clearEdit(entity, id, e)
-			]);
-		});
+		.subscribe(e => store.dispatchBatch(actionBatches.entityEdit_Submitted(store.getState(), e.data.entity, e.data.id, e)));
 
 	events.entityEdit_Cancelled.stream
 		.subscribe(e => store.dispatchBatch(actionBatches.entityEdit_Cancelled(e.data.entity, e)));
@@ -155,12 +155,14 @@ let subscribe = (events, store) => {
 	
 	events.itemEdit_Submitted.stream
 		.subscribe(e => {
+			let state = store.getState();
 			let itemId = e.data.itemId;
 
-			// TODO: Refactor to call one dispatch only
 			// TODO: Prevent submit in case of validation errors
-			events.entityEdit_Submitted(EntityType.participation, itemId); // TODO: Filter out participations without 'contribution' nor 'participates'
-			events.entityEdit_Submitted(EntityType.item, itemId);
+			store.dispatchBatches([
+				actionBatches.entityEdit_Submitted(state, EntityType.participation, itemId, e), // TODO: Filter out participations without 'contribution' nor 'participates'
+				actionBatches.entityEdit_Submitted(state, EntityType.item, itemId, e)
+			]);
 		});
 	
 	events.itemEdit_Cancelled.stream
