@@ -29,7 +29,7 @@ let ParticipationsEditor = ({ participations, participants, onContributionChange
                 participant={participants[participantId]}
                 onContributionChange={val => onContributionChange(participantId, val)}
                 onParticipatesChange={val => onParticipatesChange(participantId, val)} />
-		)
+        )
 	);
 
 	return (
@@ -54,7 +54,8 @@ let mapStateToProps = (state, { itemId }) => ({
 });
 
 let mapEventsToProps = (events, { itemId }) => ({
-    onParticipatesChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)
+    onContributionChange: (participantId, val) => events.entityEdit_Updated(EntityType.participation, itemId, { [participantId]: { contribution: { $set: val } } }),
+    onParticipatesChange: (participantId, val) => events.entityEdit_Updated(EntityType.participation, itemId, { [participantId]: { participates: { $set: val } } }),
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipationsEditor);
