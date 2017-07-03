@@ -23,6 +23,13 @@ let eventDataCreators = ({
 	itemEdit_Cancelled: itemId => ({ itemId })
 });
 
+let actionBatches = {
+	entityEdit_Cancelled: (entity, origin) => [
+		actions.clearFocus(entity, origin),
+		actions.clearEdit(entity, origin)
+	]
+}
+
 let subscribe = (events, store) => {
 
 	// Generic:
@@ -102,14 +109,7 @@ let subscribe = (events, store) => {
 		});
 
 	events.entityEdit_Cancelled.stream
-		.subscribe(e => {
-			let { entity, id } = e.data;
-
-			store.dispatchBatch([
-				actions.clearFocus(entity, e),
-				actions.clearEdit(entity, id, e)
-			]);
-		});
+		.subscribe(e => store.dispatchBatch(actionBatches.entityEdit_Cancelled(e.data.entity, e)));
 	
 	events.entityDelete_Started.stream
 		.subscribe(e => store.dispatch(actions.setFocus(e.data.entity, e.data.id, FocusMode.deleted, e)));
@@ -118,6 +118,8 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let { entity, id } = e.data;
 
+			// TODO: When deleting Participant, delete corresponding Contributions
+			// TODO: When deleting Item, delete corresponding Contributions
 			store.dispatchBatch([
 				actions.deleteEntity(entity, id, e),
 				actions.clearFocus(entity, e),
@@ -157,18 +159,15 @@ let subscribe = (events, store) => {
 
 			// TODO: Refactor to call one dispatch only
 			// TODO: Prevent submit in case of validation errors
-			events.entityEdit_Submitted(EntityType.participation, itemId);
+			events.entityEdit_Submitted(EntityType.participation, itemId); // TODO: Filter out participations without 'contribution' nor 'participates'
 			events.entityEdit_Submitted(EntityType.item, itemId);
 		});
 	
 	events.itemEdit_Cancelled.stream
-		.subscribe(e => {
-			let itemId = e.data.itemId;
-
-			// TODO: Refactor to call one dispatch only
-			events.entityEdit_Cancelled(EntityType.participation, itemId);
-			events.entityEdit_Cancelled(EntityType.item, itemId);
-		});
+		.subscribe(e => store.dispatchBatches([
+			actionBatches.entityEdit_Cancelled(EntityType.participation, e),
+			actionBatches.entityEdit_Cancelled(EntityType.item, e)
+		]));
 	
 };
 
