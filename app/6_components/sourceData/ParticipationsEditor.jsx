@@ -6,21 +6,29 @@ import queries from 'queries'
 import { Center } from 'compUtils'
 import { Checkbox, NumberBox } from 'inputs'
 
+let ParticipationEditor = ({ participation, participant, onContributionChange, onParticipatesChange }) => (
+    <tr>
+        <td>{participant.name}</td>
+        <td>
+            <NumberBox value={participation.contribution} noMargin onChange={onContributionChange} />
+        </td>
+        <td>
+            <Center>
+                <Checkbox checked={participation.participates} onChange={onParticipatesChange} />
+            </Center>
+        </td>
+    </tr>
+);
+
 let ParticipationsEditor = ({ participations, participants, onContributionChange, onParticipatesChange }) => {
 	let participationEditors = mapObjectFields(
 		participations,
-		({ contribution, participates }, participantId) => (
-			<tr key={participantId}>
-				<td>{participants[participantId].name}</td>
-				<td>
-					<NumberBox value={contribution} noMargin onChange={val => onContributionChange(participantId, val)} />
-				</td>
-				<td>
-					<Center>
-						<Checkbox checked={participates} onChange={val => onParticipatesChange(participantId, val)} />
-					</Center>
-				</td>
-			</tr>
+		(participation, participantId) => (
+            <ParticipationEditor key={participantId}
+                participation={participation}
+                participant={participants[participantId]}
+                onContributionChange={val => onContributionChange(participantId, val)}
+                onParticipatesChange={val => onParticipatesChange(participantId, val)} />
 		)
 	);
 
