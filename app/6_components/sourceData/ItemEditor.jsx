@@ -1,54 +1,11 @@
 import React from 'react'
-import { ifNull, mapObjectFields } from 'jsUtils'
+import { ifNull } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Center, Right } from 'compUtils'
-import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
-
-let ParticipationsEditor = ({ participations, participants, onContributionChange, onParticipatesChange }) => {
-	let participationEditors = mapObjectFields(
-		participations,
-		({ contribution, participates }, participantId) => (
-			<tr key={participantId}>
-				<td>{participants[participantId].name}</td>
-				<td>
-					<NumberBox value={contribution} noMargin onChange={val => onContributionChange(participantId, val)} />
-				</td>
-				<td>
-					<Center>
-						<Checkbox checked={participates} onChange={val => onParticipatesChange(participantId, val)} />
-					</Center>
-				</td>
-			</tr>
-		)
-	);
-
-	return (
-		<table className="table table-striped table-condensed">
-			<thead>
-				<tr>
-					<th className='col-xs-6'>Participants</th>
-					<th className='col-xs-4'>Paid</th>
-					<th className='col-xs-2'>Ate</th>
-				</tr>
-			</thead>
-			<tbody>
-				{participationEditors}
-			</tbody>
-		</table>
-	);
-};
-
-ParticipationsEditor = connect(
-	(state, { itemId }) => ({
-		participations: queries.edit(state, EntityType.participation, itemId).data,
-		participants: queries.entityAllData(state, EntityType.participant)
-	}),
-	(events, { itemId }) => ({
-		onParticipatesChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)
-	})
-)(ParticipationsEditor);
+import { Right } from 'compUtils'
+import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
+import ParticipationsEditor from './ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
