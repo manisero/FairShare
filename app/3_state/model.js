@@ -1,6 +1,7 @@
 let EntityType = {
     participant: 'participant',
-    item: 'item'
+    item: 'item',
+    participation: 'participation'
 };
 
 let entityConstructors = {
@@ -11,6 +12,10 @@ let entityConstructors = {
     [EntityType.item]: () => ({
         name: '',
         price: 0
+    }),
+    [EntityType.participation]: () => ({
+        contribution: 0,
+        participates: false
     })
 };
 

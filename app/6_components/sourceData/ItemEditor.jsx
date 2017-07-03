@@ -1,29 +1,28 @@
 import React from 'react'
-import { ifNull } from 'jsUtils'
+import { ifNull, mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Center, Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
-let ParticipationsEditor = ({ participantIds, participants, participations, onContributionChange, onParticipatesChange }) => {
-	let participationEditors = participantIds.map(id => {
-		let { contribution, participates } = ifNull(participations[id], () => ({}));
-
-		return (
-			<tr key={id}>
-				<td>{participants[id].name}</td>
+let ParticipationsEditor = ({ participations, participants, onContributionChange, onParticipatesChange }) => {
+	let participationEditors = mapObjectFields(
+		participations,
+		({ contribution, participates }, participantId) => (
+			<tr key={participantId}>
+				<td>{participants[participantId].name}</td>
 				<td>
-					<NumberBox value={contribution} noMargin onChange={val => onContributionChange(id, val)} />
+					<NumberBox value={contribution} noMargin onChange={val => onContributionChange(participantId, val)} />
 				</td>
 				<td>
 					<Center>
-						<Checkbox checked={participates} onChange={val => onParticipatesChange(id, val)} />
+						<Checkbox checked={participates} onChange={val => onParticipatesChange(participantId, val)} />
 					</Center>
 				</td>
 			</tr>
-		);
-	});
+		)
+	);
 
 	return (
 		<table className="table table-striped table-condensed">
@@ -43,9 +42,8 @@ let ParticipationsEditor = ({ participantIds, participants, participations, onCo
 
 ParticipationsEditor = connect(
 	(state, { itemId }) => ({
-		participantIds: queries.entityIds(state, EntityType.participant),
-		participants: queries.entityAllData(state, EntityType.participant),
-		participations: queries.itemParticipations(state, itemId)
+		participations: queries.edit(state, EntityType.participation, itemId).data,
+		participants: queries.entityAllData(state, EntityType.participant)
 	}),
 	(events, { itemId }) => ({
 		onParticipatesChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)

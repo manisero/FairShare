@@ -10,6 +10,10 @@ const participant2Id = 2;
 const participant2Name = 'Participant2';
 const participant2Contribution = 200.00;
 
+const participant3Id = 3;
+const participant3Name = 'Participant3';
+const participant3Contribution = 300.00;
+
 // defaut Items
 
 const item1Id = 1;
@@ -29,8 +33,8 @@ const item3Price = 300.00;
 export default {
 	data: {
 		participant: {
-			lastId: participant2Id,
-			ids: [ participant1Id, participant2Id ],
+			lastId: participant3Id,
+			ids: [ participant1Id, participant2Id, participant3Id ],
 			items: {
 				[participant1Id]: {
 					name: participant1Name,
@@ -39,6 +43,10 @@ export default {
 				[participant2Id]: {
 					name: participant2Name,
 					contribution: participant2Contribution
+				},
+				[participant3Id]: {
+					name: participant3Name,
+					contribution: participant3Contribution
 				}
 			}
 		},
@@ -61,14 +69,16 @@ export default {
 			}
 		},
 		participation: {
-			[item2Id]: {
-				[participant1Id]: {
-					contribution: item1Price,
-					participates: true
-				},
-				[participant2Id]: {
-					contribution: 0,
-					participates: true
+			items: {
+				[item2Id]: {
+					[participant1Id]: {
+						contribution: item1Price,
+						participates: true
+					},
+					[participant2Id]: {
+						contribution: 0,
+						participates: true
+					}
 				}
 			}
 		}
@@ -96,6 +106,9 @@ export default {
 				itemId: null,
 				mode: null
 			},
+			edit: { }
+		},
+		participation: {
 			edit: { }
 		}
 	}

@@ -1,11 +1,12 @@
 import update from 'immutability-helper'
-import { copyDeep } from 'jsUtils'
+import { copyDeep, ifNull, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
 import validators from './validators'
 
 let eventDataCreators = ({
+	// Generic:
     entitySelected: (entity, id) => ({ entity,id }),
 	entityDeselected: entity => ({ entity }),
 	entityAdded: entity => ({ entity }),
@@ -15,11 +16,15 @@ let eventDataCreators = ({
 	entityEdit_Cancelled: (entity, id) => ({ entity, id }),
 	entityDelete_Started: (entity, id) => ({ entity, id }),
 	entityDelete_Submitted: (entity, id) => ({ entity, id }),
-	entityDelete_Cancelled: (entity, id) => ({ entity, id })
+	entityDelete_Cancelled: (entity, id) => ({ entity, id }),
+	// Non-generic:
+	itemEdit_Started: itemId => ({ itemId })
 });
 
 let subscribe = (events, store) => {
-	
+
+	// Generic:
+
 	events.entitySelected.stream
 		.subscribe(e => store.dispatch(actions.setFocus(e.data.entity, e.data.id, FocusMode.selected, e)));
 	
@@ -121,6 +126,24 @@ let subscribe = (events, store) => {
 	events.entityDelete_Cancelled.stream
 		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
+	// Non-generic:
+	events.itemEdit_Started.stream
+		.subscribe(e => {
+			let state = store.getState();
+			let itemId = e.data.itemId;
+			let participantIds = queries.entityIds(state, EntityType.participant);
+			let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
+
+			let participations = mapToObject(
+				participantIds,
+				id => ifNull(itemParticipations[id], () => entityConstructors.participation())
+			);
+
+			// TODO: Refactor to call one dispatch only
+			store.dispatch(actions.setEdit(EntityType.participation, itemId, participations, e));
+			events.entityEdit_Started(EntityType.item, itemId);
+		});
+	
 };
 
 export { eventDataCreators, subscribe };

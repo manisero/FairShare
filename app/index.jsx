@@ -24,4 +24,4 @@ render(root, document.getElementById('root'));
 
 // test setup:
 events.entityDeselected(EntityType.participant);
-events.entityEdit_Started(EntityType.item, 2);
+events.itemEdit_Started(2);

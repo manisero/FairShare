@@ -50,5 +50,5 @@ export default {
 
     clearEditError: (entity, id, error) =>
         ({ ui: { [entity]: { edit: { [id]: { $unset: ['error'] } } } } })
-    
+
 };

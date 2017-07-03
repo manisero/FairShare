@@ -24,7 +24,7 @@ let mapStateToProps = (state, { itemId }) => ({
 });
 
 let mapEventsToProps = (events, { itemId }) => ({
-	onEditClick: () => events.entityEdit_Started(EntityType.item, itemId),
+	onEditClick: () => events.itemEdit_Started(itemId),
 	onDeleteClick: () => events.entityDelete_Started(EntityType.item, itemId),
 	onCancelClick: () => events.entityDeselected(EntityType.item)
 });
