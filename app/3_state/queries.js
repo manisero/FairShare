@@ -1,3 +1,5 @@
+import { ifNull } from 'jsUtils'
+
 export default {
     // data:
     entityLastId: (state, entity) => state.data[entity].lastId,
@@ -5,7 +7,7 @@ export default {
     entityAllData: (state, entity) => state.data[entity].items,
     entityData: (state, entity, id) => state.data[entity].items[id],
 
-    itemContributions: (state, itemId) => Object.values(state.data.contribution.items).filter(x => x.itemId === itemId),
+    itemParticipations: (state, itemId) => ifNull(state.data.participation[itemId], () => ({})),
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,

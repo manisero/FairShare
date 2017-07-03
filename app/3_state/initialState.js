@@ -60,19 +60,13 @@ export default {
 				}
 			}
 		},
-		contribution: {
-			lastId: 2,
-			ids: [ 1, 2 ],
-			items: {
-				[1]: {
-					participantId: participant1Id,
-					itemId: item1Id,
+		participation: {
+			[item2Id]: {
+				[participant1Id]: {
 					contribution: item1Price,
 					participates: true
 				},
-				[2]: {
-					participantId: participant2Id,
-					itemId: item1Id,
+				[participant2Id]: {
 					contribution: 0,
 					participates: true
 				}
