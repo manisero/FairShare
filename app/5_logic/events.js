@@ -18,12 +18,23 @@ let eventDataCreators = ({
 	entityDelete_Submitted: (entity, id) => ({ entity, id }),
 	entityDelete_Cancelled: (entity, id) => ({ entity, id }),
 	// Non-generic:
+	itemAdded: () => ({}),
 	itemEdit_Started: itemId => ({ itemId }),
 	itemEdit_Submitted: itemId => ({ itemId }),
 	itemEdit_Cancelled: itemId => ({ itemId })
 });
 
 let actionBatches = {
+	entityAdded: (state, entity, origin) => {
+		let id = queries.entityLastId(state, entity) + 1;
+		let data = entityConstructors[entity]();
+
+		return [
+			actions.addEntity(entity, id, data, origin),
+			actions.setEdit(entity, id, data, origin),
+			actions.setFocus(entity, id, FocusMode.edited, origin)
+		];
+	},
 	entityEdit_Submitted: (state, entity, id, origin) => {
 		let { data, error } = queries.edit(state, entity, id);
 
@@ -54,17 +65,7 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
 	events.entityAdded.stream
-		.subscribe(e => {
-			let entity = e.data.entity;
-			let id = queries.entityLastId(store.getState(), entity) + 1;
-			let data = entityConstructors[entity]();
-
-			store.dispatchBatch([
-				actions.addEntity(entity, id, data, e),
-				actions.setEdit(entity, id, data, e),
-				actions.setFocus(entity, id, FocusMode.edited, e)
-			]);
-		});
+		.subscribe(e => store.dispatchBatch(actionBatches.entityAdded(store.getState(), e.data.entity, e)));
 	
 	events.entityEdit_Started.stream
 		.subscribe(e => {
@@ -131,6 +132,12 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
 	// Non-generic:
+
+	events.itemAdded.stream
+		.subscribe(e => {
+			// TODO: Implement (generate itemId and use for Item creation and Item and Participation edition)
+		});
+
 	events.itemEdit_Started.stream
 		.subscribe(e => {
 			let state = store.getState();
