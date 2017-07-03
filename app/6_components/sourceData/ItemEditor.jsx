@@ -6,10 +6,9 @@ import queries from 'queries'
 import { Center, Right } from 'compUtils'
 import { Button, ButtonGroup, Checkbox, TextBox, NumberBox } from 'inputs'
 
-let ParticipantsEditor = ({ participantIds, participants, participatingParticipantIds, onContributionChange, onParticipatesChange }) => {
+let ContributionsEditor = ({ participantIds, participants, contributions, onContributionChange, onParticipatesChange }) => {
 	let rows = participantIds.map(id => {
-		let contribution = 0;
-		let participates = participatingParticipantIds.includes(id);
+		let { contribution, participates } = ifNull(contributions.find(x => x.participantId === id), () => ({}));
 
 		return (
 			<tr key={id}>
@@ -42,22 +41,22 @@ let ParticipantsEditor = ({ participantIds, participants, participatingParticipa
 	);
 };
 
-ParticipantsEditor = connect(
+ContributionsEditor = connect(
 	(state, { itemId }) => ({
 		participantIds: queries.entityIds(state, EntityType.participant),
 		participants: queries.entityAllData(state, EntityType.participant),
-		participatingParticipantIds: [ 1 ]
+		contributions: queries.itemContributions(state, itemId)
 	}),
 	(events, { itemId }) => ({
 		onParticipatesChange: (participantId, isChecked) => alert('' + participantId + ' ' + isChecked)
 	})
-)(ParticipantsEditor);
+)(ContributionsEditor);
 
 let ItemEditor = ({ itemId, item, error, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
 		<TextBox label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
 		<NumberBox label='Price' value={item.price} error={error.price} onChange={x => onPriceChange(x)} />
-		<ParticipantsEditor itemId={itemId} />
+		<ContributionsEditor itemId={itemId} />
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick}>Submit</Button>

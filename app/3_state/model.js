@@ -1,6 +1,7 @@
 let EntityType = {
     participant: 'participant',
-    item: 'item'
+    item: 'item',
+    contribution: 'contribution'
 };
 
 let entityConstructors = {
