@@ -109,6 +109,10 @@ export default {
 			edit: { }
 		},
 		participation: {
+			focus: {
+				itemId: null,
+				mode: null
+			},
 			edit: { }
 		}
 	}

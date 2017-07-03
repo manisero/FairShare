@@ -18,7 +18,9 @@ let eventDataCreators = ({
 	entityDelete_Submitted: (entity, id) => ({ entity, id }),
 	entityDelete_Cancelled: (entity, id) => ({ entity, id }),
 	// Non-generic:
-	itemEdit_Started: itemId => ({ itemId })
+	itemEdit_Started: itemId => ({ itemId }),
+	itemEdit_Submitted: itemId => ({ itemId }),
+	itemEdit_Cancelled: itemId => ({ itemId })
 });
 
 let subscribe = (events, store) => {
@@ -131,17 +133,40 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let state = store.getState();
 			let itemId = e.data.itemId;
-			let participantIds = queries.entityIds(state, EntityType.participant);
-			let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
 
-			let participations = mapToObject(
-				participantIds,
-				id => ifNull(itemParticipations[id], () => entityConstructors.participation())
-			);
+			if (queries.edit(state, EntityType.participation, itemId) == null) {
+				let participantIds = queries.entityIds(state, EntityType.participant);
+				let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
+
+                let participations = mapToObject(
+					participantIds,
+					id => ifNull(itemParticipations[id], () => entityConstructors.participation())
+				);
+
+				store.dispatch(actions.setEdit(EntityType.participation, itemId, participations, e));
+            }
 
 			// TODO: Refactor to call one dispatch only
-			store.dispatch(actions.setEdit(EntityType.participation, itemId, participations, e));
 			events.entityEdit_Started(EntityType.item, itemId);
+		});
+	
+	events.itemEdit_Submitted.stream
+		.subscribe(e => {
+			let itemId = e.data.itemId;
+
+			// TODO: Refactor to call one dispatch only
+			// TODO: Prevent submit in case of validation errors
+			events.entityEdit_Submitted(EntityType.participation, itemId);
+			events.entityEdit_Submitted(EntityType.item, itemId);
+		});
+	
+	events.itemEdit_Cancelled.stream
+		.subscribe(e => {
+			let itemId = e.data.itemId;
+
+			// TODO: Refactor to call one dispatch only
+			events.entityEdit_Cancelled(EntityType.participation, itemId);
+			events.entityEdit_Cancelled(EntityType.item, itemId);
 		});
 	
 };
