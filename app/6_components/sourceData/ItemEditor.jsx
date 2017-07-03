@@ -52,24 +52,29 @@ ContributionsEditor = connect(
 	})
 )(ContributionsEditor);
 
-let ItemEditor = ({ itemId, item, error, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
+let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
 		<TextBox label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
 		<NumberBox label='Price' value={item.price} error={error.price} onChange={x => onPriceChange(x)} />
 		<ContributionsEditor itemId={itemId} />
 		<Right>
 			<ButtonGroup>
-				<Button onClick={onSubmitClick}>Submit</Button>
+				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
 				<Button onClick={onCancelClick}>Cancel</Button>
 			</ButtonGroup>
 		</Right>
 	</div>
 );
 
-let mapStateToProps = (state, { itemId }) => ({
-	item: queries.edit(state, EntityType.item, itemId).data,
-	error: ifNull(queries.edit(state, EntityType.item, itemId).error, () => ({}))
-});
+let mapStateToProps = (state, { itemId }) => {
+	let { data, error } = queries.edit(state, EntityType.item, itemId);
+
+	return {
+		item: data,
+		error: ifNull(error, () => ({})),
+		submitEnabled: error == null
+	}
+};
 
 let mapEventsToProps = (events, { itemId }) => ({
 	onNameChange: name => events.entityEdit_Updated(EntityType.item, itemId, { name: { $set: name } }),

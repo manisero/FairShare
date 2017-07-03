@@ -81,7 +81,11 @@ let subscribe = (events, store) => {
 	events.entityEdit_Submitted.stream
 		.subscribe(e => {
 			let { entity, id } = e.data;
-			let { data } = queries.edit(store.getState(), entity, id);
+			let { data, error } = queries.edit(store.getState(), entity, id);
+
+			if (error != null) {
+				return;
+			}
 
 			store.dispatchBatch([
 				actions.updateEntity(entity, id, data, e),
