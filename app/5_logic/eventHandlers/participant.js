@@ -1,8 +1,8 @@
-import update from 'immutability-helper'
 import { copyDeep, ifNull } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
+import validators from './../validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let getCleanUpParticipationsActions = (state, participantId) => {
@@ -99,12 +99,17 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let state = store.getState();
 			let participantId = e.data.participantId;
+            let data = queries.edit(state, EntityType.participant, participantId).data;
 
-            let { data, error } = queries.edit(state, EntityType.participant, participantId);
+			let error = validators.participant(data, state);
 
             if (error != null) {
-                return;
-            }
+                store.dispatch(
+					actions.setEditError(EntityType.participant, participantId, error, e)
+				);
+
+				return;
+			}
 
 			let participant = copyDeep(data);
 

@@ -13,14 +13,12 @@ let handleEntityEditUpdated = (state, entity, id, updateCommand, origin) => {
 	let newData = update(data, updateCommand);
 	actionsBatch.push(actions.setEdit(entity, id, newData, origin));
 
-	if (validators[entity] != null) {
-		let newError = validators[entity](newData, state);
+	let newError = validators[entity](newData, state);
 
-		if (newError != null) {
-			actionsBatch.push(actions.setEditError(entity, id, newError, origin));
-		} else if (error != null) {
-			actionsBatch.push(actions.clearEditError(entity, id, origin));
-		}
+	if (newError != null) {
+		actionsBatch.push(actions.setEditError(entity, id, newError, origin));
+	} else if (error != null) {
+		actionsBatch.push(actions.clearEditError(entity, id, origin));
 	}
 
 	return actionsBatch;

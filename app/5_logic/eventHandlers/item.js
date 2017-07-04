@@ -2,6 +2,7 @@ import { copyDeep, ifNull, mapToObject, unsetFields } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
+import validators from './../validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let createParticipationEdit = (state, itemId) => {
@@ -93,11 +94,29 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let state = store.getState();
 			let itemId = e.data.itemId;
+            let itemData = queries.edit(state, EntityType.item, itemId).data;
+            let participationData = queries.edit(state, EntityType.participation, itemId).data;
 
-            let { data: itemData, error: itemError } = queries.edit(state, EntityType.item, itemId);
-            let { data: participationData, error: participationError } = queries.edit(state, EntityType.participation, itemId);
+			let itemError = validators.item(itemData, state);
+			let participationError = validators.participation(participationData, state);
 
             if (itemError != null || participationError != null) {
+				let errorActions = [];
+
+				if (itemError != null) {
+					errorActions.push(
+						actions.setEditError(EntityType.item, itemId, itemError, e)
+					);
+				}
+
+				if (participationError != null) {
+					errorActions.push(
+						actions.setEditError(EntityType.participation, itemId, participationError, e)
+					);
+				}
+
+				store.dispatchBatch(errorActions);
+
                 return;
             }
 
