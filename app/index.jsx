@@ -23,5 +23,5 @@ let root = (
 render(root, document.getElementById('root'));
 
 // test setup:
-events.entityDeselected(EntityType.participant);
+events.participantDeselected();
 events.itemEdit_Started(2);
