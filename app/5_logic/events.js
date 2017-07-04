@@ -17,7 +17,10 @@ let eventDataCreators = ({
 	itemEdit_Started: itemId => ({ itemId }),
 	itemEdit_Updated: (itemId, updateCommand) => ({ itemId, updateCommand }),
 	itemEdit_Submitted: itemId => ({ itemId }),
-	itemEdit_Cancelled: itemId => ({ itemId })
+	itemEdit_Cancelled: itemId => ({ itemId }),
+	itemDelete_Started: itemId => ({ itemId }),
+	itemDelete_Submitted: itemId => ({ itemId }),
+	itemDelete_Cancelled: itemId => ({ itemId })
 });
 
 export default eventDataCreators;

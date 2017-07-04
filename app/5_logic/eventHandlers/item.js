@@ -118,6 +118,28 @@ let subscribe = (events, store) => {
             actions.clearEdit(EntityType.participation, e.data.itemId, e),
 		    actions.clearEdit(EntityType.item, e.data.itemId, e)
 		]));
+    
+    events.itemDelete_Started.stream
+		.subscribe(e => store.dispatch(
+            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.deleted, e))
+        );
+    
+    events.itemDelete_Submitted.stream
+		.subscribe(e => {
+			let itemId = e.data.itemId;
+
+			// TODO: Delete corresponding Contributions
+			store.dispatchBatch([
+				actions.deleteEntity(EntityType.item, itemId, e),
+				actions.clearFocus(EntityType.item, e),
+				actions.clearEdit(EntityType.item, itemId, e)
+			]);
+		});
+
+	events.itemDelete_Cancelled.stream
+		.subscribe(e => store.dispatch(
+            actions.clearFocus(EntityType.item, e))
+        );
 
 };
 

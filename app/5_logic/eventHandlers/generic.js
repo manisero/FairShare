@@ -83,7 +83,6 @@ let subscribe = (events, store) => {
 			let { entity, id } = e.data;
 
 			// TODO: When deleting Participant, delete corresponding Contributions
-			// TODO: When deleting Item, delete corresponding Contributions
 			store.dispatchBatch([
 				actions.deleteEntity(entity, id, e),
 				actions.clearFocus(entity, e),
