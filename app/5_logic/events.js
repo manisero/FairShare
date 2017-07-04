@@ -10,9 +10,12 @@ let eventDataCreators = ({
 	entityDelete_Started: (entity, id) => ({ entity, id }),
 	entityDelete_Submitted: (entity, id) => ({ entity, id }),
 	entityDelete_Cancelled: (entity, id) => ({ entity, id }),
-	// Non-generic:
+	// Item:
+	itemSelected: itemId => ({ itemId }),
+	itemDeselected: () => ({}),
 	itemAdded: () => ({}),
 	itemEdit_Started: itemId => ({ itemId }),
+	itemEdit_Updated: (itemId, updateCommand) => ({ itemId, updateCommand }),
 	itemEdit_Submitted: itemId => ({ itemId }),
 	itemEdit_Cancelled: itemId => ({ itemId })
 });
