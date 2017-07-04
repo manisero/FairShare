@@ -2,7 +2,7 @@ import { copyDeep, ifNull } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import { getNextEntityId, handleEntityEditUpdated } from './helpers'
+import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let subscribe = (events, store) => {
 

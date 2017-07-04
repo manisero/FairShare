@@ -2,7 +2,7 @@ import { copyDeep, ifNull, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import { getNextEntityId, handleEntityEditUpdated } from './helpers'
+import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let createParticipationEdit = (state, itemId) => {
 	let participantIds = queries.entityIds(state, EntityType.participant);
