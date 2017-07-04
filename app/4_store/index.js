@@ -15,15 +15,6 @@ let createStore = () => {
         }
     };
 
-    store.dispatchBatches = actionBatches => {
-        let flatBatch = actionBatches.reduce(
-            (flat, batch) => flat.concat(batch),
-            []
-        );
-
-        store.dispatchBatch(flatBatch);
-    };
-
     return store;
 };
 

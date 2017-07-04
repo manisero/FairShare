@@ -69,9 +69,10 @@ export default {
 			}
 		},
 		participation: {
-			lastId: item2Id,
-			ids: [ item2Id ],
+			lastId: item3Id,
+			ids: [ item1Id, item2Id, item3Id ],
 			items: {
+				[item1Id]: {},
 				[item2Id]: {
 					[participant1Id]: {
 						contribution: item1Price,
@@ -81,7 +82,8 @@ export default {
 						contribution: 0,
 						participates: true
 					}
-				}
+				},
+				[item3Id]: {},
 			}
 		}
 	},

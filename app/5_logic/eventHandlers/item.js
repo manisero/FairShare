@@ -16,7 +16,7 @@ let createParticipationEdit = (state, itemId) => {
 
 let mapParticipationEditToEntity = participationEdit => {
 	let participation = copyDeep(participationEdit);
-	
+
 	unsetFields(participation, x => {
 		return !(x.contribution > 0 || x.participates);
 	});
@@ -129,10 +129,11 @@ let subscribe = (events, store) => {
 		.subscribe(e => {
 			let itemId = e.data.itemId;
 
-			// TODO: Delete corresponding Contributions
 			store.dispatchBatch([
+				actions.deleteEntity(EntityType.participation, itemId, e),
 				actions.deleteEntity(EntityType.item, itemId, e),
 				actions.clearFocus(EntityType.item, e),
+				actions.clearEdit(EntityType.participation, itemId, e),
 				actions.clearEdit(EntityType.item, itemId, e)
 			]);
 		});
