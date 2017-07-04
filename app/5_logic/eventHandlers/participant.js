@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { copyDeep, ifNull } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
@@ -86,14 +87,29 @@ let subscribe = (events, store) => {
     
     events.participantDelete_Submitted.stream
 		.subscribe(e => {
+			let state = store.getState();
 			let participantId = e.data.participantId;
+			let updateParticipationsActions = [];
 
-			// TODO: Delete corresponding Contributions
+			let participations = queries.entityAllData(state, EntityType.participation);
+
+			Object.keys(participations).forEach(itemId => {
+				let participation = participations[itemId];
+				
+				if (participantId in participation) {
+					let newParticipation = Object.assign({}, participation);
+					delete newParticipation[participantId];
+
+					updateParticipationsActions.push(actions.updateEntity(EntityType.participation, itemId, newParticipation));
+				}
+			});
+
+			// TODO: Delete corresponding Participation edits
 			store.dispatchBatch([
 				actions.deleteEntity(EntityType.participant, participantId, e),
 				actions.clearFocus(EntityType.participant, e),
 				actions.clearEdit(EntityType.participant, participantId, e)
-			]);
+			].concat(updateParticipationsActions));
 		});
 
 	events.participantDelete_Cancelled.stream
