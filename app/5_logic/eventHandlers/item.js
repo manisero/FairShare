@@ -1,4 +1,4 @@
-import { copyDeep, ifNull, mapToObject } from 'jsUtils'
+import { copyDeep, ifNull, mapToObject, unsetFields } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -15,7 +15,13 @@ let createParticipationEdit = (state, itemId) => {
 };
 
 let mapParticipationEditToEntity = participationEdit => {
-	return copyDeep(participationEdit); // TODO: Filter out participations without 'contribution' nor 'participates'
+	let participation = copyDeep(participationEdit);
+	
+	unsetFields(participation, x => {
+		return !(x.contribution > 0 || x.participates);
+	});
+
+	return participation;
 };
 
 let subscribe = (events, store) => {

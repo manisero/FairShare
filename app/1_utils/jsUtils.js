@@ -1,3 +1,7 @@
+let copyDeep = source => JSON.parse(JSON.stringify(source));
+
+let ifNull = (object, valueGetter) => object != null ? object : valueGetter();
+
 let mapObject = (source, mapper) => {
     let result = {};
 
@@ -23,8 +27,19 @@ let mapToObject = (array, valueMapper) => {
     return result;
 };
 
-let copyDeep = source => JSON.parse(JSON.stringify(source));
+let unsetFields = (object, fieldFilter) => {
+    Object.keys(object).forEach(field => {
+        if (fieldFilter(object[field])) {
+            delete object[field];
+        }
+    });
+};
 
-let ifNull = (object, valueGetter) => object != null ? object : valueGetter();
-
-export { mapObject, mapObjectFields, mapToObject, copyDeep, ifNull };
+export {
+    mapObject,
+    mapObjectFields,
+    mapToObject,
+    copyDeep,
+    ifNull,
+    unsetFields
+};
