@@ -7,5 +7,6 @@ export default {
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,
-    edit: (state, entity, id) => state.ui[entity].edit[id]
+    edit: (state, entity, id) => state.ui[entity].edit[id],
+    allEdits: (state, entity) => state.ui[entity].edit
 };
