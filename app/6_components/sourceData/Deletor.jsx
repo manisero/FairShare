@@ -24,8 +24,8 @@ let participantMappings = {
         itemName: queries.entityData(state, EntityType.participant, participantId).name
     }),
     mapEventsToProps: (events, { participantId }) => ({
-        onDeleteClick: () => events.entityDelete_Submitted(EntityType.participant, participantId),
-        onCancelClick: () => events.entityDelete_Cancelled(EntityType.participant, participantId)
+        onDeleteClick: () => events.participantDelete_Submitted(participantId),
+        onCancelClick: () => events.participantDelete_Cancelled(participantId)
     })
 };
 

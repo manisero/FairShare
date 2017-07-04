@@ -41,8 +41,8 @@ let participantMappings = {
         selectedItemKey: queries.focus(state, EntityType.participant).itemId
     }),
     mapEventsToProps: events => ({
-        onItemSelect: participantId => events.entitySelected(EntityType.participant, participantId),
-        onAddClick: () => events.entityAdded(EntityType.participant)
+        onItemSelect: participantId => events.participantSelected(participantId),
+        onAddClick: () => events.participantAdded()
     })
 };
 
@@ -57,7 +57,7 @@ let itemMappings = {
         selectedItemKey: queries.focus(state, EntityType.item).itemId
     }),
     mapEventsToProps: events => ({
-        onItemSelect: itemId => events.entitySelected(EntityType.item, itemId),
+        onItemSelect: itemId => events.itemSelected(itemId),
         onAddClick: () => events.itemAdded()
     })
 };
