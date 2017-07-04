@@ -64,8 +64,10 @@ let subscribe = (events, store) => {
                 return;
             }
 
+			let participant = copyDeep(data);
+
 			store.dispatchBatch([
-                actions.updateEntity(EntityType.participant, participantId, data, e),
+                actions.updateEntity(EntityType.participant, participantId, participant, e),
                 actions.clearFocus(EntityType.participant, e),
                 actions.clearEdit(EntityType.participant, participantId, e)
 			]);

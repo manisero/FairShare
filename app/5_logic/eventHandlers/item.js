@@ -14,6 +14,10 @@ let createParticipationEdit = (state, itemId) => {
 	);
 };
 
+let mapParticipationEditToEntity = participationEdit => {
+	return copyDeep(participationEdit); // TODO: Filter out participations without 'contribution' nor 'participates'
+};
+
 let subscribe = (events, store) => {
 
     events.itemSelected.stream
@@ -91,10 +95,12 @@ let subscribe = (events, store) => {
                 return;
             }
 
-            // TODO: Filter out participations without 'contribution' nor 'participates'
+			let item = copyDeep(itemData);
+			let participation = mapParticipationEditToEntity(participationData);
+
 			store.dispatchBatch([
-                actions.updateEntity(EntityType.participation, itemId, participationData, e),
-                actions.updateEntity(EntityType.item, itemId, itemData, e),
+                actions.updateEntity(EntityType.participation, itemId, participation, e),
+                actions.updateEntity(EntityType.item, itemId, item, e),
                 actions.clearFocus(EntityType.item, e),
                 actions.clearEdit(EntityType.participation, itemId, e),
                 actions.clearEdit(EntityType.item, itemId, e)
