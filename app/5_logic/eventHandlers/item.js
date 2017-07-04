@@ -91,6 +91,27 @@ let subscribe = (events, store) => {
 
 			store.dispatchBatch(actionsBatch);
 		});
+    
+    events.participationEdit_Updated.stream
+		.subscribe(e => {
+			let state = store.getState();
+			let { itemId, updateCommand } = e.data;
+			let { data, error } = queries.edit(state, EntityType.participation, itemId);
+			let actionsBatch = [];
+
+			let newData = update(data, updateCommand);
+			actionsBatch.push(actions.setEdit(EntityType.participation, itemId, newData, e));
+
+            let newError = validators.participation(newData, state);
+
+            if (newError != null) {
+                actionsBatch.push(actions.setEditError(EntityType.participation, itemId, newError, e));
+            } else if (error != null) {
+                actionsBatch.push(actions.clearEditError(EntityType.participation, itemId, e));
+            }
+
+			store.dispatchBatch(actionsBatch);
+		});
 	
 	events.itemEdit_Submitted.stream
 		.subscribe(e => {

@@ -61,8 +61,8 @@ let mapStateToProps = (state, { itemId }) => {
 };
 
 let mapEventsToProps = (events, { itemId }) => ({
-    onContributionChange: (participantId, val) => events.entityEdit_Updated(EntityType.participation, itemId, { [participantId]: { contribution: { $set: val } } }),
-    onParticipatesChange: (participantId, val) => events.entityEdit_Updated(EntityType.participation, itemId, { [participantId]: { participates: { $set: val } } }),
+    onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contribution: { $set: val } } }),
+    onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } }),
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipationsEditor);
