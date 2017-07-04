@@ -22,8 +22,9 @@ let reducer = (state, action) => {
 
     if (command != null) {
         let commandArgs = Object.values(action.data);
+        let updateCommand =  command(...commandArgs, state);
 
-        return update(state, command(...commandArgs, state));
+        return update(state, updateCommand);
     } else {
         return state;
     }

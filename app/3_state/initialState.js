@@ -69,6 +69,8 @@ export default {
 			}
 		},
 		participation: {
+			lastId: item2Id,
+			ids: [ item2Id ],
 			items: {
 				[item2Id]: {
 					[participant1Id]: {

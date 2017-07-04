@@ -24,11 +24,20 @@ let eventDataCreators = ({
 	itemEdit_Cancelled: itemId => ({ itemId })
 });
 
-let actionBatches = {
-	entityAdded: (state, entity, origin) => {
-		let id = queries.entityLastId(state, entity) + 1;
-		let data = entityConstructors[entity]();
+let getNextEntityId = (state, entity) => ifNull(queries.entityLastId(state, entity), () => 0) + 1;
 
+let createParticipationEdit = (state, itemId) => {
+	let participantIds = queries.entityIds(state, EntityType.participant);
+	let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
+
+	return mapToObject(
+		participantIds,
+		id => ifNull(itemParticipations[id], () => entityConstructors.participation())
+	);
+};
+
+let actionBatches = {
+	entityAdded: (state, entity, id, data, origin) => {
 		return [
 			actions.addEntity(entity, id, data, origin),
 			actions.setEdit(entity, id, data, origin),
@@ -65,7 +74,20 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.dispatch(actions.clearFocus(e.data.entity, e)));
 
 	events.entityAdded.stream
-		.subscribe(e => store.dispatchBatch(actionBatches.entityAdded(store.getState(), e.data.entity, e)));
+		.subscribe(e => {
+			let state = store.getState();
+			let entity = e.data.entity;
+
+			let id = getNextEntityId(state, entity);
+			let data = entityConstructors[entity]();
+			let editData = copyDeep(data);
+
+			store.dispatchBatch([
+				actions.addEntity(entity, id, data, e),
+				actions.setEdit(entity, id,editData, e),
+				actions.setFocus(entity, id, FocusMode.edited, e)
+			]);
+		});
 	
 	events.entityEdit_Started.stream
 		.subscribe(e => {
@@ -135,7 +157,21 @@ let subscribe = (events, store) => {
 
 	events.itemAdded.stream
 		.subscribe(e => {
-			// TODO: Implement (generate itemId and use for Item creation and Item and Participation edition)
+			let state = store.getState();
+
+			let itemId = getNextEntityId(state, EntityType.item);
+			let item = entityConstructors[EntityType.item]();
+			let participation = {};
+			let itemEdit = copyDeep(item);
+			let participationEdit = createParticipationEdit(state, itemId);
+
+			store.dispatchBatch([
+				actions.addEntity(EntityType.item, itemId, item, e),
+				actions.addEntity(EntityType.participation, itemId, participation, e),
+				actions.setEdit(EntityType.item, itemId, itemEdit, e),
+				actions.setEdit(EntityType.participation, itemId, participationEdit, e),
+				actions.setFocus(EntityType.item, itemId, FocusMode.edited, e)
+			]);
 		});
 
 	events.itemEdit_Started.stream
@@ -145,15 +181,9 @@ let subscribe = (events, store) => {
 
 			// TODO: Note that new Participants won't be added to existing edit
 			if (queries.edit(state, EntityType.participation, itemId) == null) {
-				let participantIds = queries.entityIds(state, EntityType.participant);
-				let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
+				let participationEdit = createParticipationEdit(state, itemId);
 
-                let participations = mapToObject(
-					participantIds,
-					id => ifNull(itemParticipations[id], () => entityConstructors.participation())
-				);
-
-				store.dispatch(actions.setEdit(EntityType.participation, itemId, participations, e));
+				store.dispatch(actions.setEdit(EntityType.participation, itemId, participationEdit, e));
             }
 
 			// TODO: Refactor to call one dispatch only

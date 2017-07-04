@@ -58,7 +58,7 @@ let itemMappings = {
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.entitySelected(EntityType.item, itemId),
-        onAddClick: () => events.entityAdded(EntityType.item)
+        onAddClick: () => events.itemAdded()
     })
 };
 
