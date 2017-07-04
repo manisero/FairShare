@@ -1,10 +1,8 @@
-import update from 'immutability-helper'
 import { copyDeep, ifNull, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import validators from './../validators'
-import { getNextEntityId, actionBatches } from './helpers'
+import { actionBatches, getNextEntityId, handleEntityEditUpdated } from './helpers'
 
 let createParticipationEdit = (state, itemId) => {
 	let participantIds = queries.entityIds(state, EntityType.participant);
@@ -20,13 +18,13 @@ let subscribe = (events, store) => {
 
     events.itemSelected.stream
 		.subscribe(e => store.dispatch(
-            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.selected, e))
-        );
+            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.selected, e)
+        ));
     
     events.itemDeselected.stream
 		.subscribe(e => store.dispatch(
-            actions.clearFocus(EntityType.item, e))
-        );
+            actions.clearFocus(EntityType.item, e)
+        ));
 
 	events.itemAdded.stream
 		.subscribe(e => {
@@ -72,46 +70,14 @@ let subscribe = (events, store) => {
 		});
     
     events.itemEdit_Updated.stream
-		.subscribe(e => {
-			let state = store.getState();
-			let { itemId, updateCommand } = e.data;
-			let { data, error } = queries.edit(state, EntityType.item, itemId);
-			let actionsBatch = [];
-
-			let newData = update(data, updateCommand);
-			actionsBatch.push(actions.setEdit(EntityType.item, itemId, newData, e));
-
-            let newError = validators.item(newData, state);
-
-            if (newError != null) {
-                actionsBatch.push(actions.setEditError(EntityType.item, itemId, newError, e));
-            } else if (error != null) {
-                actionsBatch.push(actions.clearEditError(EntityType.item, itemId, e));
-            }
-
-			store.dispatchBatch(actionsBatch);
-		});
+		.subscribe(e => store.dispatchBatch(
+            handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e)
+        ));
     
     events.participationEdit_Updated.stream
-		.subscribe(e => {
-			let state = store.getState();
-			let { itemId, updateCommand } = e.data;
-			let { data, error } = queries.edit(state, EntityType.participation, itemId);
-			let actionsBatch = [];
-
-			let newData = update(data, updateCommand);
-			actionsBatch.push(actions.setEdit(EntityType.participation, itemId, newData, e));
-
-            let newError = validators.participation(newData, state);
-
-            if (newError != null) {
-                actionsBatch.push(actions.setEditError(EntityType.participation, itemId, newError, e));
-            } else if (error != null) {
-                actionsBatch.push(actions.clearEditError(EntityType.participation, itemId, e));
-            }
-
-			store.dispatchBatch(actionsBatch);
-		});
+		.subscribe(e => store.dispatchBatch(
+            handleEntityEditUpdated(store.getState(), EntityType.participation, e.data.itemId, e.data.updateCommand, e)
+        ));
 	
 	events.itemEdit_Submitted.stream
 		.subscribe(e => {
@@ -144,8 +110,8 @@ let subscribe = (events, store) => {
     
     events.itemDelete_Started.stream
 		.subscribe(e => store.dispatch(
-            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.deleted, e))
-        );
+            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.deleted, e)
+        ));
     
     events.itemDelete_Submitted.stream
 		.subscribe(e => {
@@ -161,8 +127,8 @@ let subscribe = (events, store) => {
 
 	events.itemDelete_Cancelled.stream
 		.subscribe(e => store.dispatch(
-            actions.clearFocus(EntityType.item, e))
-        );
+            actions.clearFocus(EntityType.item, e)
+        ));
 
 };
 
