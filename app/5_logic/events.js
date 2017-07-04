@@ -10,6 +10,17 @@ let eventDataCreators = ({
 	entityDelete_Started: (entity, id) => ({ entity, id }),
 	entityDelete_Submitted: (entity, id) => ({ entity, id }),
 	entityDelete_Cancelled: (entity, id) => ({ entity, id }),
+	// Participant:
+	participantSelected: participantId => ({ participantId }),
+	participantDeselected: () => ({}),
+	participantAdded: () => ({}),
+	participantEdit_Started: participantId => ({ participantId }),
+	participantEdit_Updated: (participantId, updateCommand) => ({ participantId, updateCommand }),
+	participantEdit_Submitted: participantId => ({ participantId }),
+	participantEdit_Cancelled: participantId => ({ participantId }),
+	participantDelete_Started: participantId => ({ participantId }),
+	participantDelete_Submitted: participantId => ({ participantId }),
+	participantDelete_Cancelled: participantId => ({ participantId }),
 	// Item:
 	itemSelected: itemId => ({ itemId }),
 	itemDeselected: () => ({}),
