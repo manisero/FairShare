@@ -1,7 +1,9 @@
+import update from 'immutability-helper'
 import { copyDeep, ifNull, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
+import validators from './../validators'
 import { getNextEntityId, actionBatches } from './helpers'
 
 let createParticipationEdit = (state, itemId) => {
@@ -21,7 +23,7 @@ let subscribe = (events, store) => {
             actions.setFocus(EntityType.item, e.data.itemId, FocusMode.selected, e))
         );
     
-    events.entityDeselected.stream
+    events.itemDeselected.stream
 		.subscribe(e => store.dispatch(
             actions.clearFocus(EntityType.item, e))
         );
@@ -76,7 +78,7 @@ let subscribe = (events, store) => {
 			let { data, error } = queries.edit(state, EntityType.item, itemId);
 			let actionsBatch = [];
 
-			let newData = update(updateCommand);
+			let newData = update(data, updateCommand);
 			actionsBatch.push(actions.setEdit(EntityType.item, itemId, newData, e));
 
             let newError = validators.item(newData, state);

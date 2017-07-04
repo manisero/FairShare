@@ -25,8 +25,8 @@ let mapStateToProps = (state, { itemId }) => ({
 
 let mapEventsToProps = (events, { itemId }) => ({
 	onEditClick: () => events.itemEdit_Started(itemId),
-	onDeleteClick: () => events.entityDelete_Started(EntityType.item, itemId),
-	onCancelClick: () => events.entityDeselected(EntityType.item)
+	onDeleteClick: () => events.itemDelete_Started(itemId),
+	onCancelClick: () => events.itemDeselected()
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ItemDetails);

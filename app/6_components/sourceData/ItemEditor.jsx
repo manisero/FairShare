@@ -32,8 +32,8 @@ let mapStateToProps = (state, { itemId }) => {
 };
 
 let mapEventsToProps = (events, { itemId }) => ({
-	onNameChange: name => events.entityEdit_Updated(EntityType.item, itemId, { name: { $set: name } }),
-	onPriceChange: price => events.entityEdit_Updated(EntityType.item, itemId, { price: { $set: price } }),
+	onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
+	onPriceChange: price => events.itemEdit_Updated(itemId, { price: { $set: price } }),
 	onSubmitClick: () => events.itemEdit_Submitted(itemId),
 	onCancelClick: () => events.itemEdit_Cancelled(itemId)
 });
