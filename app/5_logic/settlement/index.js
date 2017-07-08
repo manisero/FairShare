@@ -6,7 +6,10 @@ let settle = (items, participations) => {
     let participantContributions = calculateParticipantContributions(participations);
     let participantDues = calculateParticipantDues(participations, itemDues);
     let participantBalances = calculateParticipantBalances(participantContributions, participantDues);
-    let { positive: positiveBalances, negative: negativeBalances } = groupParticpantBalances(participantBalances);
+    let { overpayments, overdues } = groupParticpantBalances(participantBalances);
+    let payments = calculatePayments(overpayments, overdues);
+
+    return payments;
 };
 
 let calculateItemDues = (participations, items) =>
@@ -65,18 +68,46 @@ let calculateParticipantBalances = (participantContributions, participantDues) =
 };
 
 let groupParticpantBalances = participantBalances => {
-    let positive = {};
-    let negative = {};
+    let overpayments = {};
+    let overdues = {};
 
     for (let [participantId, balance] of Object.entries(participantBalances)) {
         if (balance > 0) {
-            positive[participantId] = balance;
+            overpayments[participantId] = balance;
         } else if (balance < 0) {
-            negative[participantId] = balance;
+            overdues[participantId] = -balance;
         }
     }
 
-    return { positive, negative };
+    return { overpayments, overdues };
+};
+
+let calculatePayments = (overpayments, overdues) => {
+    let payeesQueue = Object.entries(overpayments).map(
+        ([payeeId, overpayment]) => ({ payeeId, overpayment }));
+    
+    let payeeIndex = 0;
+    let payments = [];
+    
+    for (let [payerId, overdue] of Object.entries(overdues)) {
+        while (overdue > 0 && payeeIndex < payeesQueue.length) {
+            let payee = payeesQueue[payeeIndex];
+            let payeeId = payee.payeeId;
+
+            let amount = Math.min(overdue, payee.overpayment);
+            overdue -= amount;
+            payee.overpayment -= amount;
+
+            payments.push({ payerId, payeeId, amount });
+
+            if (payee.overpayment <= 0) {
+                payeeIndex++;
+            }
+        }
+    }
+
+    // TODO: Handle remaining overdues / overpayments
+    return payments;
 };
 
 export default settle;

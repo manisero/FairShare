@@ -9,7 +9,7 @@ let subscribe = (events, store) => {
             let state = store.getState();
             let items = queries.entityAllData(state, EntityType.item);
             let participations = queries.entityAllData(state, EntityType.participation);
-
+            
             let settlement = settle(items, participations);
         });
 
