@@ -27,6 +27,14 @@ let mapToObject = (array, valueMapper) => {
     return result;
 };
 
+let setOrUpdate = (object, fieldName, setter, updater) => {
+    if (object[fieldName] == null) {
+        object[fieldName] = setter();
+    } else {
+        object[fieldName] = updater(object[fieldName]);
+    }
+};
+
 let unsetFields = (object, fieldFilter) => {
     Object.keys(object).forEach(field => {
         if (fieldFilter(object[field])) {
@@ -41,5 +49,6 @@ export {
     mapToObject,
     copyDeep,
     ifNull,
+    setOrUpdate,
     unsetFields
 };
