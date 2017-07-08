@@ -12,7 +12,7 @@ let ParticipationDetails = ({ participation, participant }) => (
         <td>{participation.contribution}</td>
         <td>
             <Center>
-                <Checkbox checked={participation.participates} disabled />
+                <Checkbox checked={participation.participates} disabled noMargin />
             </Center>
         </td>
     </tr>
