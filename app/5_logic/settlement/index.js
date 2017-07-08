@@ -1,4 +1,5 @@
 import { mapObject, setOrUpdate } from 'jsUtils'
+import { entityConstructors } from 'model'
 
 let settle = (items, participations) => {
     // TODO: Make sure that every Item has Participation
@@ -92,13 +93,13 @@ let calculatePayments = (overpayments, overdues) => {
     for (let [payerId, overdue] of Object.entries(overdues)) {
         while (overdue > 0 && payeeIndex < payeesQueue.length) {
             let payee = payeesQueue[payeeIndex];
-            let payeeId = payee.payeeId;
 
             let amount = Math.min(overdue, payee.overpayment);
             overdue -= amount;
             payee.overpayment -= amount;
 
-            payments.push({ payerId, payeeId, amount });
+            let payment = entityConstructors.payment(payerId, payee.payeeId, amount);
+            payments.push(payment);
 
             if (payee.overpayment <= 0) {
                 payeeIndex++;
