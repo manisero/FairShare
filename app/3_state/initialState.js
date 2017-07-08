@@ -31,7 +31,7 @@ const item3Price = 300.00;
 // state
 
 export default {
-	data: {
+	sourceData: {
 		participant: {
 			lastId: participant3Id,
 			ids: [ participant1Id, participant2Id, participant3Id ],

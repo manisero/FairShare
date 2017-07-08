@@ -6,9 +6,9 @@ let EntityType = {
 };
 
 let EntityCategory = {
-    participant: 'data',
-    item: 'data',
-    participation: 'data',
+    participant: 'sourceData',
+    item: 'sourceData',
+    participation: 'sourceData',
     payment: 'settlement'
 };
 
