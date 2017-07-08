@@ -28,6 +28,9 @@ const item3Id = 3;
 const item3Name = 'Item3';
 const item3Price = 300.00;
 
+// default Payments
+const payment1Id = '' + participant2Id + '_' + participant1Id;
+
 // state
 
 export default {
@@ -89,10 +92,10 @@ export default {
 	},
 	settlement: {
 		payment: {
-			lastId: `{participant2Id}_{participant1Id}`,
-			ids: [ `{participant2Id}_{participant1Id}` ],
+			lastId: payment1Id,
+			ids: [ payment1Id ],
 			items: {
-				[`{participant2Id}_{participant1Id}`]: {
+				[payment1Id]: {
 					payerId: participant2Id,
 					payeeId: participant1Id,
 					amount: item2Price / 2

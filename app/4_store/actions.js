@@ -8,6 +8,7 @@ let actions = createActions({
     addEntity: (entity, id, data) => ({ entity, id, data }),
     updateEntity: (entity, id, data) => ({ entity, id, data }),
     deleteEntity: (entity, id) => ({ entity, id }),
+    deleteAllEntities: entity => ({ entity }),
     // ui:
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
     clearFocus: entity => ({ entity }),

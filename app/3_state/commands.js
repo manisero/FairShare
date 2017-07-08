@@ -28,6 +28,12 @@ export default {
         } } };
     },
 
+    deleteAllEntities: entity => 
+        ({ [EntityCategory[entity]]: { [entity]: {
+            ids: { $set: [] },
+            items: { $set: {} }
+        } } }),
+
     // ui:
 
     setFocus: (entity, id, mode) =>

@@ -19,6 +19,10 @@ let entityConstructors = {
     payment: (payerId, payeeId, amount = 0) => ({ payerId, payeeId, amount })
 };
 
+let entityKeyGetters = {
+    payment: payment => '' + payment.payerId + '_' + payment.payeeId
+};
+
 let FocusMode = {
     noFocus: 'noFocus',
     selected: 'selected',
@@ -26,4 +30,4 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
-export { EntityType, EntityCategory, entityConstructors, FocusMode };
+export { EntityType, EntityCategory, entityConstructors, entityKeyGetters, FocusMode };

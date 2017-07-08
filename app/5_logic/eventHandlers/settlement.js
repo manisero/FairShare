@@ -1,5 +1,6 @@
-import { EntityType } from 'model'
+import { EntityType, entityKeyGetters } from 'model'
 import queries from 'queries'
+import { actions } from 'actions'
 import settle from 'logic/settlement'
 
 let subscribe = (events, store) => {
@@ -11,7 +12,17 @@ let subscribe = (events, store) => {
             let participations = queries.entityAllData(state, EntityType.participation);
             
             let payments = settle(items, participations);
-            console.log(payments);
+            
+            let addPaymentActions = payments.map(payment => {
+                let id = entityKeyGetters[EntityType.payment](payment);
+
+                return actions.addEntity(EntityType.payment, id, payment, e);
+            });
+
+            store.dispatchBatch([
+                actions.deleteAllEntities(EntityType.payment, e),
+				...addPaymentActions
+			]);
         });
 
 };
