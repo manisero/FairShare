@@ -75,7 +75,7 @@ export default {
 				[item1Id]: {},
 				[item2Id]: {
 					[participant1Id]: {
-						contribution: item1Price,
+						contribution: item2Price,
 						participates: true
 					},
 					[participant2Id]: {
