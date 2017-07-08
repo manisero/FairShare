@@ -1,3 +1,5 @@
+import { EntityCategory } from 'model'
+
 let setFocus = (itemId, mode) => ({
     itemId: { $set: itemId },
     mode: { $set: mode }
@@ -5,22 +7,22 @@ let setFocus = (itemId, mode) => ({
 
 export default {
 
-    // data:
+    // entities:
 
     addEntity: (entity, id, data) =>
-        ({ data: { [entity]: {
+        ({ [EntityCategory[entity]]: { [entity]: {
             lastId: { $set: id },
             ids: { $push: [id] },
             items: { [id]: { $set: data } }
         } } }),
     
     updateEntity: (entity, id, data) =>
-        ({ data: { [entity]: { items: { [id]: { $set: data } } } } }),
+        ({ [EntityCategory[entity]]: { [entity]: { items: { [id]: { $set: data } } } } }),
 
     deleteEntity: (entity, id, state) => {
-        let idIndex = state.data[entity].ids.indexOf(id);
+        let idIndex = state[EntityCategory[entity]][entity].ids.indexOf(id);
 
-        return { data: { [entity]: {
+        return { [EntityCategory[entity]]: { [entity]: {
             ids: { $splice: [[ idIndex, 1 ]] },
             items: { $unset: [id] }
         } } };

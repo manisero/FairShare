@@ -1,9 +1,11 @@
+import { EntityCategory } from 'model'
+
 export default {
-    // data:
-    entityLastId: (state, entity) => state.data[entity].lastId,
-    entityIds: (state, entity) => state.data[entity].ids,
-    entityAllData: (state, entity) => state.data[entity].items,
-    entityData: (state, entity, id) => state.data[entity].items[id],
+    // entities:
+    entityLastId: (state, entity) => state[EntityCategory[entity]][entity].lastId,
+    entityIds: (state, entity) => state[EntityCategory[entity]][entity].ids,
+    entityAllData: (state, entity) => state[EntityCategory[entity]][entity].items,
+    entityData: (state, entity, id) => state[EntityCategory[entity]][entity].items[id],
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,

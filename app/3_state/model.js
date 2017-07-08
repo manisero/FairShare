@@ -5,6 +5,13 @@ let EntityType = {
     payment: 'payment'
 };
 
+let EntityCategory = {
+    participant: 'data',
+    item: 'data',
+    participation: 'data',
+    payment: 'settlement'
+};
+
 let entityConstructors = {
     participant: (name = '', contribution = 0) => ({ name, contribution }),
     item: (name = '', price = 0) => ({ name, price }),
@@ -19,4 +26,4 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
-export { EntityType, entityConstructors, FocusMode };
+export { EntityType, EntityCategory, entityConstructors, FocusMode };
