@@ -6,6 +6,7 @@ let settle = (items, participations) => {
     let participantContributions = calculateParticipantContributions(participations);
     let participantDues = calculateParticipantDues(participations, itemDues);
     let participantBalances = calculateParticipantBalances(participantContributions, participantDues);
+    let { positive: positiveBalances, negative: negativeBalances } = groupParticpantBalances(participantBalances);
 };
 
 let calculateItemDues = (participations, items) =>
@@ -69,6 +70,21 @@ let calculateParticipantBalances = (participantContributions, participantDues) =
     }
 
     return balances;
+};
+
+let groupParticpantBalances = participantBalances => {
+    let positive = {};
+    let negative = {};
+
+    for (let [participantId, balance] of Object.entries(participantBalances)) {
+        if (balance > 0) {
+            positive[participantId] = balance;
+        } else if (balance < 0) {
+            negative[participantId] = balance;
+        }
+    }
+
+    return { positive, negative };
 };
 
 export default settle;
