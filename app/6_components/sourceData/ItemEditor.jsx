@@ -23,11 +23,12 @@ let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceCha
 
 let mapStateToProps = (state, { itemId }) => {
 	let { data, error } = queries.edit(state, EntityType.item, itemId);
+	let participationsError = queries.edit(state, EntityType.participation, itemId).error;
 
 	return {
 		item: data,
 		error: ifNull(error, () => ({})),
-		submitEnabled: error == null
+		submitEnabled: error == null && participationsError == null
 	}
 };
 
