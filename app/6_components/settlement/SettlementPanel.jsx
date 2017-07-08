@@ -20,7 +20,7 @@ let mapStateToProps = state => ({
 });
 
 let mapEventsToProps = events => ({
-    onSettleClick: () => console.log('settle')
+    onSettleClick: () => events.settlementRequested()
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(SettlementPanel);

@@ -21,7 +21,9 @@ let eventDataCreators = ({
 	itemEdit_Cancelled: itemId => ({ itemId }),
 	itemDelete_Started: itemId => ({ itemId }),
 	itemDelete_Submitted: itemId => ({ itemId }),
-	itemDelete_Cancelled: itemId => ({ itemId })
+	itemDelete_Cancelled: itemId => ({ itemId }),
+	// Settlement
+	settlementRequested: () => ({})
 });
 
 export default eventDataCreators;
