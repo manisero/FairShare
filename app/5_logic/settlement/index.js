@@ -14,14 +14,14 @@ let calculateItemDues = (participations, items) =>
             .filter(x => x.participates)
             .length;
         
-        return itemParticipantsCount / items[itemId].price;
+        return items[itemId].price / itemParticipantsCount;
 });
 
 let calculateParticipantContributions = participations => {
     let contributions = {};
 
-    for (itemParticipation of Object.values(participations)) {
-        for (participantId of Object.keys(itemParticipation)) {
+    for (let itemParticipation of Object.values(participations)) {
+        for (let participantId of Object.keys(itemParticipation)) {
             let participation = itemParticipation[participantId];
 
             if (participation.contribution != 0) {
@@ -38,10 +38,10 @@ let calculateParticipantContributions = participations => {
 let calculateParticipantDues = (participations, itemDues) => {
     let dues = {};
 
-    for (itemId of Object.keys(participations)) {
+    for (let itemId of Object.keys(participations)) {
         let itemParticipation = participations[itemId];
 
-        for (participantId of Object.keys(itemParticipation)) {
+        for (let participantId of Object.keys(itemParticipation)) {
             let participation = itemParticipation[participantId];
 
             if (participation.participates) {
@@ -60,7 +60,7 @@ let calculateParticipantDues = (participations, itemDues) => {
 let calculateParticipantBalances = (participantContributions, participantDues) => {
     let balances = Object.assign({}, participantContributions);
 
-    for (participantId of Object.keys(participantDues)) {
+    for (let participantId of Object.keys(participantDues)) {
         let due = participantDues[participantId];
 
         setOrUpdate(balances, participantId,
