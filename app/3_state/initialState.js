@@ -87,6 +87,19 @@ export default {
 			}
 		}
 	},
+	settlement: {
+		payment: {
+			lastId: `{participant2Id}_{participant1Id}`,
+			ids: [ `{participant2Id}_{participant1Id}` ],
+			items: {
+				[`{participant2Id}_{participant1Id}`]: {
+					payerId: participant2Id,
+					payeeId: participant1Id,
+					amount: item2Price / 2
+				}
+			}
+		},
+	},
 	ui: {
 		participant: {
 			focus: {
