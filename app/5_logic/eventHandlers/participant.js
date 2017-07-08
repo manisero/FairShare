@@ -1,5 +1,5 @@
 import { copyDeep, ifNull } from 'jsUtils'
-import { EntityType, entityDefaultConstructors, FocusMode } from 'model'
+import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
 import validators from './../validators'
@@ -22,7 +22,7 @@ let subscribe = (events, store) => {
 			let state = store.getState();
 			
 			let participantId = getNextEntityId(state, EntityType.participant);
-			let participant = entityDefaultConstructors[EntityType.participant]();
+			let participant = entityConstructors[EntityType.participant]();
 			let participantEdit = copyDeep(participant);
 
 			store.dispatchBatch([

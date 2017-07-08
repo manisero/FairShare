@@ -1,5 +1,5 @@
 import { copyDeep, ifNull, mapToObject, unsetFields } from 'jsUtils'
-import { EntityType, entityDefaultConstructors, FocusMode } from 'model'
+import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
 import validators from './../validators'
@@ -22,7 +22,7 @@ let subscribe = (events, store) => {
 			let state = store.getState();
 			
 			let itemId = getNextEntityId(state, EntityType.item);
-			let item = entityDefaultConstructors[EntityType.item]();
+			let item = entityConstructors[EntityType.item]();
 			let participation = {};
 			let itemEdit = copyDeep(item);
 			let participationEdit = createParticipationEdit(state, itemId);
@@ -150,7 +150,7 @@ let createParticipationEdit = (state, itemId) => {
 
 	return mapToObject(
 		participantIds,
-		id => ifNull(itemParticipations[id], () => entityDefaultConstructors.participation())
+		id => ifNull(itemParticipations[id], () => entityConstructors.participation())
 	);
 };
 
