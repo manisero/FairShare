@@ -4,11 +4,13 @@ import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
+import ParticipationsDetails from './ParticipationsDetails.jsx'
 
-let ItemDetails = ({ item, onEditClick, onDeleteClick, onCancelClick }) => (
+let ItemDetails = ({ itemId, item, onEditClick, onDeleteClick, onCancelClick }) => (
 	<div>
 		<div>Name: {item.name}</div>
 		<div>Price: {item.price}</div>
+		<ParticipationsDetails itemId={itemId} />
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onEditClick}>Edit</Button>
