@@ -5,47 +5,6 @@ import { actions } from 'actions'
 import validators from './../validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
-let getCleanUpParticipationsActions = (state, participantId) => {
-	let participations = queries.entityAllData(state, EntityType.participation);
-	let cleanUpParticipationsActions = [];
-
-	Object.keys(participations).forEach(itemId => {
-		let participation = participations[itemId];
-		
-		if (participantId in participation) {
-			let newParticipation = Object.assign({}, participation);
-			delete newParticipation[participantId];
-
-			cleanUpParticipationsActions.push(
-				actions.updateEntity(EntityType.participation, itemId, newParticipation)
-			);
-		}
-	});
-
-	return cleanUpParticipationsActions;
-};
-
-let getCleanUpParticipationEditsActions = (state, participantId) => {
-	let participationEdits = queries.allEdits(state, EntityType.participation);
-	let cleanUpParticipationEditsActions = [];
-
-	Object.keys(participationEdits).forEach(itemId => {
-		let participationEdit = participationEdits[itemId].data;
-		
-		if (participantId in participationEdit) {
-			let newEdit = Object.assign({}, participationEdit);
-			delete newEdit[participantId];
-
-			cleanUpParticipationEditsActions.push(
-				actions.setEdit(EntityType.participation, itemId, newEdit),
-				actions.clearEditError(EntityType.participation, itemId)
-			);
-		}
-	});
-
-	return cleanUpParticipationEditsActions;
-};
-
 let subscribe = (events, store) => {
 
     events.participantSelected.stream
@@ -153,6 +112,47 @@ let subscribe = (events, store) => {
             actions.clearFocus(EntityType.participant, e)
         ));
 
+};
+
+let getCleanUpParticipationsActions = (state, participantId) => {
+	let participations = queries.entityAllData(state, EntityType.participation);
+	let cleanUpParticipationsActions = [];
+
+	Object.keys(participations).forEach(itemId => {
+		let participation = participations[itemId];
+		
+		if (participantId in participation) {
+			let newParticipation = Object.assign({}, participation);
+			delete newParticipation[participantId];
+
+			cleanUpParticipationsActions.push(
+				actions.updateEntity(EntityType.participation, itemId, newParticipation)
+			);
+		}
+	});
+
+	return cleanUpParticipationsActions;
+};
+
+let getCleanUpParticipationEditsActions = (state, participantId) => {
+	let participationEdits = queries.allEdits(state, EntityType.participation);
+	let cleanUpParticipationEditsActions = [];
+
+	Object.keys(participationEdits).forEach(itemId => {
+		let participationEdit = participationEdits[itemId].data;
+		
+		if (participantId in participationEdit) {
+			let newEdit = Object.assign({}, participationEdit);
+			delete newEdit[participantId];
+
+			cleanUpParticipationEditsActions.push(
+				actions.setEdit(EntityType.participation, itemId, newEdit),
+				actions.clearEditError(EntityType.participation, itemId)
+			);
+		}
+	});
+
+	return cleanUpParticipationEditsActions;
 };
 
 export default subscribe;

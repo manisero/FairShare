@@ -5,26 +5,6 @@ import { actions } from 'actions'
 import validators from './../validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
-let createParticipationEdit = (state, itemId) => {
-	let participantIds = queries.entityIds(state, EntityType.participant);
-	let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
-
-	return mapToObject(
-		participantIds,
-		id => ifNull(itemParticipations[id], () => entityConstructors.participation())
-	);
-};
-
-let mapParticipationEditToEntity = participationEdit => {
-	let participation = copyDeep(participationEdit);
-
-	unsetFields(participation, x => {
-		return !(x.contribution > 0 || x.participates);
-	});
-
-	return participation;
-};
-
 let subscribe = (events, store) => {
 
     events.itemSelected.stream
@@ -162,6 +142,26 @@ let subscribe = (events, store) => {
             actions.clearFocus(EntityType.item, e)
         ));
 
+};
+
+let createParticipationEdit = (state, itemId) => {
+	let participantIds = queries.entityIds(state, EntityType.participant);
+	let itemParticipations = ifNull(queries.entityData(state, EntityType.participation, itemId), () => ({}));
+
+	return mapToObject(
+		participantIds,
+		id => ifNull(itemParticipations[id], () => entityConstructors.participation())
+	);
+};
+
+let mapParticipationEditToEntity = participationEdit => {
+	let participation = copyDeep(participationEdit);
+
+	unsetFields(participation, x => {
+		return !(x.contribution > 0 || x.participates);
+	});
+
+	return participation;
 };
 
 export default subscribe;
