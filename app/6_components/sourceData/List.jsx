@@ -11,19 +11,19 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
         let key = child.props.itemKey;
 
         return key === selectedItemKey
-            ? (<div key={key} className="list-group-item">{child}</div>)
-            : (<a key={key} href="#" onClick={() => onItemSelect(key)} className="list-group-item">{child}</a>);
+            ? (<div key={key} className='list-group-item'>{child}</div>)
+            : (<a key={key} href='#' onClick={() => onItemSelect(key)} className='list-group-item'>{child}</a>);
     });
 
     return (
-        <div className="panel panel-default">
-            <div className="panel-heading">
-                <h3 className="panel-title">{title}</h3>
+        <div className='panel panel-default'>
+            <div className='panel-heading'>
+                <h3 className='panel-title'>{title}</h3>
             </div>
-            <div className="list-group">
+            <div className='list-group'>
                 {items}
             </div>
-            <div className="panel-body">
+            <div className='panel-body'>
                 <Right>
                     <Button onClick={() => onAddClick()}>Add</Button>
                 </Right>
