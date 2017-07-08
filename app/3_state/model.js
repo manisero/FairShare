@@ -5,18 +5,15 @@ let EntityType = {
 };
 
 let entityConstructors = {
-    [EntityType.participant]: () => ({
-        name: '',
-        contribution: 0
-    }),
-    [EntityType.item]: () => ({
-        name: '',
-        price: 0
-    }),
-    [EntityType.participation]: () => ({
-        contribution: 0,
-        participates: false
-    })
+    participant: (name, contribution) => ({ name, contribution }),
+    item: (name, price) => ({ name, price }),
+    participation: (contribution, participates) => ({ contribution, participates })
+};
+
+let entityDefaultConstructors = {
+    participant: () => entityConstructors.participant('', 0),
+    item: () => entityConstructors.item('', 0),
+    participation: () => entityConstructors.participation(0, false)
 };
 
 let FocusMode = {
@@ -26,4 +23,4 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
-export { EntityType, entityConstructors, FocusMode };
+export { EntityType, entityDefaultConstructors, FocusMode };
