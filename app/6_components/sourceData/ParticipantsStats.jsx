@@ -4,9 +4,9 @@ import { EntityType } from 'model'
 import queries from 'queries'
 
 let ParticipantsStats = ({ participantsCount }) => (
-	<div>
-        #: {participantsCount}
-	</div>
+	<ul className='list-inline text-info'>
+		<li>#: {participantsCount}</li>
+	</ul>
 );
 
 let mapStateToProps = state => ({

@@ -5,16 +5,11 @@ import queries from 'queries'
 import { Money } from 'compUtils'
 
 let ItemsStats = ({ itemsCount, totalItemsCost }) => (
-	<div>
-		<ul className='list-inline'>
-			<li>#: {itemsCount}</li>
-			<li>|</li>
-			<li>Total cost: <Money amount={totalItemsCost} /></li>
-		</ul>
-		<div>
-			#: {itemsCount} | Total cost: <Money amount={totalItemsCost} />
-		</div>
-	</div>
+	<ul className='list-inline text-info'>
+		<li>#: {itemsCount}</li>
+		<li>|</li>
+		<li>Total cost: <Money amount={totalItemsCost} /></li>
+	</ul>
 );
 
 let mapStateToProps = state => ({
