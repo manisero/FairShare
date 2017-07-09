@@ -1,9 +1,15 @@
 import React from 'react'
 import { Money } from 'compUtils'
 
+let ParticipantLabel = ({ participant }) => {
+    return participant != null
+        ? <span>{participant.name}</span>
+        : <span className='text-danger'>Unknown</span>
+};
+
 let Payment = ({ amount, payee }) => (
     <li>
-        <Money amount={amount} /> to {payee.name}
+        <Money amount={amount} /> to <ParticipantLabel participant={payee} />
     </li>
 );
 
@@ -16,7 +22,7 @@ let PayerPayments = ({ payerId, payments, participants }) => {
 
     return (
         <li>
-            {payer.name} owes:
+            <ParticipantLabel participant={payer} /> owes:
             <ul>
                 {paymentElements}
             </ul>
