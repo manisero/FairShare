@@ -1,8 +1,9 @@
 import React from 'react'
+import { Money } from 'compUtils'
 
 let Payment = ({ amount, payee }) => (
     <li>
-        {amount} to {payee.name}
+        <Money amount={amount} /> to {payee.name}
     </li>
 );
 
