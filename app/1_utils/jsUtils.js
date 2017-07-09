@@ -27,6 +27,26 @@ let mapToObject = (array, valueMapper) => {
     return result;
 };
 
+let safeGet = (object, ...fieldsPath) => {
+    if (object == null) {
+        return null;
+    }
+
+    let current = object;
+
+    for (var i = 0; i < fieldsPath.length; i++) {
+        var fieldName = fieldsPath[i];
+
+        if (current[fieldName] == null) {
+            return null;
+        }
+        
+        current = current[fieldName];
+    }
+
+    return current;
+};
+
 let setOrUpdate = (object, fieldName, setter, updater) => {
     if (object[fieldName] == null) {
         object[fieldName] = setter();
@@ -36,10 +56,11 @@ let setOrUpdate = (object, fieldName, setter, updater) => {
 };
 
 export {
+    copyDeep,
+    ifNull,
     mapObject,
     mapObjectFields,
     mapToObject,
-    copyDeep,
-    ifNull,
+    safeGet,
     setOrUpdate
 };
