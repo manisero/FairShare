@@ -1,11 +1,15 @@
 import React from 'react'
 
-let Right = ({ children }) => (
-	<div className='clearfix'>
+let Right = ({ children, isNotLast }) => {
+    let right = (
         <div className='pull-right'>
             {children}
         </div>
-    </div>
-);
+    ); 
+
+    return isNotLast
+        ? right
+        : <div className='clearfix'>{right}</div>
+};
 
 export default Right;

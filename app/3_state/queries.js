@@ -7,6 +7,7 @@ export default {
     entityIds: (state, entity) => state[EntityCategory[entity]][entity].ids,
     entityAllData: (state, entity) => state[EntityCategory[entity]][entity].items,
     entityData: (state, entity, id) => state[EntityCategory[entity]][entity].items[id],
+    entityCount: (state, entity) => state[EntityCategory[entity]][entity].ids.length,
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,
@@ -14,6 +15,12 @@ export default {
     allEdits: (state, entity) => state.ui[entity].edit,
 
     // non-generic:
+    totalItemsCost: state =>
+        Object.values(state.sourceData.item.items)
+            .reduce(
+                (total, item) => total + item.price,
+                0),
+
     paymentsByPayerId: state => {
         let result = {};
 

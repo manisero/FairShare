@@ -2,11 +2,13 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Right } from 'compUtils'
+import { Left, Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
+import ParticipantsStats from './ParticipantsStats.jsx'
+import ItemsStats from './ItemsStats.jsx'
 
-let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
+let List = ({ title, children, selectedItemKey, statsElement, onItemSelect, onAddClick }) => {
     let items = children.map(child => {
         let key = child.props.itemKey;
 
@@ -24,6 +26,9 @@ let List = ({ title, children, selectedItemKey, onItemSelect, onAddClick }) => {
                 {items}
             </div>
             <div className='panel-body'>
+                <Left isNotLast>
+                    {statsElement}
+                </Left>
                 <Right>
                     <Button onClick={() => onAddClick()}>Add</Button>
                 </Right>
@@ -38,7 +43,8 @@ let participantMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
 	    children: queries.entityIds(state, EntityType.participant).map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
-        selectedItemKey: queries.focus(state, EntityType.participant).itemId
+        selectedItemKey: queries.focus(state, EntityType.participant).itemId,
+        statsElement: <ParticipantsStats />
     }),
     mapEventsToProps: events => ({
         onItemSelect: participantId => events.participantSelected(participantId),
@@ -54,7 +60,8 @@ let itemMappings = {
     mapStateToProps: state => ({
         title: 'Items',
 	    children: queries.entityIds(state, EntityType.item).map(id => (<ItemTile itemKey={id} itemId={id} />)),
-        selectedItemKey: queries.focus(state, EntityType.item).itemId
+        selectedItemKey: queries.focus(state, EntityType.item).itemId,
+        statsElement: <ItemsStats />
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.itemSelected(itemId),
