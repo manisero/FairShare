@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Right } from 'compUtils'
+import { Money, Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
 import ParticipationsDetails from './ParticipationsDetails.jsx'
 
 let ItemDetails = ({ itemId, item, onEditClick, onDeleteClick, onCancelClick }) => (
 	<div>
 		<div>Name: {item.name}</div>
-		<div>Price: {item.price}</div>
+		<div>Price: <Money amount={item.price} /></div>
 		<ParticipationsDetails itemId={itemId} />
 		<Right>
 			<ButtonGroup>

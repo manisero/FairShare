@@ -3,13 +3,13 @@ import { mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Center } from 'compUtils'
+import { Money, Center } from 'compUtils'
 import { Checkbox } from 'inputs'
 
 let ParticipationDetails = ({ participation, participant }) => (
     <tr>
         <td>{participant.name}</td>
-        <td>{participation.contribution}</td>
+        <td><Money amount={participation.contribution} /></td>
         <td>
             <Center>
                 <Checkbox checked={participation.participates} disabled noMargin />

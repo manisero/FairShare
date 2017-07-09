@@ -1,12 +1,13 @@
 import React from 'react'
+import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { connect } from 'reactReduxUtils'
+import { Money } from 'compUtils'
 
 let ItemShowcase = ({ item }) => (
 	<div>
 		<div>Name: {item.name}</div>
-		<div>Price: {item.price}</div>
+		<div>Price: <Money amount={item.price} /></div>
 	</div>
 );
 
