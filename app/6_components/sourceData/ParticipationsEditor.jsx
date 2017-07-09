@@ -10,7 +10,7 @@ let ParticipationEditor = ({ participation, participant, error, onContributionCh
     <tr>
         <td>{participant.name}</td>
         <td>
-            <NumberBox value={participation.contribution} error={error.contribution} noMargin onChange={onContributionChange} />
+            <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={error.contribution} noMargin onChange={onContributionChange} />
         </td>
         <td>
             <Center>
@@ -61,7 +61,10 @@ let mapStateToProps = (state, { itemId }) => {
 };
 
 let mapEventsToProps = (events, { itemId }) => ({
-    onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contribution: { $set: val } } }),
+    onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
+		contribution: { $set: val.value },
+		contribution_string: { $set: val.valueString }
+	} }),
     onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } }),
 });
 

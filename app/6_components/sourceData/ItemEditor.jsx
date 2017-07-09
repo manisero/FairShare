@@ -9,8 +9,8 @@ import ParticipationsEditor from './ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
-		<NumberBox label='Price' value={item.price} error={error.price} onChange={x => onPriceChange(x)} />
+		<TextBox label='Name' valueString={item.name} error={error.name} onChange={x => onNameChange(x)} />
+		<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={error.price} onChange={x => onPriceChange(x)} />
 		<ParticipationsEditor itemId={itemId} />
 		<Right>
 			<ButtonGroup>
@@ -34,7 +34,10 @@ let mapStateToProps = (state, { itemId }) => {
 
 let mapEventsToProps = (events, { itemId }) => ({
 	onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
-	onPriceChange: price => events.itemEdit_Updated(itemId, { price: { $set: price } }),
+	onPriceChange: price => events.itemEdit_Updated(itemId, {
+		price: { $set: price.value },
+		price_string: { $set: price.valueString }
+	}),
 	onSubmitClick: () => events.itemEdit_Submitted(itemId),
 	onCancelClick: () => events.itemEdit_Cancelled(itemId)
 });

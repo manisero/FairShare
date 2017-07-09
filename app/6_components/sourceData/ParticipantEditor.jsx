@@ -8,8 +8,8 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
 let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' value={participant.name} error={error.name} onChange={x => onNameChange(x)} />
-		<NumberBox label='Contribution' value={participant.contribution} error={error.contribution} onChange={x => onContributionChange(x)} />
+		<TextBox label='Name' valueString={participant.name} error={error.name} onChange={x => onNameChange(x)} />
+		<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={error.contribution} onChange={x => onContributionChange(x)} />
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
@@ -31,7 +31,10 @@ let mapStateToProps = (state, { participantId }) => {
 
 let mapEventsToProps = (events, { participantId }) => ({
 	onNameChange: name => events.participantEdit_Updated(participantId, { name: { $set: name } }),
-	onContributionChange: contribution => events.participantEdit_Updated(participantId, { contribution: { $set: contribution } }),
+	onContributionChange: contribution => events.participantEdit_Updated(participantId, {
+		contribution: { $set: contribution.value },
+		contribution_string: { $set: contribution.valueString }
+	}),
 	onSubmitClick: () => events.participantEdit_Submitted(participantId),
 	onCancelClick: () => events.participantEdit_Cancelled(participantId)
 });

@@ -1,19 +1,20 @@
 import React from 'react'
 
 class TextBox extends React.Component {
+
 	constructor(props) {
 		super(props);
-		this.formatValueToDisplay = this.formatValueToDisplay.bind(this);
+		this.formatInitialValueToString = this.formatInitialValueToString.bind(this);
 		this.formatNewValueToReport = this.formatNewValueToReport.bind(this);
 		this.focus = this.focus.bind(this);
 	}
 
-	formatValueToDisplay(value) {
-		return value;
+	formatInitialValueToString(value) {
+		return valueString;
 	}
 
-	formatNewValueToReport(newValue) {
-		return newValue;
+	formatNewValueToReport(valueString) {
+		return valueString;
 	}
 
 	focus() {
@@ -21,12 +22,16 @@ class TextBox extends React.Component {
 	}
 
 	render() {
-		let { label, value, error, onChange } = this.props;
+		let { label, valueString, initialValue, error, onChange } = this.props;
 
 		let rootClass = error == null
 			? 'form-group'
 			: 'form-group has-error';
 		
+		let value = valueString != null
+			? valueString
+			: this.formatInitialValueToString(initialValue);
+
 		let errorElement = error == null
 			? null
 			: <span className='help-block'>{error}</span>;
@@ -37,7 +42,7 @@ class TextBox extends React.Component {
 				<input
 					ref={x => this.input = x}
 					type='text'
-					value={this.formatValueToDisplay(value)}
+					value={value}
 					placeholder={label}
 					className='form-control'
 					onChange={e => onChange(this.formatNewValueToReport(e.target.value))} />
@@ -45,6 +50,7 @@ class TextBox extends React.Component {
 			</div>
 		);
 	}
+	
 };
 
 export default TextBox;
