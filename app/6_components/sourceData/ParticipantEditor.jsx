@@ -8,7 +8,7 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
 let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox ref={x => { if (x) x.focus()}} label='Name' value={participant.name} error={error.name} onChange={x => onNameChange(x)} />
+		<TextBox label='Name' value={participant.name} error={error.name} onChange={x => onNameChange(x)} />
 		<NumberBox label='Contribution' value={participant.contribution} error={error.contribution} onChange={x => onContributionChange(x)} />
 		<Right>
 			<ButtonGroup>
