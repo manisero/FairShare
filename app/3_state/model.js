@@ -30,4 +30,10 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
-export { EntityType, EntityCategory, entityConstructors, entityKeyGetters, FocusMode };
+export {
+    EntityType,
+    EntityCategory,
+    entityConstructors,
+    entityKeyGetters,
+    FocusMode
+};

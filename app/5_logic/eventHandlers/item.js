@@ -1,4 +1,4 @@
-import { copyDeep, ifNull, mapToObject, unsetFields } from 'jsUtils'
+import { copyDeep, ifNull, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -100,7 +100,7 @@ let subscribe = (events, store) => {
                 return;
             }
 
-			let item = copyDeep(itemData);
+			let item = { name: itemData.name, price: itemData.price };
 			let participation = mapParticipationEditToEntity(participationData);
 
 			store.dispatchBatch([
@@ -155,13 +155,18 @@ let createParticipationEdit = (state, itemId) => {
 };
 
 let mapParticipationEditToEntity = participationEdit => {
-	let participation = copyDeep(participationEdit);
+	let result = {};
+	
+	for (let [participantId, participation] of Object.entries(participationEdit)) {
+		if (participation.contribution > 0 || participation.participates) {
+			result[participantId] = {
+				contribution: participation.contribution,
+				participates: participation.participates
+			};
+		}
+	}
 
-	unsetFields(participation, x => {
-		return !(x.contribution > 0 || x.participates);
-	});
-
-	return participation;
+	return result;
 };
 
 export default subscribe;

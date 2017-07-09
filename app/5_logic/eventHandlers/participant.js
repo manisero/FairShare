@@ -1,4 +1,4 @@
-import { copyDeep, ifNull } from 'jsUtils'
+import { copyDeep } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -70,7 +70,7 @@ let subscribe = (events, store) => {
 				return;
 			}
 
-			let participant = copyDeep(data);
+			let participant =  { name: data.name, contribution: data.contribution };
 
 			store.dispatchBatch([
                 actions.updateEntity(EntityType.participant, participantId, participant, e),

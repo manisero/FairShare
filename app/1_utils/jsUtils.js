@@ -35,20 +35,11 @@ let setOrUpdate = (object, fieldName, setter, updater) => {
     }
 };
 
-let unsetFields = (object, fieldFilter) => {
-    Object.keys(object).forEach(field => {
-        if (fieldFilter(object[field])) {
-            delete object[field];
-        }
-    });
-};
-
 export {
     mapObject,
     mapObjectFields,
     mapToObject,
     copyDeep,
     ifNull,
-    setOrUpdate,
-    unsetFields
+    setOrUpdate
 };
