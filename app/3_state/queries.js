@@ -1,3 +1,4 @@
+import { setOrUpdate } from 'jsUtils'
 import { EntityCategory } from 'model'
 
 export default {
@@ -10,5 +11,18 @@ export default {
     // ui:
     focus: (state, entity) => state.ui[entity].focus,
     edit: (state, entity, id) => state.ui[entity].edit[id],
-    allEdits: (state, entity) => state.ui[entity].edit
+    allEdits: (state, entity) => state.ui[entity].edit,
+
+    // non-generic:
+    paymentsByPayerId: state => {
+        let result = {};
+
+        for (var payment of Object.values(state.settlement.payment.items)) {
+            setOrUpdate(result, payment.payerId,
+                () => ([ payment ]),
+                payments => ([ ...payments, payment ]));
+        }
+
+        return result;
+    }
 };

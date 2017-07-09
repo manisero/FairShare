@@ -3,19 +3,14 @@ import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Button } from 'inputs'
+import PayerPayments from './PayerPayments.jsx'
 
-let SettlementPanel = ({ paymentIds, payments, participants, onSettleClick }) => {
-    let paymentElements = paymentIds.map(paymentId => {
-        let payment = payments[paymentId];
-        let payer = participants[payment.payerId];
-        let payee = participants[payment.payeeId];
+let SettlementPanel = ({ paymentsByPayerId, participants, onSettleClick }) => {
+    // TODO: Copying payments to clipboard
 
-        return (
-            <div key={paymentId}>
-                {payer.name} owes {payment.amount} to {payee.name}
-            </div>
-        );
-    });
+    let payerPayments = Object.entries(paymentsByPayerId).map(
+        ([payerId, payments]) => <PayerPayments key={payerId} payerId={payerId} payments={payments} participants={participants} />
+    );
 
     return (
         <div className='panel panel-default'>
@@ -26,15 +21,14 @@ let SettlementPanel = ({ paymentIds, payments, participants, onSettleClick }) =>
                 <Button onClick={() => onSettleClick()}>Settle</Button>
             </div>
             <div>
-                {paymentElements}
+                {payerPayments}
             </div>
         </div>
     );
 };
 
 let mapStateToProps = state => ({
-    paymentIds: queries.entityIds(state, EntityType.payment),
-    payments: queries.entityAllData(state, EntityType.payment),
+    paymentsByPayerId: queries.paymentsByPayerId(state),
     participants: queries.entityAllData(state, EntityType.participant)
 });
 
