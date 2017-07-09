@@ -9,7 +9,7 @@ import ParticipationsEditor from './ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
+		<TextBox ref={x => { if (x) x.focus()}} label='Name' value={item.name} error={error.name} onChange={x => onNameChange(x)} />
 		<NumberBox label='Price' value={item.price} error={error.price} onChange={x => onPriceChange(x)} />
 		<ParticipationsEditor itemId={itemId} />
 		<Right>
