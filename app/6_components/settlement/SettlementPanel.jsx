@@ -20,9 +20,9 @@ let SettlementPanel = ({ paymentsByPayerId, participants, onSettleClick }) => {
             <div className='panel-body'>
                 <Button onClick={() => onSettleClick()}>Settle</Button>
             </div>
-            <div>
+            <ul>
                 {payerPayments}
-            </div>
+            </ul>
         </div>
     );
 };

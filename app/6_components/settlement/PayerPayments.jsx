@@ -1,9 +1,9 @@
 import React from 'react'
 
 let Payment = ({ amount, payee }) => (
-    <div>
+    <li>
         {amount} to {payee.name}
-    </div>
+    </li>
 );
 
 let PayerPayments = ({ payerId, payments, participants }) => {
@@ -14,12 +14,12 @@ let PayerPayments = ({ payerId, payments, participants }) => {
     );
 
     return (
-        <div>
-            <div>{payer.name} owes:</div>
-            <div>
+        <li>
+            {payer.name} owes:
+            <ul>
                 {paymentElements}
-            </div>
-        </div>
+            </ul>
+        </li>
     );
 };
 
