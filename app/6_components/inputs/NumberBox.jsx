@@ -1,31 +1,40 @@
 import React from 'react'
+import TextBox from './TextBox.jsx'
 
-let getNewValue = e => {
-	let value = parseFloat(e.target.value);
+const DecimalSeparator = '.';
 
-	return !isNaN(value) ? value : 0;
-}
+let parseAndCheckImplicitDecimal = (valueString) => {
+	let value = parseFloat(valueString);
+	value = !isNaN(value) ? value : 0
 
-let NumberBox = props => {
-	let rootClass = props.error == null
-		? 'form-group'
-		: 'form-group has-error';
-	
-	let rootStyle = props.noMargin
-		? { margin: '0' }
-		: null;
+	let isExplicitDecimal = value % 1 !== 0;
+	let isImplicitDecimal = !isExplicitDecimal && valueString.endsWith(DecimalSeparator);
 
-	let errorElement = props.error == null
-		? null
-		: <span className='help-block'>{props.error}</span>;
+	return { value, isImplicitDecimal };
+};
 
-	return (
-		<div className={rootClass} style={rootStyle}>
-			<label className='control-label'>{props.label}</label>
-			<input type='number' value={props.value} placeholder={props.label} className='form-control' onChange={e => props.onChange(getNewValue(e))} />
-			{errorElement}
-		</div>
-	);
+class NumberBox extends TextBox {
+	constructor(props) {
+		super(props);
+
+		this.state = { isImplicitDecimal: false }; 
+	}
+
+	formatValueToDisplay(value) {
+		return this.state.isImplicitDecimal
+		? '' + value + DecimalSeparator
+		: value;
+	}
+
+	formatNewValueToReport(newValue) {
+		let { value, isImplicitDecimal } = parseAndCheckImplicitDecimal(newValue);
+
+		if (isImplicitDecimal !== this.state.isImplicitDecimal) {
+			this.setState({ isImplicitDecimal });
+		}
+
+		return value;
+	}
 };
 
 export default NumberBox;

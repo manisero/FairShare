@@ -1,11 +1,19 @@
 import React from 'react'
 
-let getNewValue = e => e.target.value;
-
 class TextBox extends React.Component {
 	constructor(props) {
 		super(props);
+		this.formatValueToDisplay = this.formatValueToDisplay.bind(this);
+		this.formatNewValueToReport = this.formatNewValueToReport.bind(this);
 		this.focus = this.focus.bind(this);
+	}
+
+	formatValueToDisplay(value) {
+		return value;
+	}
+
+	formatNewValueToReport(newValue) {
+		return newValue;
 	}
 
 	focus() {
@@ -29,10 +37,10 @@ class TextBox extends React.Component {
 				<input
 					ref={x => this.input = x}
 					type='text'
-					value={value}
+					value={this.formatValueToDisplay(value)}
 					placeholder={label}
 					className='form-control'
-					onChange={e => onChange(getNewValue(e))} />
+					onChange={e => onChange(this.formatNewValueToReport(e.target.value))} />
 				{errorElement}
 			</div>
 		);
