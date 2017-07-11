@@ -36,6 +36,7 @@ module.exports = {
   resolve: {
     alias: {
       // utils:
+      utils: path.resolve(__dirname, 'app/1_utils/'),
       jsUtils: path.resolve(__dirname, 'app/1_utils/jsUtils'),
       reactReduxUtils: path.resolve(__dirname, 'app/1_utils/reactReduxUtils'),
       // framework:
