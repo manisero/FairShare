@@ -10,16 +10,16 @@ import ParticipantDetails from './ParticipantDetails.jsx'
 import ParticipantEditor from './ParticipantEditor.jsx'
 import { ParticipantDeletor, ItemDeletor } from './Deletor.jsx'
 
-let Tile = ({ focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory }) => {
+let Tile = ({ entityId, focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory }) => {
 	switch (focusMode) {
 	case FocusMode.noFocus:
-		return showcaseFactory();
+		return showcaseFactory(entityId);
 	case FocusMode.selected:
-		return detailsFactory();
+		return detailsFactory(entityId);
 	case FocusMode.edited:
-		return editorFactory();
+		return editorFactory(entityId);
 	case FocusMode.deleted:
-		return deletorFactory();
+		return deletorFactory(entityId);
 	default:
 		return null;
 	}
@@ -27,24 +27,40 @@ let Tile = ({ focusMode, showcaseFactory, detailsFactory, editorFactory, deletor
 
 // Participant
 
+let participantFactories = {
+	showcase: id => <ParticipantShowcase participantId={id} />,
+	details: id => <ParticipantDetails participantId={id} />,
+	editor: id => <ParticipantEditor participantId={id} />,
+	deletor: id => <ParticipantDeletor participantId={id} />
+};
+
 let participantMapStateToProps = (state, { participantId }) => ({
+	entityId: participantId,
 	focusMode: queries.focus(state, EntityType.participant).itemId === participantId ? queries.focus(state, EntityType.participant).mode : FocusMode.noFocus,
-	showcaseFactory: () => <ParticipantShowcase participantId={participantId} />,
-	detailsFactory: () => <ParticipantDetails participantId={participantId} />,
-	editorFactory: () => <ParticipantEditor participantId={participantId} />,
-	deletorFactory: () => <ParticipantDeletor participantId={participantId} />
+	showcaseFactory: participantFactories.showcase,
+	detailsFactory: participantFactories.details,
+	editorFactory: participantFactories.editor,
+	deletorFactory: participantFactories.deletor
 });
 
 let ParticipantTile = connect(participantMapStateToProps)(Tile); 
 
 // Item
 
+let itemFactories = {
+	showcase: id => <ItemShowcase itemId={id} />,
+	details: id => <ItemDetails itemId={id} />,
+	editor: id => <ItemEditor itemId={id} />,
+	deletor: id => <ItemDeletor itemId={id} />
+};
+
 let itemMapStateToProps = (state, { itemId }) => ({
+	entityId: itemId,
 	focusMode: queries.focus(state, EntityType.item).itemId === itemId ? queries.focus(state, EntityType.item).mode : FocusMode.noFocus,
-	showcaseFactory: () => <ItemShowcase itemId={itemId} />,
-	detailsFactory: () => <ItemDetails itemId={itemId} />,
-	editorFactory: () => <ItemEditor itemId={itemId} />,
-	deletorFactory: () => <ItemDeletor itemId={itemId} />
+	showcaseFactory: itemFactories.showcase,
+	detailsFactory: itemFactories.details,
+	editorFactory: itemFactories.editor,
+	deletorFactory: itemFactories.deletor
 });
 
 let ItemTile = connect(itemMapStateToProps)(Tile); 
