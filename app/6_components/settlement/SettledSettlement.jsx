@@ -4,8 +4,6 @@ import { Button, ButtonGroup } from 'inputs'
 import PaymentsList from './PaymentsList.jsx'
 
 let SettledSettlement = ({ onResettleClick, onCopyClick }) => {
-    // TODO: Copying payments to clipboard
-
     return (
         <div>
             <ButtonGroup>
