@@ -1,5 +1,5 @@
 import React from 'react'
-import { ifNull, mapObjectFields } from 'jsUtils'
+import { safeGet, mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
@@ -10,11 +10,11 @@ let ParticipationEditor = ({ participation, participant, error, onContributionCh
     <tr>
         <td>{participant.name}</td>
         <td>
-            <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={error.contribution} noMargin onChange={onContributionChange} />
+            <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
         </td>
         <td>
             <Center>
-                <Checkbox checked={participation.participates} error={error.participates} onChange={onParticipatesChange} />
+                <Checkbox checked={participation.participates} error={safeGet(error, 'participates')} onChange={onParticipatesChange} />
             </Center>
         </td>
     </tr>
@@ -28,7 +28,7 @@ let ParticipationsEditor = ({ participations, participants, error, onContributio
                 key={participantId}
                 participation={participation}
                 participant={participants[participantId]}
-                error={ifNull(error[participantId], () => ({}))}
+                error={safeGet(error, participantId)}
                 onContributionChange={val => onContributionChange(participantId, val)}
                 onParticipatesChange={val => onParticipatesChange(participantId, val)} />
         )
@@ -55,7 +55,7 @@ let mapStateToProps = (state, { itemId }) => {
 
     return {
         participations: data,
-        error: ifNull(error, () => ({})),
+        error: error,
         participants: queries.entityAllData(state, EntityType.participant)
     };
 };
