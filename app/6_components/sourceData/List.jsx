@@ -8,13 +8,13 @@ import { ParticipantTile, ItemTile } from './Tile.jsx'
 import ParticipantsStats from './ParticipantsStats.jsx'
 import ItemsStats from './ItemsStats.jsx'
 
-let List = ({ title, children, selectedItemKey, statsElement, onItemSelect, onAddClick }) => {
-    let items = children.map(child => {
-        let key = child.props.itemKey;
+let List = ({ title, entityIds, itemFactory, selectedEntityId, statsElementFactory, onItemSelect, onAddClick }) => {
+    let items = entityIds.map(id => {
+        let item = itemFactory(id);
 
-        return key === selectedItemKey
-            ? (<div key={key} className='list-group-item'>{child}</div>)
-            : (<a key={key} href='#' onClick={() => onItemSelect(key)} className='list-group-item'>{child}</a>);
+        return id === selectedEntityId
+            ? (<div key={id} className='list-group-item'>{item}</div>)
+            : (<a key={id} href='#' onClick={() => onItemSelect(id)} className='list-group-item'>{item}</a>);
     });
 
     return (
@@ -27,7 +27,7 @@ let List = ({ title, children, selectedItemKey, statsElement, onItemSelect, onAd
             </div>
             <div className='panel-body'>
                 <Left isNotLast>
-                    {statsElement}
+                    {statsElementFactory()}
                 </Left>
                 <Right>
                     <Button onClick={() => onAddClick()}>Add</Button>
@@ -39,12 +39,18 @@ let List = ({ title, children, selectedItemKey, statsElement, onItemSelect, onAd
 
 // Participant:
 
+let participantFactories = {
+    item: id => <ParticipantTile participantId={id} />,
+    statsElement: () => <ParticipantsStats />
+};
+
 let participantMappings = {
     mapStateToProps: state => ({
         title: 'Participants',
-	    children: queries.entityIds(state, EntityType.participant).map(id => (<ParticipantTile itemKey={id} participantId={id} />)),
-        selectedItemKey: queries.focus(state, EntityType.participant).itemId,
-        statsElement: <ParticipantsStats />
+        entityIds: queries.entityIds(state, EntityType.participant),
+	    itemFactory: participantFactories.item,
+        selectedEntityId: queries.focus(state, EntityType.participant).itemId,
+        statsElementFactory: participantFactories.statsElement
     }),
     mapEventsToProps: events => ({
         onItemSelect: participantId => events.participantSelected(participantId),
@@ -56,12 +62,18 @@ let ParticipantList = connect(participantMappings.mapStateToProps, participantMa
 
 // Item:
 
+let itemFactories = {
+    item: id => <ItemTile itemId={id} />,
+    statsElement: () => <ItemsStats />
+};
+
 let itemMappings = {
     mapStateToProps: state => ({
         title: 'Items',
-	    children: queries.entityIds(state, EntityType.item).map(id => (<ItemTile itemKey={id} itemId={id} />)),
-        selectedItemKey: queries.focus(state, EntityType.item).itemId,
-        statsElement: <ItemsStats />
+        entityIds: queries.entityIds(state, EntityType.item),
+	    itemFactory: itemFactories.item,
+        selectedEntityId: queries.focus(state, EntityType.item).itemId,
+        statsElementFactory: itemFactories.statsElement
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.itemSelected(itemId),
