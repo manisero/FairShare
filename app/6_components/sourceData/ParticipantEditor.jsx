@@ -1,5 +1,5 @@
 import React from 'react'
-import { ifNull } from 'jsUtils'
+import { safeGet } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
@@ -8,8 +8,8 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
 let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' valueString={participant.name} error={error.name} onChange={x => onNameChange(x)} />
-		<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={error.contribution} onChange={x => onContributionChange(x)} />
+		<TextBox label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
+		<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} />
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
@@ -24,7 +24,7 @@ let mapStateToProps = (state, { participantId }) => {
 
 	return {
 		participant: data,
-		error: ifNull(error, () => ({})),
+		error: error,
 		submitEnabled: error == null
 	}
 };
