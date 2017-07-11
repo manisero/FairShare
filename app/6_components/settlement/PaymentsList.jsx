@@ -9,8 +9,6 @@ let ParticipantLabel = ({ participant }) => participant != null
     : <span className='text-danger'>Unknown</span>;
 
 let PayerPayments = ({ payerId, payments, participants }) => {
-    let payer = participants[payerId];
-
     let paymentElements = payments.map(p => (
         <li key={p.payeeId}>
             <Money amount={p.amount} /> to <ParticipantLabel participant={participants[p.payeeId]} />
@@ -19,7 +17,7 @@ let PayerPayments = ({ payerId, payments, participants }) => {
 
     return (
         <li>
-            <ParticipantLabel participant={payer} /> owes:
+            <ParticipantLabel participant={participants[payerId]} /> owes:
             <ul>
                 {paymentElements}
             </ul>

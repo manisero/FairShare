@@ -2,7 +2,8 @@ import copyText from 'utils/copyText'
 import { EntityType, entityKeyGetters } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import settle from 'logic/settlement'
+import settle from 'logic/settlement/settle'
+import toString from 'logic/settlement/toString'
 
 let subscribe = (events, store) => {
 
@@ -28,7 +29,12 @@ let subscribe = (events, store) => {
     
     events.settlementClipboardCopyRequested.stream
 		.subscribe(e => {
-            copyText('test');
+            let state = store.getState();
+            let paymentsByPayerId = queries.paymentsByPayerId(state);
+            let participants = queries.entityAllData(state, EntityType.participant);
+
+            let settlementText = toString(paymentsByPayerId, participants);
+            copyText(settlementText);
         });
     
 };
