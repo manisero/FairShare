@@ -22,6 +22,7 @@ export default {
                 0),
 
     paymentsByPayerId: state => {
+        // TODO: Cache query result as it causes constant rerenders of Settlement panel
         let result = {};
 
         for (var payment of Object.values(state.settlement.payment.items)) {
