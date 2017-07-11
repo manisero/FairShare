@@ -23,7 +23,8 @@ let eventDataCreators = ({
 	itemDelete_Submitted: itemId => ({ itemId }),
 	itemDelete_Cancelled: itemId => ({ itemId }),
 	// Settlement
-	settlementRequested: () => ({})
+	settlementRequested: () => ({}),
+	settlementClipboardCopyRequested: () => ({})
 });
 
 export default eventDataCreators;

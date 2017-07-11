@@ -1,3 +1,4 @@
+import copyText from 'utils/copyText'
 import { EntityType, entityKeyGetters } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -24,7 +25,12 @@ let subscribe = (events, store) => {
 				...addPaymentActions
 			]);
         });
-
+    
+    events.settlementClipboardCopyRequested.stream
+		.subscribe(e => {
+            copyText('test');
+        });
+    
 };
 
 export default subscribe;

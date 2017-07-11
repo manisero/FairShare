@@ -1,21 +1,25 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import { Button } from 'inputs'
+import { Button, ButtonGroup } from 'inputs'
 import PaymentsList from './PaymentsList.jsx'
 
-let SettledSettlement = ({ onResettleClick }) => {
+let SettledSettlement = ({ onResettleClick, onCopyClick }) => {
     // TODO: Copying payments to clipboard
 
     return (
         <div>
-            <Button onClick={() => onResettleClick()}>Resettle</Button>
+            <ButtonGroup>
+                <Button onClick={() => onCopyClick()}>Copy to clipboard</Button>
+                <Button onClick={() => onResettleClick()}>Resettle</Button>
+            </ButtonGroup>
             <PaymentsList />
         </div>
     );
 };
 
 let mapEventsToProps = events => ({
-    onResettleClick: () => events.settlementRequested()
+    onResettleClick: () => events.settlementRequested(),
+    onCopyClick: () => events.settlementClipboardCopyRequested()
 });
 
 export default connect(null, mapEventsToProps)(SettledSettlement);
