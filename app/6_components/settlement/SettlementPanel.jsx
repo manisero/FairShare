@@ -1,10 +1,14 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import { Button } from 'inputs'
-import PaymentsList from './PaymentsList.jsx'
+import { EntityType } from 'model'
+import queries from 'queries'
+import SettledSettlement from './SettledSettlement.jsx'
+import UnsettledSettlement from './UnsettledSettlement.jsx'
 
-let SettlementPanel = ({ onSettleClick }) => {
-    // TODO: Copying payments to clipboard
+let SettlementPanel = ({ isSettled }) => {
+    let settlementElement = isSettled
+        ? <SettledSettlement />
+        : <UnsettledSettlement />
 
     return (
         <div className='panel panel-default'>
@@ -12,15 +16,14 @@ let SettlementPanel = ({ onSettleClick }) => {
                 <h3 className='panel-title'>Settlement</h3>
             </div>
             <div className='panel-body'>
-                <Button onClick={() => onSettleClick()}>Settle</Button>
+                {settlementElement}
             </div>
-            <PaymentsList />
         </div>
     );
 };
 
-let mapEventsToProps = events => ({
-    onSettleClick: () => events.settlementRequested()
+let mapStateToProps = state => ({
+    isSettled: queries.entityCount(state, EntityType.payment) != 0
 });
 
-export default connect(null, mapEventsToProps)(SettlementPanel);
+export default connect(mapStateToProps)(SettlementPanel);
