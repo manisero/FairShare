@@ -24,4 +24,3 @@ render(root, document.getElementById('root'));
 
 // test setup:
 events.participantDeselected();
-events.itemEdit_Started(2);
