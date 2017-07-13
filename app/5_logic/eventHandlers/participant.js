@@ -7,6 +7,13 @@ import validators from './../validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let subscribe = (events, store) => {
+	subscribeSelecting(events, store);
+	subscribeAdding(events, store);
+	subscribeEditing(events, store);
+	subscribeDeleting(events, store);
+};
+
+let subscribeSelecting = (events, store) => {
 
     events.participantSelected.stream
 		.subscribe(e => store.dispatch(
@@ -17,6 +24,10 @@ let subscribe = (events, store) => {
 		.subscribe(e => store.dispatch(
             actions.clearFocus(EntityType.participant, e)
         ));
+
+};
+
+let subscribeAdding = (events, store) => {
 
 	events.participantsAdd_Added.stream
 		.subscribe(e => {
@@ -70,6 +81,10 @@ let subscribe = (events, store) => {
 			actions.clearToAdd(EntityType.participant)
 		]));
 
+};
+
+let subscribeEditing = (events, store) => {
+
 	events.participantEdit_Started.stream
 		.subscribe(e => {
 			let state = store.getState();
@@ -122,7 +137,11 @@ let subscribe = (events, store) => {
             actions.clearFocus(EntityType.participant, e),
 		    actions.clearEdit(EntityType.participant, e.data.participantId, e)
 		]));
-    
+
+};
+
+let subscribeDeleting = (events, store) => {
+
     events.participantDelete_Started.stream
 		.subscribe(e => store.dispatch(
             actions.setFocus(EntityType.participant, e.data.participantId, FocusMode.deleted, e)
