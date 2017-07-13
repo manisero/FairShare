@@ -109,7 +109,7 @@ export default {
 				itemId: participant1Id,
 				mode: FocusMode.edited
 			},
-			add: {
+			toAdd: {
 				items: [
 					{ name: 'ToAdd1' },
 					{ name: 'ToAdd2' }

@@ -2,7 +2,12 @@ let eventDataCreators = ({
 	// Participant:
 	participantSelected: participantId => ({ participantId }),
 	participantDeselected: () => ({}),
-	participantAdded: () => ({}),
+	participantsAdd_Added: () => ({}),
+	participantsAdd_Updated: (index, updateCommand) => ({ index, updateCommand }),
+	participantsAdd_NextUpdated: updateCommand => ({ updateCommand }),
+	participantsAdd_Removed: index => ({ index }),
+	participantsAdd_Submitted: () => ({}),
+	participantsAdd_Cancelled: () => ({}),
 	participantEdit_Started: participantId => ({ participantId }),
 	participantEdit_Updated: (participantId, updateCommand) => ({ participantId, updateCommand }),
 	participantEdit_Submitted: participantId => ({ participantId }),

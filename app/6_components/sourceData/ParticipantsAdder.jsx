@@ -15,7 +15,7 @@ let ParticipantAdder = ({ participant, onNameChange, onRemoveClick }) => (
 	</div>
 );
 
-let ParticipantsAdder = ({ participants, nextParticipant, onNameChange, onNextNameChange, onAddClick, onRemoveClick, onSubmitClick, onCancelClick }) => {
+let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
 	let participantAdders = participants.map((p, i) =>
 		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)} onRemoveClick={() => onRemoveClick(i)} />
 	);
@@ -43,9 +43,9 @@ let mapStateToProps = state => ({
 });
 
 let mapEventsToProps = events => ({
+	onAddClick: () => events.participantsAdd_Added(),
 	onNameChange: (index, name) => events.participantsAdd_Updated(index, { name: { $set: name } }),
 	onNextNameChange: name => events.participantsAdd_NextUpdated({ name: { $set: name } }),
-	onAddClick: () => events.participantsAdd_Added(),
 	onRemoveClick: index => events.participantsAdd_Removed(index),
 	onSubmitClick: () => events.participantsAdd_Submitted(),
 	onCancelClick: () => events.participantsAdd_Cancelled()

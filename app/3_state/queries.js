@@ -11,12 +11,12 @@ export default {
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,
+    toAdd_added: (state, entity) => state.ui[entity].toAdd.items,
+    toAdd_next: (state, entity) => state.ui[entity].toAdd.next,
     edit: (state, entity, id) => state.ui[entity].edit[id],
     allEdits: (state, entity) => state.ui[entity].edit,
 
     // non-generic:
-    participantsToAdd: state => state.ui.participant.add.items,
-    participantNextToAdd: state => state.ui.participant.add.next,
 
     totalItemsCost: state =>
         Object.values(state.sourceData.item.items)

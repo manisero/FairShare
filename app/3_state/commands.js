@@ -42,6 +42,24 @@ export default {
     clearFocus: entity =>
         ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
 
+    setNextToAdd: (entity, data) =>
+        ({ ui: { [entity]: { toAdd: { next: { $set: data } } } } }),
+
+    addToAdd: (entity, data) =>
+        ({ ui: { [entity]: { toAdd: { items: { $push: data } } } } }),
+
+    updateToAdd: (entity, index, data) =>
+        ({ ui: { [entity]: { toAdd: { items: { [index]: { $set: data } } } } } }),
+
+    removeToAdd: (entity, index) =>
+        ({ ui: { [entity]: { toAdd: { items: { $splice: [[ index, 1 ]] } } } } }),
+
+    clearToAdd: entity =>
+        ({ ui: { [entity]: { toAdd: {
+            items: { $set: [] },
+            next: { $set: null }
+        } } } }),
+
     setEdit: (entity, id, data, state) => {
         if (state.ui[entity].edit[id] == null) {
             return { ui: { [entity]: { edit: { [id]: { $set: { data: data } } } } } };

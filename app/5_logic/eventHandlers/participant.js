@@ -17,6 +17,7 @@ let subscribe = (events, store) => {
             actions.clearFocus(EntityType.participant, e)
         ));
 
+	// TOREMOVE:
 	events.participantAdded.stream
 		.subscribe(e => {
 			let state = store.getState();
@@ -31,6 +32,28 @@ let subscribe = (events, store) => {
 				actions.setFocus(EntityType.participant, participantId, FocusMode.edited, e)
 			]);
 		});
+	// ENDOF TOREMOVE
+
+	events.participantsAdd_Added.stream
+		.subscribe(e => {});
+	
+	events.participantsAdd_Updated.stream
+		.subscribe(e => {});
+	
+	events.participantsAdd_NextUpdated.stream
+		.subscribe(e => {});
+	
+	events.participantsAdd_Removed.stream
+		.subscribe(e => {});
+	
+	events.participantsAdd_Submitted.stream
+		.subscribe(e => {});
+	
+	events.participantsAdd_Cancelled.stream
+		.subscribe(e => {});
+	
+	events.participantAdded.stream
+		.subscribe(e => {});
 
 	events.participantEdit_Started.stream
 		.subscribe(e => {
