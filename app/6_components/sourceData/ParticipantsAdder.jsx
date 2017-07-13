@@ -5,21 +5,25 @@ import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox } from 'inputs'
 
-let ParticipantAdder = ({ participant, onNameChange, onRemoveClick }) => (
+let ParticipantAdder = ({ participant, onNameChange }) => (
 	<div>
-		<Left isNotLast>
-			<TextBox placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
-		</Left>
-		<Right>
-			<Button onClick={onRemoveClick}>Remove</Button>
-		</Right>
+		<TextBox placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
 	</div>
 );
 
 let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
-	let participantAdders = participants.map((p, i) =>
-		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)} onRemoveClick={() => onRemoveClick(i)} />
-	);
+	let participantAdders = participants.map((p, i) => (
+		<div key={i} className='row'>
+			<div className='col-xs-10'>
+				<ParticipantAdder participant={p} onNameChange={val => onNameChange(i, val)} />
+			</div>
+			<div className='col-xs-2'>
+				<Button onClick={() => onRemoveClick(i)}>
+					X
+				</Button>
+			</div>
+		</div>
+	));
 
 	return (
 		<div>
