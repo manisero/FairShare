@@ -15,6 +15,9 @@ export default {
     allEdits: (state, entity) => state.ui[entity].edit,
 
     // non-generic:
+    participantsToAdd: state => state.ui.participant.add.items,
+    participantNextToAdd: state => state.ui.participant.add.next,
+
     totalItemsCost: state =>
         Object.values(state.sourceData.item.items)
             .reduce(

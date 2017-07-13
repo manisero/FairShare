@@ -109,6 +109,13 @@ export default {
 				itemId: participant1Id,
 				mode: FocusMode.edited
 			},
+			add: {
+				items: [
+					{ name: 'ToAdd1' },
+					{ name: 'ToAdd2' }
+				],
+				next: { name: 'Next' }
+			},
 			edit: {
 				[participant1Id]: {
 					data: {

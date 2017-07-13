@@ -22,12 +22,18 @@ class TextBox extends React.Component {
 	}
 
 	render() {
-		let { label, valueString, initialValue, error, onChange } = this.props;
+		let { label, placeholder, valueString, initialValue, error, onChange } = this.props;
 
 		let rootClass = error == null
 			? 'form-group'
 			: 'form-group has-error';
 		
+		let labelElement = label != null
+			? <label className='control-label'>{label}</label>
+			: null;
+
+		let placeholderValue = placeholder != null ? placeholder : label;
+
 		let value = valueString != null
 			? valueString
 			: this.formatInitialValueToString(initialValue);
@@ -38,12 +44,12 @@ class TextBox extends React.Component {
 
 		return (
 			<div className={rootClass}>
-				<label className='control-label'>{label}</label>
+				{labelElement}
 				<input
 					ref={x => this.input = x}
 					type='text'
 					value={value}
-					placeholder={label}
+					placeholder={placeholderValue}
 					className='form-control'
 					onChange={e => onChange(this.formatNewValueToReport(e.target.value))} />
 				{errorElement}
