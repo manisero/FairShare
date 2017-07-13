@@ -19,23 +19,35 @@ let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChan
 			</div>
 			<div className='col-xs-3'>
 				<Right>
-					<Button onClick={() => onRemoveClick(i)}>
-						X
-					</Button>
+					<Button onClick={() => onRemoveClick(i)}>X</Button>
 				</Right>
 			</div>
 		</div>
 	));
 
+	let nextParticipantAdder = (
+		<form>
+			<div className='row'>
+				<div className='col-xs-9'>
+					<ParticipantAdder participant={nextParticipant} onNameChange={val => onNextNameChange(val)} />
+				</div>
+				<div className='col-xs-3'>
+					<Right>
+						<Button isSubmit onClick={onAddClick}>Add</Button>
+					</Right>
+				</div>
+			</div>
+		</form>
+	);
+
 	return (
 		<div>
 			<div>
 				{participantAdders}
-				<ParticipantAdder participant={nextParticipant} onNameChange={val => onNextNameChange(val)} />
+				{nextParticipantAdder}
 			</div>
 			<Right>
 				<ButtonGroup>
-					<Button onClick={onAddClick}>Add</Button>
 					<Button onClick={onSubmitClick}>Submit</Button>
 					<Button onClick={onCancelClick}>Cancel</Button>
 				</ButtonGroup>

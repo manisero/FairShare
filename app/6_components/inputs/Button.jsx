@@ -1,7 +1,13 @@
 import React from 'react'
 
-let Button = props => (
-	<button type='button' className='btn btn-default' {...props} />
-);
+let Button = ({ isSubmit, disabled, onClick, children }) => {
+	let type = isSubmit ? 'submit' : 'button'; 
+
+	return (
+		<button type={type} disabled={disabled} className='btn btn-default' onClick={onClick}>
+			{children}
+		</button>
+	);
+};
 
 export default Button;
