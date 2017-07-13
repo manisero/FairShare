@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
-import { Left, Right } from 'compUtils'
+import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox } from 'inputs'
 
 let ParticipantAdder = ({ participant, onNameChange, children }) => (
