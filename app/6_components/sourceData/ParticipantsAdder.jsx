@@ -5,38 +5,31 @@ import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox } from 'inputs'
 
-let ParticipantAdder = ({ participant, onNameChange }) => (
-	<div>
-		<TextBox placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
+let ParticipantAdder = ({ participant, onNameChange, children }) => (
+	<div className='row'>
+		<div className='col-xs-9'>
+			<TextBox placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
+		</div>
+		<div className='col-xs-3'>
+			<Right>
+				{children}
+			</Right>
+		</div>
 	</div>
 );
 
 let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
 	let participantAdders = participants.map((p, i) => (
-		<div key={i} className='row'>
-			<div className='col-xs-9'>
-				<ParticipantAdder participant={p} onNameChange={val => onNameChange(i, val)} />
-			</div>
-			<div className='col-xs-3'>
-				<Right>
-					<Button onClick={() => onRemoveClick(i)}>X</Button>
-				</Right>
-			</div>
-		</div>
+		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)}>
+			<Button onClick={() => onRemoveClick(i)}>X</Button>
+		</ParticipantAdder>
 	));
 
 	let nextParticipantAdder = (
 		<form>
-			<div className='row'>
-				<div className='col-xs-9'>
-					<ParticipantAdder participant={nextParticipant} onNameChange={val => onNextNameChange(val)} />
-				</div>
-				<div className='col-xs-3'>
-					<Right>
-						<Button isSubmit onClick={onAddClick}>Add</Button>
-					</Right>
-				</div>
-			</div>
+			<ParticipantAdder participant={nextParticipant} onNameChange={val => onNextNameChange(val)}>
+				<Button isSubmit onClick={onAddClick}>Add</Button>
+			</ParticipantAdder>
 		</form>
 	);
 
