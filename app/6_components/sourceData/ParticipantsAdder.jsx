@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
+import { EntityType } from 'model'
 import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox } from 'inputs'
@@ -38,8 +39,8 @@ let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChan
 };
 
 let mapStateToProps = state => ({
-	participants: queries.participantsToAdd(state),
-	nextParticipant: queries.participantNextToAdd(state)
+	participants: queries.toAdd_allAdded(state, EntityType.participant),
+	nextParticipant: queries.toAdd_next(state, EntityType.participant)
 });
 
 let mapEventsToProps = events => ({

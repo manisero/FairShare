@@ -12,6 +12,11 @@ let actions = createActions({
     // ui:
     setFocus: (entity, id, mode) => ({ entity, id, mode }),
     clearFocus: entity => ({ entity }),
+    setNextToAdd: (entity, data) => ({ entity, data }),
+    addToAdd: (entity, data) => ({ entity, data }),
+    updateToAdd: (entity, index, data) => ({ entity, index, data }),
+    removeToAdd: (entity, index) => ({ entity, index }),
+    clearToAdd: entity => ({ entity }),
     setEdit: (entity, id, data) => ({ entity, id, data }),
     clearEdit: (entity, id) => ({ entity, id }),
     setEditError: (entity, id, error) => ({ entity, id, error }),

@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { copyDeep } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
@@ -17,43 +18,57 @@ let subscribe = (events, store) => {
             actions.clearFocus(EntityType.participant, e)
         ));
 
-	// TOREMOVE:
-	events.participantAdded.stream
+	events.participantsAdd_Added.stream
 		.subscribe(e => {
-			let state = store.getState();
-			
-			let participantId = getNextEntityId(state, EntityType.participant);
-			let participant = entityConstructors[EntityType.participant]();
-			let participantEdit = copyDeep(participant);
+			let toAdd = queries.toAdd_next(store.getState(), EntityType.participant);
+			let next = entityConstructors[EntityType.participant]();
 
 			store.dispatchBatch([
-				actions.addEntity(EntityType.participant, participantId, participant, e),
-				actions.setEdit(EntityType.participant, participantId, participantEdit, e),
-				actions.setFocus(EntityType.participant, participantId, FocusMode.edited, e)
+				actions.addToAdd(EntityType.participant, toAdd, e),
+				actions.setNextToAdd(EntityType.participant, next, e)
 			]);
 		});
-	// ENDOF TOREMOVE
-
-	events.participantsAdd_Added.stream
-		.subscribe(e => {});
 	
 	events.participantsAdd_Updated.stream
-		.subscribe(e => {});
+		.subscribe(e => {
+			let index = e.data.index;
+			let data = queries.toAdd_added(store.getState(), EntityType.participant, index);
+			let newData = update(data, e.data.updateCommand);
+
+			store.dispatch(
+				actions.updateToAdd(EntityType.participant, index, newData, e)
+			);
+		});
 	
 	events.participantsAdd_NextUpdated.stream
-		.subscribe(e => {});
+		.subscribe(e => {
+			let data = queries.toAdd_next(store.getState(), EntityType.participant);
+			let newData = update(data, e.data.updateCommand);
+
+			store.dispatch(
+				actions.setNextToAdd(EntityType.participant, newData, e)
+			);
+		});
 	
 	events.participantsAdd_Removed.stream
-		.subscribe(e => {});
+		.subscribe(e => store.dispatch(
+			actions.removeToAdd(EntityType.participant, e.data.index, e)
+		));
 	
 	events.participantsAdd_Submitted.stream
-		.subscribe(e => {});
+		.subscribe(e => {
+			store.dispatchBatch([
+				// TODO: addEntity x n (together with next)
+				// TODO: Hide adder
+				actions.clearToAdd(EntityType.participant)
+			]);
+		});
 	
 	events.participantsAdd_Cancelled.stream
-		.subscribe(e => {});
-	
-	events.participantAdded.stream
-		.subscribe(e => {});
+		.subscribe(e => store.dispatchBatch([
+			// TODO: Hide adder
+			actions.clearToAdd(EntityType.participant)
+		]));
 
 	events.participantEdit_Started.stream
 		.subscribe(e => {

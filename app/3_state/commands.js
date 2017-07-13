@@ -12,7 +12,7 @@ export default {
     addEntity: (entity, id, data) =>
         ({ [EntityCategory[entity]]: { [entity]: {
             lastId: { $set: id },
-            ids: { $push: [id] },
+            ids: { $push: [ id ] },
             items: { [id]: { $set: data } }
         } } }),
     
@@ -46,7 +46,7 @@ export default {
         ({ ui: { [entity]: { toAdd: { next: { $set: data } } } } }),
 
     addToAdd: (entity, data) =>
-        ({ ui: { [entity]: { toAdd: { items: { $push: data } } } } }),
+        ({ ui: { [entity]: { toAdd: { items: { $push: [ data ] } } } } }),
 
     updateToAdd: (entity, index, data) =>
         ({ ui: { [entity]: { toAdd: { items: { [index]: { $set: data } } } } } }),
