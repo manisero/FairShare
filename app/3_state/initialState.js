@@ -106,8 +106,8 @@ export default {
 	ui: {
 		participant: {
 			focus: {
-				itemId: participant1Id,
-				mode: FocusMode.edited
+				mode: FocusMode.edited,
+				itemId: participant1Id
 			},
 			toAdd: {
 				items: [

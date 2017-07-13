@@ -16,7 +16,7 @@ let subscribeSelecting = (events, store) => {
 
     events.itemSelected.stream
 		.subscribe(e => store.dispatch(
-            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.selected, e)
+            actions.setFocus(EntityType.item, FocusMode.selected, e.data.itemId, e)
         ));
     
     events.itemDeselected.stream
@@ -43,7 +43,7 @@ let subscribeAdding = (events, store) => {
 				actions.addEntity(EntityType.participation, itemId, participation, e),
 				actions.setEdit(EntityType.item, itemId, itemEdit, e),
 				actions.setEdit(EntityType.participation, itemId, participationEdit, e),
-				actions.setFocus(EntityType.item, itemId, FocusMode.edited, e)
+				actions.setFocus(EntityType.item, FocusMode.edited, itemId, e)
 			]);
 		});
 
@@ -70,7 +70,7 @@ let subscribeEditing = (events, store) => {
 				actionsBatch.push(actions.setEdit(EntityType.participation, itemId, participationEdit, e));
             }
 
-            actionsBatch.push(actions.setFocus(EntityType.item, itemId, FocusMode.edited, e));
+            actionsBatch.push(actions.setFocus(EntityType.item, FocusMode.edited, itemId, e));
 
             store.dispatchBatch(actionsBatch);
 		});
@@ -140,7 +140,7 @@ let subscribeDeleting = (events, store) => {
 
     events.itemDelete_Started.stream
 		.subscribe(e => store.dispatch(
-            actions.setFocus(EntityType.item, e.data.itemId, FocusMode.deleted, e)
+            actions.setFocus(EntityType.item, FocusMode.deleted, e.data.itemId, e)
         ));
     
     events.itemDelete_Submitted.stream

@@ -34,14 +34,18 @@ let participantFactories = {
 	deletor: id => <ParticipantDeletor participantId={id} />
 };
 
-let participantMapStateToProps = (state, { participantId }) => ({
-	entityId: participantId,
-	focusMode: queries.focus(state, EntityType.participant).itemId === participantId ? queries.focus(state, EntityType.participant).mode : FocusMode.noFocus,
-	showcaseFactory: participantFactories.showcase,
-	detailsFactory: participantFactories.details,
-	editorFactory: participantFactories.editor,
-	deletorFactory: participantFactories.deletor
-});
+let participantMapStateToProps = (state, { participantId }) => {
+	let { mode: focusMode, itemId: focusedId } = queries.focus(state, EntityType.participant);
+
+	return {
+		entityId: participantId,
+		focusMode: focusedId === participantId ? focusMode : FocusMode.noFocus,
+		showcaseFactory: participantFactories.showcase,
+		detailsFactory: participantFactories.details,
+		editorFactory: participantFactories.editor,
+		deletorFactory: participantFactories.deletor
+	}
+};
 
 let ParticipantTile = connect(participantMapStateToProps)(Tile); 
 
@@ -54,14 +58,18 @@ let itemFactories = {
 	deletor: id => <ItemDeletor itemId={id} />
 };
 
-let itemMapStateToProps = (state, { itemId }) => ({
-	entityId: itemId,
-	focusMode: queries.focus(state, EntityType.item).itemId === itemId ? queries.focus(state, EntityType.item).mode : FocusMode.noFocus,
-	showcaseFactory: itemFactories.showcase,
-	detailsFactory: itemFactories.details,
-	editorFactory: itemFactories.editor,
-	deletorFactory: itemFactories.deletor
-});
+let itemMapStateToProps = (state, { itemId }) => {
+	let { mode: focusMode, itemId: focusedId } = queries.focus(state, EntityType.item);
+
+	return {
+		entityId: itemId,
+		focusMode: focusedId === itemId ? focusMode : FocusMode.noFocus,
+		showcaseFactory: itemFactories.showcase,
+		detailsFactory: itemFactories.details,
+		editorFactory: itemFactories.editor,
+		deletorFactory: itemFactories.deletor
+	}
+};
 
 let ItemTile = connect(itemMapStateToProps)(Tile); 
 

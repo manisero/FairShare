@@ -26,6 +26,7 @@ let entityKeyGetters = {
 let FocusMode = {
     noFocus: 'noFocus',
     selected: 'selected',
+    added: 'added',
     edited: 'edited',
     deleted: 'deleted'
 };

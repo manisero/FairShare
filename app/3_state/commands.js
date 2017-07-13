@@ -1,8 +1,8 @@
 import { EntityCategory } from 'model'
 
-let setFocus = (itemId, mode) => ({
-    itemId: { $set: itemId },
-    mode: { $set: mode }
+let setFocus = (mode, itemId) => ({
+    mode: { $set: mode },
+    itemId: { $set: itemId }
 });
 
 export default {
@@ -36,8 +36,8 @@ export default {
 
     // ui:
 
-    setFocus: (entity, id, mode) =>
-        ({ ui: { [entity]: { focus: setFocus(id, mode) } } }),
+    setFocus: (entity, mode, id = null) =>
+        ({ ui: { [entity]: { focus: setFocus(mode, id) } } }),
     
     clearFocus: entity =>
         ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
