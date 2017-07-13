@@ -36,7 +36,7 @@ export default {
 
     // ui:
 
-    setFocus: (entity, mode, id = null) =>
+    setFocus: (entity, mode, id) =>
         ({ ui: { [entity]: { focus: setFocus(mode, id) } } }),
     
     clearFocus: entity =>

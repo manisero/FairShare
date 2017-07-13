@@ -29,6 +29,22 @@ let subscribeSelecting = (events, store) => {
 
 let subscribeAdding = (events, store) => {
 
+	events.participantsAdd_Started.stream
+		.subscribe(e => {
+			let toAdd = queries.toAdd_next(store.getState(), EntityType.participant);
+			let actionsBatch = [];
+
+			if (toAdd == null) {
+				let next = entityConstructors[EntityType.participant]();
+
+				actionsBatch.push(actions.setNextToAdd(EntityType.participant, next, e));
+			}
+
+			actionsBatch.push(actions.setFocus(EntityType.participant, FocusMode.added, null, e));
+
+			store.dispatchBatch(actionsBatch);
+		});
+
 	events.participantsAdd_Added.stream
 		.subscribe(e => {
 			let toAdd = queries.toAdd_next(store.getState(), EntityType.participant);
@@ -79,21 +95,21 @@ let subscribeAdding = (events, store) => {
 			for (let toAdd of allToAdd) {
 				let data = entityConstructors.participant(toAdd.name, toAdd.contribution);
 
-				addEntityActions.push(actions.addEntity(EntityType.participant, nextId, data));
+				addEntityActions.push(actions.addEntity(EntityType.participant, nextId, data, e));
 				nextId++;
 			}
 
 			store.dispatchBatch([
 				...addEntityActions,
-				// TODO: Hide adder
-				actions.clearToAdd(EntityType.participant)
+				actions.clearFocus(EntityType.participant, e),
+				actions.clearToAdd(EntityType.participant, e)
 			]);
 		});
 	
 	events.participantsAdd_Cancelled.stream
 		.subscribe(e => store.dispatchBatch([
-			// TODO: Hide adder
-			actions.clearToAdd(EntityType.participant)
+			actions.clearFocus(EntityType.participant, e),
+			actions.clearToAdd(EntityType.participant, e)
 		]));
 
 };

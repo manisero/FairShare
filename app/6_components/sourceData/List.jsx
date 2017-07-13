@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'reactReduxUtils'
-import { EntityType } from 'model'
+import { EntityType, FocusMode } from 'model'
 import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
+import ParticipantsAdder from './ParticipantsAdder.jsx'
 import ParticipantsStats from './ParticipantsStats.jsx'
 import ItemsStats from './ItemsStats.jsx'
 
-let List = ({ title, entityIds, itemFactory, selectedEntityId, statsElementFactory, onItemSelect, onAddClick }) => {
+let List = ({ title, entityIds, itemFactory, selectedEntityId, showAdder, adderFactory, statsFactory, onItemSelect, onAddClick }) => {
     let items = entityIds.map(id => {
         let item = itemFactory(id);
 
@@ -16,6 +17,19 @@ let List = ({ title, entityIds, itemFactory, selectedEntityId, statsElementFacto
             ? (<div key={id} className='list-group-item'>{item}</div>)
             : (<a key={id} href='#' onClick={() => onItemSelect(id)} className='list-group-item'>{item}</a>);
     });
+
+    let footer = showAdder
+        ? adderFactory()
+        : (
+            <div>
+                <Left isNotLast>
+                    {statsFactory()}
+                </Left>
+                <Right>
+                    <Button onClick={() => onAddClick()}>Add</Button>
+                </Right>
+            </div>
+        );
 
     return (
         <div className='panel panel-default'>
@@ -26,12 +40,7 @@ let List = ({ title, entityIds, itemFactory, selectedEntityId, statsElementFacto
                 {items}
             </div>
             <div className='panel-body'>
-                <Left isNotLast>
-                    {statsElementFactory()}
-                </Left>
-                <Right>
-                    <Button onClick={() => onAddClick()}>Add</Button>
-                </Right>
+                {footer}
             </div>
         </div>
     );
@@ -41,20 +50,27 @@ let List = ({ title, entityIds, itemFactory, selectedEntityId, statsElementFacto
 
 let participantFactories = {
     item: id => <ParticipantTile participantId={id} />,
-    statsElement: () => <ParticipantsStats />
+    adder: () => <ParticipantsAdder />,
+    stats: () => <ParticipantsStats />
 };
 
 let participantMappings = {
-    mapStateToProps: state => ({
-        title: 'Participants',
-        entityIds: queries.entityIds(state, EntityType.participant),
-	    itemFactory: participantFactories.item,
-        selectedEntityId: queries.focus(state, EntityType.participant).itemId,
-        statsElementFactory: participantFactories.statsElement
-    }),
+    mapStateToProps: state => {
+        let { mode: focusMode, itemId: focusedId } = queries.focus(state, EntityType.participant);
+
+        return {
+            title: 'Participants',
+            entityIds: queries.entityIds(state, EntityType.participant),
+            itemFactory: participantFactories.item,
+            selectedEntityId: focusedId,
+            showAdder: focusMode === FocusMode.added,
+            adderFactory: participantFactories.adder,
+            statsFactory: participantFactories.stats
+        };
+    },
     mapEventsToProps: events => ({
         onItemSelect: participantId => events.participantSelected(participantId),
-        onAddClick: () => events.participantAdded()
+        onAddClick: () => events.participantsAdd_Started()
     })
 };
 
@@ -64,7 +80,7 @@ let ParticipantList = connect(participantMappings.mapStateToProps, participantMa
 
 let itemFactories = {
     item: id => <ItemTile itemId={id} />,
-    statsElement: () => <ItemsStats />
+    stats: () => <ItemsStats />
 };
 
 let itemMappings = {
@@ -73,7 +89,7 @@ let itemMappings = {
         entityIds: queries.entityIds(state, EntityType.item),
 	    itemFactory: itemFactories.item,
         selectedEntityId: queries.focus(state, EntityType.item).itemId,
-        statsElementFactory: itemFactories.statsElement
+        statsFactory: itemFactories.stats
     }),
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.itemSelected(itemId),
