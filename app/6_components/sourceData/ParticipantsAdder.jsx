@@ -14,13 +14,15 @@ let ParticipantAdder = ({ participant, onNameChange }) => (
 let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
 	let participantAdders = participants.map((p, i) => (
 		<div key={i} className='row'>
-			<div className='col-xs-10'>
+			<div className='col-xs-9'>
 				<ParticipantAdder participant={p} onNameChange={val => onNameChange(i, val)} />
 			</div>
-			<div className='col-xs-2'>
-				<Button onClick={() => onRemoveClick(i)}>
-					X
-				</Button>
+			<div className='col-xs-3'>
+				<Right>
+					<Button onClick={() => onRemoveClick(i)}>
+						X
+					</Button>
+				</Right>
 			</div>
 		</div>
 	));
