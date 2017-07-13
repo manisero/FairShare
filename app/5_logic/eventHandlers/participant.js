@@ -68,8 +68,23 @@ let subscribeAdding = (events, store) => {
 	
 	events.participantsAdd_Submitted.stream
 		.subscribe(e => {
+			let state = store.getState();
+			let allAdded = queries.toAdd_allAdded(state, EntityType.participant);
+			let nextToAdd = queries.toAdd_next(state, EntityType.participant);
+			let nextId = getNextEntityId(state, EntityType.participant);
+			
+			let allToAdd = [ ...allAdded, nextToAdd ].filter(x => x.name != null && x.name != '');
+			let addEntityActions = [];
+
+			for (let toAdd of allToAdd) {
+				let data = entityConstructors.participant(toAdd.name, toAdd.contribution);
+
+				addEntityActions.push(actions.addEntity(EntityType.participant, nextId, data));
+				nextId++;
+			}
+
 			store.dispatchBatch([
-				// TODO: addEntity x n (together with next)
+				...addEntityActions,
 				// TODO: Hide adder
 				actions.clearToAdd(EntityType.participant)
 			]);
