@@ -8,7 +8,7 @@ import { Button, ButtonGroup, TextBox } from 'inputs'
 let ParticipantAdder = ({ participant, onNameChange, children }) => (
 	<div className='row'>
 		<div className='col-xs-9'>
-			<TextBox placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
+			<TextBox ref={x => {if (x) x.focus();}} placeholder='Name' valueString={participant.name} onChange={x => onNameChange(x)} />
 		</div>
 		<div className='col-xs-3'>
 			<Right>
