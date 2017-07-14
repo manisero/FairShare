@@ -21,7 +21,7 @@ let ParticipantAdder = ({ participant, onNameChange, children }) => (
 let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
 	let participantAdders = participants.map((p, i) => (
 		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)}>
-			<Button onClick={() => onRemoveClick(i)}>X</Button>
+			<Button tabIndex={-1} onClick={() => onRemoveClick(i)}>X</Button>
 		</ParticipantAdder>
 	));
 

@@ -48,6 +48,11 @@ let subscribeAdding = (events, store) => {
 	events.participantsAdd_Added.stream
 		.subscribe(e => {
 			let toAdd = queries.toAdd_next(store.getState(), EntityType.participant);
+
+			if (toAdd.name == null || toAdd.name == '') {
+				return;
+			}
+
 			let next = entityConstructors[EntityType.participant]();
 
 			store.dispatchBatch([
