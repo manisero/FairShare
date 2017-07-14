@@ -3,7 +3,7 @@ import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
-import { Button, ButtonGroup, TextBox } from 'inputs'
+import { Button, TextBox } from 'inputs'
 
 let ParticipantAdder = ({ participant, onNameChange, children }) => (
 	<div className='row'>
@@ -17,6 +17,8 @@ let ParticipantAdder = ({ participant, onNameChange, children }) => (
 		</div>
 	</div>
 );
+
+// AddedParticipants
 
 let AddedParticipants = ({ participants, onNameChange, onRemoveClick }) => {
 	let participantAdders = participants.map((p, i) => (
@@ -44,6 +46,8 @@ let addedParticipantsMappings = {
 
 AddedParticipants = connect(addedParticipantsMappings.mapStateToProps, addedParticipantsMappings.mapEventsToProps)(AddedParticipants);
 
+// NextParticipant
+
 let NextParticipant = ({ participant, onAddClick, onNameChange }) => {
 	return (
 		<form>
@@ -66,24 +70,4 @@ let nextParticipantMappings = {
 
 NextParticipant = connect(nextParticipantMappings.mapStateToProps, nextParticipantMappings.mapEventsToProps)(NextParticipant);
 
-let ParticipantsAdder = ({ onSubmitClick, onCancelClick }) => (
-	<div>
-		<div>
-			<AddedParticipants />
-			<NextParticipant />
-		</div>
-		<Right>
-			<ButtonGroup>
-				<Button onClick={onSubmitClick}>Submit</Button>
-				<Button onClick={onCancelClick}>Cancel</Button>
-			</ButtonGroup>
-		</Right>
-	</div>
-);
-
-let mapEventsToProps = events => ({
-	onSubmitClick: () => events.participantsAdd_Submitted(),
-	onCancelClick: () => events.participantsAdd_Cancelled()
-});
-
-export default connect(null, mapEventsToProps)(ParticipantsAdder);
+export { AddedParticipants, NextParticipant };

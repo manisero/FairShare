@@ -5,7 +5,7 @@ import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
-import ParticipantsAdder from './ParticipantsAdder.jsx'
+import ParticipantsAdder from './participantsAdder/ParticipantsAdder.jsx'
 import ParticipantsStats from './ParticipantsStats.jsx'
 import ItemsStats from './ItemsStats.jsx'
 
