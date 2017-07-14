@@ -13,7 +13,9 @@ let ParticipantAdderStats = ({ participantsCount, toAddCount }) => (
 
 let mapStateToProps = state => ({
 	participantsCount: queries.entityCount(state, EntityType.participant),
-    toAddCount: queries.toAdd_addedCount(state, EntityType.participant)
+    toAddCount:
+        queries.toAdd_addedCount(state, EntityType.participant) +
+        (queries.toAdd_next(state, EntityType.participant).name != '' ? 1 : 0)
 });
 
 export default connect(mapStateToProps)(ParticipantAdderStats);
