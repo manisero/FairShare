@@ -75,6 +75,10 @@ export default {
         ({ ui: { [entity]: { edit: { items: { [id]: { error: { $set: error } } } } } } }),
 
     clearEditError: (entity, id, error) =>
-        ({ ui: { [entity]: { edit: { items: { [id]: { $unset: ['error'] } } } } } })
+        ({ ui: { [entity]: { edit: { items: { [id]: { $unset: ['error'] } } } } } }),
 
+    // non-generic:
+
+    setParticipationLastParticipatingParticipantIds: ids =>
+        ({ ui: { participation: { edit: { lastParticipatingParticipantIds: { $set: ids } } } } })
 };

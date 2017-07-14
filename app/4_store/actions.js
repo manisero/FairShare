@@ -20,7 +20,9 @@ let actions = createActions({
     setEdit: (entity, id, data) => ({ entity, id, data }),
     clearEdit: (entity, id) => ({ entity, id }),
     setEditError: (entity, id, error) => ({ entity, id, error }),
-    clearEditError: (entity, id, error) => ({ entity, id, error })
+    clearEditError: (entity, id, error) => ({ entity, id, error }),
+    // non-generic:
+    setParticipationLastParticipatingParticipantIds: ids => ({ ids })
 });
 
 let reducer = (state, action) => {
