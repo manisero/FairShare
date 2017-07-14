@@ -141,7 +141,8 @@ export default {
 		},
 		participation: {
 			edit: {
-				items: { }
+				items: { },
+				lastParticipatingParticipantIds: null
 			}
 		}
 	}
