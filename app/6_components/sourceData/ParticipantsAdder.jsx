@@ -18,49 +18,72 @@ let ParticipantAdder = ({ participant, onNameChange, children }) => (
 	</div>
 );
 
-let ParticipantsAdder = ({ participants, nextParticipant, onAddClick, onNameChange, onNextNameChange, onRemoveClick, onSubmitClick, onCancelClick }) => {
+let AddedParticipants = ({ participants, onNameChange, onRemoveClick }) => {
 	let participantAdders = participants.map((p, i) => (
 		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)}>
 			<Button tabIndex={-1} onClick={() => onRemoveClick(i)}>X</Button>
 		</ParticipantAdder>
 	));
 
-	let nextParticipantAdder = (
-		<form>
-			<ParticipantAdder participant={nextParticipant} onNameChange={val => onNextNameChange(val)}>
-				<Button isSubmit onClick={onAddClick}>Add</Button>
-			</ParticipantAdder>
-		</form>
-	);
-
 	return (
 		<div>
-			<div>
-				{participantAdders}
-				{nextParticipantAdder}
-			</div>
-			<Right>
-				<ButtonGroup>
-					<Button onClick={onSubmitClick}>Submit</Button>
-					<Button onClick={onCancelClick}>Cancel</Button>
-				</ButtonGroup>
-			</Right>
+			{participantAdders}
 		</div>
 	);
 };
 
-let mapStateToProps = state => ({
-	participants: queries.toAdd_allAdded(state, EntityType.participant),
-	nextParticipant: queries.toAdd_next(state, EntityType.participant)
-});
+let addedParticipantsMappings = {
+	mapStateToProps: state => ({
+		participants: queries.toAdd_allAdded(state, EntityType.participant)
+	}),
+	mapEventsToProps: events => ({
+		onNameChange: (index, name) => events.participantsAdd_Updated(index, { name: { $set: name } }),
+		onRemoveClick: index => events.participantsAdd_Removed(index)
+	})
+};
+
+AddedParticipants = connect(addedParticipantsMappings.mapStateToProps, addedParticipantsMappings.mapEventsToProps)(AddedParticipants);
+
+let NextParticipant = ({ participant, onAddClick, onNameChange }) => {
+	return (
+		<form>
+			<ParticipantAdder participant={participant} onNameChange={val => onNameChange(val)}>
+				<Button isSubmit onClick={onAddClick}>Add</Button>
+			</ParticipantAdder>
+		</form>
+	);
+};
+
+let nextParticipantMappings = {
+	mapStateToProps: state => ({
+		participant: queries.toAdd_next(state, EntityType.participant)
+	}),
+	mapEventsToProps: events => ({
+		onAddClick: () => events.participantsAdd_Added(),
+		onNameChange: name => events.participantsAdd_NextUpdated({ name: { $set: name } })
+	})
+};
+
+NextParticipant = connect(nextParticipantMappings.mapStateToProps, nextParticipantMappings.mapEventsToProps)(NextParticipant);
+
+let ParticipantsAdder = ({ onSubmitClick, onCancelClick }) => (
+	<div>
+		<div>
+			<AddedParticipants />
+			<NextParticipant />
+		</div>
+		<Right>
+			<ButtonGroup>
+				<Button onClick={onSubmitClick}>Submit</Button>
+				<Button onClick={onCancelClick}>Cancel</Button>
+			</ButtonGroup>
+		</Right>
+	</div>
+);
 
 let mapEventsToProps = events => ({
-	onAddClick: () => events.participantsAdd_Added(),
-	onNameChange: (index, name) => events.participantsAdd_Updated(index, { name: { $set: name } }),
-	onNextNameChange: name => events.participantsAdd_NextUpdated({ name: { $set: name } }),
-	onRemoveClick: index => events.participantsAdd_Removed(index),
 	onSubmitClick: () => events.participantsAdd_Submitted(),
 	onCancelClick: () => events.participantsAdd_Cancelled()
 });
 
-export default connect(mapStateToProps, mapEventsToProps)(ParticipantsAdder);
+export default connect(null, mapEventsToProps)(ParticipantsAdder);
