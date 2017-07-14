@@ -117,13 +117,15 @@ export default {
 				next: { name: 'Next' }
 			},
 			edit: {
-				[participant1Id]: {
-					data: {
-						name: participant1Name + 'a',
-						contribution: participant1Contribution + 10
-					},
-					error: {
-						name: '[MOCK] Name is too boring.'
+				items: {
+					[participant1Id]: {
+						data: {
+							name: participant1Name + 'a',
+							contribution: participant1Contribution + 10
+						},
+						error: {
+							name: '[MOCK] Name is too boring.'
+						}
 					}
 				}
 			}
@@ -133,10 +135,14 @@ export default {
 				itemId: null,
 				mode: null
 			},
-			edit: { }
+			edit: {
+				items: { }
+			}
 		},
 		participation: {
-			edit: { }
+			edit: {
+				items: { }
+			}
 		}
 	}
 };

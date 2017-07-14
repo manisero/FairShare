@@ -61,20 +61,20 @@ export default {
         } } } }),
 
     setEdit: (entity, id, data, state) => {
-        if (state.ui[entity].edit[id] == null) {
-            return { ui: { [entity]: { edit: { [id]: { $set: { data: data } } } } } };
+        if (state.ui[entity].edit.items[id] == null) {
+            return { ui: { [entity]: { edit: { items: { [id]: { $set: { data: data } } } } } } };
         } else {
-            return { ui: { [entity]: { edit: { [id]: { data: { $set: data } } } } } };
+            return { ui: { [entity]: { edit: { items: { [id]: { data: { $set: data } } } } } } };
         };
     },
 
     clearEdit: (entity, id) =>
-        ({ ui: { [entity]: { edit: { $unset: [id] } } } }),
+        ({ ui: { [entity]: { edit: { items: { $unset: [id] } } } } }),
 
     setEditError: (entity, id, error) =>
-        ({ ui: { [entity]: { edit: { [id]: { error: { $set: error } } } } } }),
+        ({ ui: { [entity]: { edit: { items: { [id]: { error: { $set: error } } } } } } }),
 
     clearEditError: (entity, id, error) =>
-        ({ ui: { [entity]: { edit: { [id]: { $unset: ['error'] } } } } })
+        ({ ui: { [entity]: { edit: { items: { [id]: { $unset: ['error'] } } } } } })
 
 };
