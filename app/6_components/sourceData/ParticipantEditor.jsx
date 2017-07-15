@@ -8,8 +8,10 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 
 let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-		<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} />
+		<div className='form-horizontal'>
+			<TextBox label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
+			<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} />
+		</div>
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>

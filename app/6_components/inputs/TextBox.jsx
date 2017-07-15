@@ -29,7 +29,7 @@ class TextBox extends React.Component {
 			: 'form-group has-error';
 		
 		let labelElement = label != null
-			? <label className='control-label'>{label}</label>
+			? <label className='control-label col-xs-4'>{label}</label>
 			: null;
 
 		let placeholderValue = placeholder != null ? placeholder : label;
@@ -40,18 +40,20 @@ class TextBox extends React.Component {
 
 		let errorElement = error == null
 			? null
-			: <span className='help-block'>{error}</span>;
+			: <span className='col-xs-12 help-block'>{error}</span>;
 
 		return (
 			<div className={rootClass}>
 				{labelElement}
-				<input
-					ref={x => this.input = x}
-					type='text'
-					value={value}
-					placeholder={placeholderValue}
-					className='form-control'
-					onChange={e => onChange(this.formatNewValueToReport(e.target.value))} />
+				<div className='col-xs-8'>
+					<input
+						ref={x => this.input = x}
+						type='text'
+						value={value}
+						placeholder={placeholderValue}
+						className='form-control'
+						onChange={e => onChange(this.formatNewValueToReport(e.target.value))} />
+				</div>
 				{errorElement}
 			</div>
 		);
