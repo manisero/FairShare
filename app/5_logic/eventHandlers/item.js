@@ -36,7 +36,7 @@ let subscribeAdding = (events, store) => {
 			let item = entityConstructors[EntityType.item]();
 			let participation = {};
 			let itemEdit = copyDeep(item);
-			let participationEdit = createParticipationEdit(state, itemId);
+			let participationEdit = createParticipationEditForNewItem(state);
 
 			store.dispatchBatch([
 				actions.addEntity(EntityType.item, itemId, item, e),
@@ -161,6 +161,26 @@ let subscribeDeleting = (events, store) => {
             actions.clearFocus(EntityType.item, e)
         ));
 
+};
+
+let createParticipationEditForNewItem = state => {
+	let participantIds = queries.entityIds(state, EntityType.participant);
+	let participatingParticipantIds = getDefaultParticipatingParticipantIds(state);
+
+	return mapToObject(
+		participantIds,
+		id => entityConstructors.participation(undefined, participatingParticipantIds.includes(id))
+	);
+};
+
+let getDefaultParticipatingParticipantIds = state => {
+	let cache = queries.participatingParticipantIdsCache(state);
+	
+	if (cache != null) {
+		return cache;
+	}
+
+	return queries.entityIds(state, EntityType.participant);
 };
 
 let createParticipationEdit = (state, itemId) => {
