@@ -24,7 +24,7 @@ let List = ({ title, entityIds, itemFactory, selectedEntityId, showAdder, adderF
             <div>
                 <Left isNotLast>
                     <div className='form-control-static' style={{minHeight: 0, paddingBottom: 0}}>
-                    {statsFactory()}
+                        {statsFactory()}
                     </div>
                 </Left>
                 <Right>
