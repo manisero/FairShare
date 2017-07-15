@@ -9,7 +9,7 @@ import { Checkbox, NumberBox } from 'inputs'
 let ParticipationEditor = ({ participation, participant, error, onContributionChange, onParticipatesChange }) => (
     <tr>
         <td>{participant.name}</td>
-        <td>
+        <td className='form-horizontal'>
             <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
         </td>
         <td>

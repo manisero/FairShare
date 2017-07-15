@@ -9,8 +9,10 @@ import ParticipationsEditor from './ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
-		<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-		<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
+		<div className='form-horizontal'>
+			<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
+			<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
+		</div>
 		<ParticipationsEditor itemId={itemId} />
 		<Right>
 			<ButtonGroup>

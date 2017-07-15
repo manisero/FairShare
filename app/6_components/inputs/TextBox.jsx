@@ -31,6 +31,10 @@ class TextBox extends React.Component {
 		let labelElement = label != null
 			? <label className='control-label col-xs-4'>{label}</label>
 			: null;
+		
+		let inputDivClassName = label != null
+			? 'col-xs-8'
+			: 'col-xs-12';
 
 		let placeholderValue = placeholder != null ? placeholder : label;
 
@@ -45,7 +49,7 @@ class TextBox extends React.Component {
 		return (
 			<div className={rootClass}>
 				{labelElement}
-				<div className='col-xs-8'>
+				<div className={inputDivClassName}>
 					<input
 						ref={x => this.input = x}
 						type='text'
