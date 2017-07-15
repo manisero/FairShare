@@ -13,7 +13,9 @@ let ParticipantsAdder = ({ onSubmitClick, onCancelClick }) => (
 		</div>
 		<div>
 			<Left isNotLast>
-				<ParticipantAdderStats />
+				<div className='form-control-static' style={{minHeight: 0, paddingBottom: 0}}>
+					<ParticipantAdderStats />
+				</div>
 			</Left>
 			<Right>
 				<ButtonGroup>
