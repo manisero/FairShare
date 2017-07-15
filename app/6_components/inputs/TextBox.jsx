@@ -22,11 +22,15 @@ class TextBox extends React.Component {
 	}
 
 	render() {
-		let { label, placeholder, valueString, initialValue, error, onChange } = this.props;
+		let { label, placeholder, valueString, initialValue, error, noMargin, onChange } = this.props;
 
 		let rootClass = error == null
 			? 'form-group'
 			: 'form-group has-error';
+		
+		let rootStyle = noMargin
+			? { margin: '0' }
+			: null;
 		
 		let labelElement = label != null
 			? <label className='control-label col-xs-4'>{label}</label>
@@ -47,7 +51,7 @@ class TextBox extends React.Component {
 			: <span className='col-xs-12 help-block'>{error}</span>;
 
 		return (
-			<div className={rootClass}>
+			<div className={rootClass} style={rootStyle}>
 				{labelElement}
 				<div className={inputDivClassName}>
 					<input
