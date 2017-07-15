@@ -2,10 +2,10 @@ import React from 'react'
 
 let getNewValue = e => e.target.checked;
 
-let Checkbox = ({ label, checked, disabled, noMargin, onChange }) => {
+let Checkbox = ({ label, checked, disabled, noMargin, smallMargin, onChange }) => {
 	let rootStyle = noMargin
-		? { margin: '0' }
-		: null;
+		? { marginTop: 0, marginBottom: 0 }
+		: (smallMargin ? { marginTop: 7, marginBottom: 7 } : null);
 	
 	return (
 		<div className='checkbox' style={rootStyle}>

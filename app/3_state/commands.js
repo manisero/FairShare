@@ -81,4 +81,5 @@ export default {
     
     addParticipatingParticipantsToCache: ids =>
         ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $push: ids } } } } })
+
 };

@@ -8,13 +8,17 @@ import { Checkbox, NumberBox } from 'inputs'
 
 let ParticipationEditor = ({ participation, participant, error, onContributionChange, onParticipatesChange }) => (
     <tr>
-        <td>{participant.name}</td>
+        <td>
+            <div className='form-control-static'>
+                {participant.name}
+            </div>
+        </td>
         <td className='form-horizontal'>
             <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
         </td>
         <td>
             <Center>
-                <Checkbox checked={participation.participates} error={safeGet(error, 'participates')} onChange={onParticipatesChange} />
+                <Checkbox checked={participation.participates} error={safeGet(error, 'participates')} smallMargin onChange={onParticipatesChange} />
             </Center>
         </td>
     </tr>

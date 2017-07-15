@@ -29,7 +29,7 @@ class TextBox extends React.Component {
 			: 'form-group has-error';
 		
 		let rootStyle = noMargin
-			? { margin: '0' }
+			? { marginBottom: 0 }
 			: null;
 		
 		let labelElement = label != null
