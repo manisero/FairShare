@@ -117,13 +117,15 @@ let subscribeEditing = (events, store) => {
 
 			let item = { name: itemData.name, price: itemData.price };
 			let participation = mapParticipationEditToEntity(participationData);
+			let participatingParticipantIdsCache = getNewParticipatingParticipantIdsCache(participation);
 
 			store.dispatchBatch([
                 actions.updateEntity(EntityType.participation, itemId, participation, e),
                 actions.updateEntity(EntityType.item, itemId, item, e),
                 actions.clearFocus(EntityType.item, e),
                 actions.clearEdit(EntityType.participation, itemId, e),
-                actions.clearEdit(EntityType.item, itemId, e)
+                actions.clearEdit(EntityType.item, itemId, e),
+				actions.setParticipatingParticipantIdsCache(participatingParticipantIdsCache, e)
 			]);
 		});
 	
@@ -207,5 +209,10 @@ let mapParticipationEditToEntity = participationEdit => {
 
 	return result;
 };
+
+let getNewParticipatingParticipantIdsCache = itemParticipations =>
+	Object.entries(itemParticipations)
+		.filter(([participantId, participation]) => participation.participates)
+		.map(([participantId, _]) => parseInt(participantId));
 
 export default subscribe;
