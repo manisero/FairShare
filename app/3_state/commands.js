@@ -60,13 +60,10 @@ export default {
             next: { $set: null }
         } } } }),
 
-    setEdit: (entity, id, data, state) => {
-        if (state.ui[entity].edit.items[id] == null) {
-            return { ui: { [entity]: { edit: { items: { [id]: { $set: { data: data } } } } } } };
-        } else {
-            return { ui: { [entity]: { edit: { items: { [id]: { data: { $set: data } } } } } } };
-        };
-    },
+    setEdit: (entity, id, data, state) =>
+        state.ui[entity].edit.items[id] == null
+            ? ({ ui: { [entity]: { edit: { items: { [id]: { $set: { data: data } } } } } } })
+            : ({ ui: { [entity]: { edit: { items: { [id]: { data: { $set: data } } } } } } }),
 
     clearEdit: (entity, id) =>
         ({ ui: { [entity]: { edit: { items: { $unset: [id] } } } } }),

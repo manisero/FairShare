@@ -93,22 +93,27 @@ let subscribeAdding = (events, store) => {
 			let allAdded = queries.toAdd_allAdded(state, EntityType.participant);
 			let nextToAdd = queries.toAdd_next(state, EntityType.participant);
 			let nextId = getNextEntityId(state, EntityType.participant);
+			let ids = [];
 			
 			let allToAdd = [ ...allAdded, nextToAdd ].filter(x => x.name != null && x.name != '');
-			let addEntityActions = [];
+			let actionsBatch = [];
 
 			for (let toAdd of allToAdd) {
 				let data = entityConstructors.participant(toAdd.name, toAdd.contribution);
 
-				addEntityActions.push(actions.addEntity(EntityType.participant, nextId, data, e));
+				actionsBatch.push(actions.addEntity(EntityType.participant, nextId, data, e));
+				ids.push(nextId);
 				nextId++;
 			}
 
-			store.dispatchBatch([
-				...addEntityActions,
-				actions.clearFocus(EntityType.participant, e),
-				actions.clearToAdd(EntityType.participant, e)
-			]);
+			actionsBatch.push(actions.clearFocus(EntityType.participant, e));
+			actionsBatch.push(actions.clearToAdd(EntityType.participant, e));
+
+			if (queries.participatingParticipantIdsCache(state) != null) {
+				actionsBatch.push(actions.addParticipatingParticipantsToCache(ids, e));
+			}
+
+			store.dispatchBatch(actionsBatch);
 		});
 	
 	events.participantsAdd_Cancelled.stream
