@@ -142,7 +142,7 @@ export default {
 		participation: {
 			edit: {
 				items: { },
-				lastParticipatingParticipantIds: null
+				participatingParticipantIdsCache: null
 			}
 		}
 	}

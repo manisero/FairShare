@@ -26,7 +26,7 @@ export default {
                 (total, item) => total + item.price,
                 0),
     
-    participationLastParticipatingParticipantIds: state => state.ui.participation.edit.lastParticipatingParticipantIds,
+    participatingParticipantIdsCache: state => state.ui.participation.edit.participatingParticipantIdsCache,
 
     paymentsByPayerId: state => {
         // TODO: Cache query result as it causes constant rerenders of Settlement panel

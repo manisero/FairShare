@@ -79,6 +79,9 @@ export default {
 
     // non-generic:
 
-    setParticipationLastParticipatingParticipantIds: ids =>
-        ({ ui: { participation: { edit: { lastParticipatingParticipantIds: { $set: ids } } } } })
+    setParticipatingParticipantIdsCache: ids =>
+        ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $set: ids } } } } }),
+    
+    addParticipatingParticipantsToCache: ids =>
+        ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $push: ids } } } } })
 };
