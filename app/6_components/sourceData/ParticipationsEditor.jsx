@@ -43,7 +43,17 @@ let ParticipationsEditor = ({ participations, participants, error, onContributio
 			<thead>
 				<tr>
 					<th className='col-xs-6'>Participants</th>
-					<th className='col-xs-4'>Paid</th>
+					<th className='col-xs-4'>
+                        <div className='dropdown'>
+                            <button type='button' className='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+                                Paid <span className='caret' />
+                            </button>
+                            <ul className='dropdown-menu'>
+                                <li><a href='#'>Even</a></li>
+                                <li><a href='#'>Not even</a></li>
+                            </ul>
+                        </div>
+                    </th>
 					<th className='col-xs-2'>Ate</th>
 				</tr>
 			</thead>
