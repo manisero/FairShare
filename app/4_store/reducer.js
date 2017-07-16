@@ -1,5 +1,6 @@
 import update from 'immutability-helper'
 import stateCommands from 'state/commands'
+import { actions } from './actions'
 
 let reducer = (state, action) => {
     let command = stateCommands[action.type];
