@@ -2,7 +2,7 @@ import update from 'immutability-helper'
 import { ifNull } from 'jsUtils'
 import queries from 'queries'
 import { actions } from 'actions'
-import validators from './../validators'
+import validators from 'validators'
 
 let getNextEntityId = (state, entity) => ifNull(queries.entityLastId(state, entity), () => 0) + 1;
 

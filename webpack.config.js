@@ -18,7 +18,7 @@ module.exports = {
       {
         test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
         loader: 'url-loader'
-    }
+      }
     ]
   },
 
@@ -34,6 +34,7 @@ module.exports = {
       state: path.resolve(__dirname, 'app/3_state/'),
       model: path.resolve(__dirname, 'app/3_state/model'),
       queries: path.resolve(__dirname, 'app/3_state/queries'),
+      validators: path.resolve(__dirname, 'app/3_state/validators'),
       // store:
       store: path.resolve(__dirname, 'app/4_store/'),
       actions: path.resolve(__dirname, 'app/4_store/actions'),

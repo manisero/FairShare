@@ -3,7 +3,7 @@ import { copyDeep } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import validators from './../validators'
+import validators from 'validators'
 import { getNextEntityId, handleEntityEditUpdated } from './shared'
 
 let subscribe = (events, store) => {

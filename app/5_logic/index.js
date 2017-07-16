@@ -1,6 +1,6 @@
 import { createEvents } from 'framework/logic'
 import eventsDataFieldNames from './events'
-import subscribe from './eventHandlers/index.js'
+import subscribe from './eventHandlers'
 
 let initLogic = store => {
 	let events = createEvents(eventsDataFieldNames);
