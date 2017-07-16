@@ -5,7 +5,7 @@ import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
-import ParticipationsEditor from './ParticipationsEditor.jsx'
+import { ParticipationsEditor } from './ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>

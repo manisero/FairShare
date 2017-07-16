@@ -75,25 +75,52 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
 	);
 };
 
-let mapStateToProps = (state, { itemId }) => {
-    let { data, error } = queries.edit(state, EntityType.participation, itemId);
+// ParticipationsAdder
 
-    return {
+let adderMappings = {
+    mapStateToProps: (state, { itemId }) => ({
         mode: queries.participationEditMode(state),
-        participations: data,
-        error: error,
+        participations: queries.toAdd_next(state, EntityType.participation),
+        error: null, // TODO
         participants: queries.entityAllData(state, EntityType.participant)
-    };
+    }),
+    mapEventsToProps: (events, { itemId }) => ({
+        onModeChange: mode => events.participationEdit_ModeChanged(mode),
+        onContributedChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: { contributed: { $set: val } } }),
+        onContributionChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: {
+            contribution: { $set: val.value },
+            contribution_string: { $set: val.valueString }
+        } }),
+        onParticipatesChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: { participates: { $set: val } } })
+    })
 };
 
-let mapEventsToProps = (events, { itemId }) => ({
-    onModeChange: mode => events.participationEdit_ModeChanged(mode),
-    onContributedChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contributed: { $set: val } } }),
-    onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
-		contribution: { $set: val.value },
-		contribution_string: { $set: val.valueString }
-	} }),
-    onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } })
-});
+let Adder = connect(adderMappings.mapStateToProps, adderMappings.mapEventsToProps)(ParticipationsEditor);
 
-export default connect(mapStateToProps, mapEventsToProps)(ParticipationsEditor);
+// ParticipationsEditor
+
+let editorMappings = {
+    mapStateToProps: (state, { itemId }) => {
+        let { data, error } = queries.edit(state, EntityType.participation, itemId);
+
+        return {
+            mode: queries.participationEditMode(state),
+            participations: data,
+            error: error,
+            participants: queries.entityAllData(state, EntityType.participant)
+        };
+    },
+    mapEventsToProps: (events, { itemId }) => ({
+        onModeChange: mode => events.participationEdit_ModeChanged(mode),
+        onContributedChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contributed: { $set: val } } }),
+        onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
+            contribution: { $set: val.value },
+            contribution_string: { $set: val.valueString }
+        } }),
+        onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } })
+    })
+};
+
+let Editor = connect(editorMappings.mapStateToProps, editorMappings.mapEventsToProps)(ParticipationsEditor);
+
+export { Adder as ParticipationsAdder, Editor as ParticipationsEditor };
