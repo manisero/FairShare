@@ -71,7 +71,7 @@ export default {
     setEditError: (state, entity, id, error) =>
         ({ ui: { [entity]: { edit: { items: { [id]: { error: { $set: error } } } } } } }),
 
-    clearEditError: (state, entity, id, error) =>
+    clearEditError: (state, entity, id) =>
         ({ ui: { [entity]: { edit: { items: { [id]: { $unset: ['error'] } } } } } }),
 
     // non-generic:
