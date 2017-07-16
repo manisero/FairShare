@@ -5,15 +5,15 @@ import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
-import { ParticipationsEditor } from './ParticipationsEditor.jsx'
+import { ParticipationsAdder, ParticipationsEditor } from './ParticipationsEditor.jsx'
 
-let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
+let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
 		<div className='form-horizontal'>
 			<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
 			<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
 		</div>
-		<ParticipationsEditor itemId={itemId} />
+		{participationsEditorFactory(itemId)}
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
@@ -23,25 +23,61 @@ let ItemEditor = ({ itemId, item, error, submitEnabled, onNameChange, onPriceCha
 	</div>
 );
 
-let mapStateToProps = (state, { itemId }) => {
-	let { data, error } = queries.edit(state, EntityType.item, itemId);
-	let participationsError = queries.edit(state, EntityType.participation, itemId).error;
+// Adder
 
-	return {
-		item: data,
-		error: error,
-		submitEnabled: error == null && participationsError == null
-	}
+let adderFactories = {
+	participationsEditor: itemId => <ParticipationsAdder itemId={itemId} />
 };
 
-let mapEventsToProps = (events, { itemId }) => ({
-	onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
-	onPriceChange: price => events.itemEdit_Updated(itemId, {
-		price: { $set: price.value },
-		price_string: { $set: price.valueString }
+let adderMappings = {
+	mapStateToProps: (state, { itemId }) => ({
+		item: queries.toAdd_next(state, EntityType.item),
+		error: null, // TODO
+		participationsEditorFactory: adderFactories.participationsEditor,
+		submitEnabled: true // TODO
 	}),
-	onSubmitClick: () => events.itemEdit_Submitted(itemId),
-	onCancelClick: () => events.itemEdit_Cancelled(itemId)
-});
+	mapEventsToProps: (events, { itemId }) => ({
+		onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
+		onPriceChange: price => events.itemEdit_Updated(itemId, {
+			price: { $set: price.value },
+			price_string: { $set: price.valueString }
+		}),
+		onSubmitClick: () => events.itemEdit_Submitted(itemId),
+		onCancelClick: () => events.itemEdit_Cancelled(itemId)
+	})
+};
 
-export default connect(mapStateToProps, mapEventsToProps)(ItemEditor);
+let Adder = connect(adderMappings.mapStateToProps, adderMappings.mapEventsToProps)(ItemEditor);
+
+// Editor
+
+let editorFactories = {
+	participationsEditor: itemId => <ParticipationsEditor itemId={itemId} />
+};
+
+let editorMappings = {
+	mapStateToProps: (state, { itemId }) => {
+		let { data, error } = queries.edit(state, EntityType.item, itemId);
+		let participationsError = queries.edit(state, EntityType.participation, itemId).error;
+
+		return {
+			item: data,
+			error: error,
+			participationsEditorFactory: editorFactories.participationsEditor,
+			submitEnabled: error == null && participationsError == null
+		}
+	},
+	mapEventsToProps: (events, { itemId }) => ({
+		onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
+		onPriceChange: price => events.itemEdit_Updated(itemId, {
+			price: { $set: price.value },
+			price_string: { $set: price.valueString }
+		}),
+		onSubmitClick: () => events.itemEdit_Submitted(itemId),
+		onCancelClick: () => events.itemEdit_Cancelled(itemId)
+	})
+};
+
+let Editor = connect(editorMappings.mapStateToProps, editorMappings.mapEventsToProps)(ItemEditor);
+
+export { Adder as ItemAdder, Editor as ItemEditor }

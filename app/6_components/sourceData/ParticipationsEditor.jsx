@@ -75,7 +75,7 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
 	);
 };
 
-// ParticipationsAdder
+// Adder
 
 let adderMappings = {
     mapStateToProps: (state, { itemId }) => ({
@@ -97,7 +97,7 @@ let adderMappings = {
 
 let Adder = connect(adderMappings.mapStateToProps, adderMappings.mapEventsToProps)(ParticipationsEditor);
 
-// ParticipationsEditor
+// Editor
 
 let editorMappings = {
     mapStateToProps: (state, { itemId }) => {
