@@ -26,11 +26,11 @@ let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnab
 // Adder
 
 let adderFactories = {
-	participationsEditor: itemId => <ParticipationsAdder itemId={itemId} />
+	participationsEditor: _ => <ParticipationsAdder />
 };
 
 let adderMappings = {
-	mapStateToProps: (state, { itemId }) => {
+	mapStateToProps: state => {
 		let itemError = queries.toAdd_nextError(state, EntityType.item);
 		let participationsError = queries.toAdd_nextError(state, EntityType.participation);
 
@@ -41,14 +41,14 @@ let adderMappings = {
 			submitEnabled: itemError == null && participationsError == null
 		};
 	},
-	mapEventsToProps: (events, { itemId }) => ({
-		onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
-		onPriceChange: price => events.itemEdit_Updated(itemId, {
+	mapEventsToProps: events => ({
+		onNameChange: name => events.itemAdd_Updated({ name: { $set: name } }),
+		onPriceChange: price => events.itemAdd_Updated({
 			price: { $set: price.value },
 			price_string: { $set: price.valueString }
 		}),
-		onSubmitClick: () => events.itemEdit_Submitted(itemId),
-		onCancelClick: () => events.itemEdit_Cancelled(itemId)
+		onSubmitClick: () => events.itemAdd_Submitted(),
+		onCancelClick: () => events.itemAdd_Cancelled()
 	})
 };
 

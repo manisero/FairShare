@@ -19,7 +19,12 @@ let eventsDataFieldNames = {
 	// Item:
 	itemSelected: [ 'itemId' ],
 	itemDeselected: [],
-	itemAdded: [],
+	itemAdded: [], // TODO: Remove
+	itemAdd_Started: [],
+	itemAdd_Updated: [ 'updateCommand' ],
+	participationAdd_Updated: [ 'updateCommand' ],
+	itemAdd_Submitted: [],
+	itemAdd_Cancelled: [],
 	itemEdit_Started: [ 'itemId' ],
 	itemEdit_Updated: [ 'itemId', 'updateCommand' ],
 	participationEdit_ModeChanged: [ 'mode' ],

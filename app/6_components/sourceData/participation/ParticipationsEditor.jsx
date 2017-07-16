@@ -78,20 +78,20 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
 // Adder
 
 let adderMappings = {
-    mapStateToProps: (state, { itemId }) => ({
+    mapStateToProps: state => ({
         mode: queries.participationEditMode(state),
         participations: queries.toAdd_next(state, EntityType.participation),
         error: queries.toAdd_nextError(state, EntityType.participation),
         participants: queries.entityAllData(state, EntityType.participant)
     }),
-    mapEventsToProps: (events, { itemId }) => ({
+    mapEventsToProps: events => ({
         onModeChange: mode => events.participationEdit_ModeChanged(mode),
-        onContributedChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: { contributed: { $set: val } } }),
-        onContributionChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: {
+        onContributedChange: (participantId, val) => events.participationAdd_Updated({ [participantId]: { contributed: { $set: val } } }),
+        onContributionChange: (participantId, val) => events.participationAdd_Updated({ [participantId]: {
             contribution: { $set: val.value },
             contribution_string: { $set: val.valueString }
         } }),
-        onParticipatesChange: (participantId, val) => events.participationAdd_NextUpdated(itemId, { [participantId]: { participates: { $set: val } } })
+        onParticipatesChange: (participantId, val) => events.participationAdd_Updated({ [participantId]: { participates: { $set: val } } })
     })
 };
 
