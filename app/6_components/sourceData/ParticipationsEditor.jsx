@@ -38,12 +38,13 @@ let ParticipationEditor = ({ mode, participation, participant, error, onContribu
     );
 };
 
-let ParticipationsEditor = ({ mode, participations, participants, error, onContributionChange, onParticipatesChange }) => {
+let ParticipationsEditor = ({ mode, participations, participants, error, onModeChange, onContributionChange, onParticipatesChange }) => {
 	let participationEditors = mapObjectFields(
 		participations,
 		(participation, participantId) => (
             <ParticipationEditor
                 key={participantId}
+                mode={mode}
                 participation={participation}
                 participant={participants[participantId]}
                 error={safeGet(error, participantId)}
@@ -59,8 +60,8 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onContr
 					<th className='col-xs-6'>Participants</th>
 					<th className='col-xs-4'>
                         <Dropdown label='Paid'>
-                            <Dropdown.Option>Even</Dropdown.Option>
-                            <Dropdown.Option>Not even</Dropdown.Option>
+                            <Dropdown.Option onSelect={() => onModeChange(ParticipationMode.even)}>Even</Dropdown.Option>
+                            <Dropdown.Option onSelect={() => onModeChange(ParticipationMode.uneven)}>Not even</Dropdown.Option>
                         </Dropdown>
                     </th>
 					<th className='col-xs-2'>Ate</th>
@@ -85,11 +86,12 @@ let mapStateToProps = (state, { itemId }) => {
 };
 
 let mapEventsToProps = (events, { itemId }) => ({
+    onModeChange: mode => events.participationEdit_ModeChanged(mode),
     onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
 		contribution: { $set: val.value },
 		contribution_string: { $set: val.valueString }
 	} }),
-    onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } }),
+    onParticipatesChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { participates: { $set: val } } })
 });
 
 export default connect(mapStateToProps, mapEventsToProps)(ParticipationsEditor);

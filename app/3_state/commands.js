@@ -76,6 +76,9 @@ export default {
 
     // non-generic:
 
+    setParticipationEditMode: mode =>
+        ({ ui: { participation: { edit: { mode: { $set: mode } } } } }),
+
     setParticipatingParticipantIdsCache: ids =>
         ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $set: ids } } } } }),
     

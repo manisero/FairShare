@@ -22,6 +22,7 @@ let eventDataCreators = ({
 	itemAdded: () => ({}),
 	itemEdit_Started: itemId => ({ itemId }),
 	itemEdit_Updated: (itemId, updateCommand) => ({ itemId, updateCommand }),
+	participationEdit_ModeChanged: mode => ({ mode }),
 	participationEdit_Updated: (itemId, updateCommand) => ({ itemId, updateCommand }),
 	itemEdit_Submitted: itemId => ({ itemId }),
 	itemEdit_Cancelled: itemId => ({ itemId }),

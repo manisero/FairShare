@@ -1,7 +1,11 @@
 import React from 'react'
 
-let Option = ({ children }) => (
-    <li><a href='#'>{children}</a></li>
+let Option = ({ children, onSelect }) => (
+    <li>
+        <a href='#' onClick={onSelect}>
+            {children}
+        </a>
+    </li>
 ); 
 
 let Dropdown = ({ label, children }) => (

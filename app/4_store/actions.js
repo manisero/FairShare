@@ -22,6 +22,7 @@ let actions = createActions({
     setEditError: (entity, id, error) => ({ entity, id, error }),
     clearEditError: (entity, id, error) => ({ entity, id, error }),
     // non-generic:
+    setParticipationEditMode: mode => ({ mode }),
     setParticipatingParticipantIdsCache: ids => ({ ids}),
     addParticipatingParticipantsToCache: ids => ({ ids })
 });
