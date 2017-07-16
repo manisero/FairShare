@@ -1,9 +1,10 @@
-import { copyDeep, ifNull, mapObject, mapToObject } from 'jsUtils'
-import { EntityType, FocusMode, ParticipationMode } from 'model'
+import { copyDeep, ifNull, mapToObject } from 'jsUtils'
+import { EntityType, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
 import validators from 'validators'
 import { handleEntityEditUpdated } from '../shared'
+import { mapParticipationEditToEntity, handleParticipatingParticipantIdsChange } from './shared'
 
 let subscribeEditing = (events, store) => {
 
@@ -62,15 +63,11 @@ let subscribeEditing = (events, store) => {
 				let errorActions = [];
 
 				if (itemError != null) {
-					errorActions.push(
-						actions.setEditError(EntityType.item, itemId, itemError, e)
-					);
+					errorActions.push(actions.setEditError(EntityType.item, itemId, itemError, e));
 				}
 
 				if (participationError != null) {
-					errorActions.push(
-						actions.setEditError(EntityType.participation, itemId, participationError, e)
-					);
+					errorActions.push(actions.setEditError(EntityType.participation, itemId, participationError, e));
 				}
 
 				store.dispatchBatch(errorActions, e);
@@ -125,44 +122,5 @@ let createParticipationEdit = (state, itemId) => {
 		}
 	);
 };
-
-let mapParticipationEditToEntity = (item, participationEdit, participationMode) => {
-	if (participationMode === ParticipationMode.even) {
-		let filteredParticipation = mapObject(
-			participationEdit,
-			participation => (participation.contributed || participation.participates) ? participation : undefined);
-
-		let contributingParticipantsCount = Object.values(filteredParticipation).filter(x => x.contributed).length;
-		let contribution = item.price / contributingParticipantsCount;
-		let result = {};
-
-		for (let [participantId, participation] of Object.entries(filteredParticipation)) {
-			result[participantId] = {
-				contribution: participation.contributed ? contribution : 0,
-				participates: participation.participates
-			};
-		}
-
-		return result;
-	} else {
-		let result = {};
-	
-		for (let [participantId, participation] of Object.entries(participationEdit)) {
-			if (participation.contribution > 0 || participation.participates) {
-				result[participantId] = {
-					contribution: participation.contribution,
-					participates: participation.participates
-				};
-			}
-		}
-
-		return result;
-	}
-};
-
-let getNewParticipatingParticipantIdsCache = itemParticipations =>
-	Object.entries(itemParticipations)
-		.filter(([participantId, participation]) => participation.participates)
-		.map(([participantId, _]) => parseInt(participantId));
 
 export default subscribeEditing;

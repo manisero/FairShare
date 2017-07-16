@@ -5,6 +5,7 @@ import queries from 'queries'
 import { actions } from 'actions'
 import validators from 'validators'
 import { getNextEntityId, handleEntityAddNextUpdated } from '../shared'
+import { mapParticipationEditToEntity, handleParticipatingParticipantIdsChange } from './shared'
 
 let subscribeAdding = (events, store) => {
 
@@ -62,14 +63,42 @@ let subscribeAdding = (events, store) => {
 	
 	events.itemAdd_Submitted.stream
 		.subscribe(e => {
-			// TODO:
-			// mapping to entities
-			// validation
-			// addEntity (item)
-			// addEntity (participation)
-			// clearFocus (item)
-			// clearToAdd (participation)
-			// clearToAdd (item)
+			let state = store.getState();
+			let itemData = queries.toAdd_next(state, EntityType.item);
+            let participationData = queries.toAdd_next(state, EntityType.participation);
+
+			let itemError = validators.item(itemData, state);
+			let participationError = validators.participation(participationData, state);
+
+			if (itemError != null || participationError != null) {
+				let errorActions = [];
+
+				if (itemError != null) {
+					errorActions.push(actions.setNextToAddError(EntityType.item, itemError, e));
+				}
+
+				if (participationError != null) {
+					errorActions.push(actions.setNextToAddError(EntityType.participation, participationError, e));
+				}
+
+				store.dispatchBatch(errorActions, e);
+
+                return;
+            }
+
+			let itemId = getNextEntityId(state, EntityType.item);
+			let item = { name: itemData.name, price: itemData.price };
+			let participationMode = queries.participationEditMode(state);
+			let participation = mapParticipationEditToEntity(item, participationData, participationMode);
+
+			store.dispatchBatch([
+				actions.addEntity(EntityType.item, itemId, item, e),
+				actions.addEntity(EntityType.participation, itemId, participation, e),
+				actions.clearFocus(EntityType.item, e), // TODO: Start adding next Item
+				actions.clearToAdd(EntityType.participation, e),
+				actions.clearToAdd(EntityType.item, e),
+				...handleParticipatingParticipantIdsChange(participation, e)
+			], e);
 		});
 	
 	events.itemAdd_Cancelled.stream
