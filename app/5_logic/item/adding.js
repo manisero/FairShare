@@ -3,7 +3,8 @@ import { copyDeep, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
-import { getNextEntityId } from '../shared'
+import validators from 'validators'
+import { getNextEntityId, handleEntityAddNextUpdated } from '../shared'
 
 let subscribeAdding = (events, store) => {
 
@@ -48,28 +49,16 @@ let subscribeAdding = (events, store) => {
 		});
 	
 	events.itemAdd_Updated.stream
-		.subscribe(e => {
-			let data = queries.toAdd_next(store.getState(), EntityType.item);
-			let newData = update(data, e.data.updateCommand);
-
-			// TODO: Validation
-
-			store.dispatch(
-				actions.setNextToAdd(EntityType.item, newData, e)
-			);
-		});
+		.subscribe(e => store.dispatchBatch(
+			handleEntityAddNextUpdated(store.getState(), EntityType.item, e.data.updateCommand, e),
+			e)
+		);
 	
 	events.participationAdd_Updated.stream
-		.subscribe(e => {
-			let data = queries.toAdd_next(store.getState(), EntityType.participation);
-			let newData = update(data, e.data.updateCommand);
-
-			// TODO: Validation
-
-			store.dispatch(
-				actions.setNextToAdd(EntityType.participation, newData, e)
-			);
-		});
+		.subscribe(e => store.dispatchBatch(
+			handleEntityAddNextUpdated(store.getState(), EntityType.participation, e.data.updateCommand, e),
+			e)
+		);
 	
 	events.itemAdd_Submitted.stream
 		.subscribe(e => {

@@ -6,6 +6,28 @@ import validators from 'validators'
 
 let getNextEntityId = (state, entity) => ifNull(queries.entityLastId(state, entity), () => 0) + 1;
 
+let handleEntityAddNextUpdated = (state, entity, updateCommand, origin) => {
+	let data = queries.toAdd_next(state, entity);
+	let actionsBatch = [];
+
+	let newData = update(data, updateCommand);
+	actionsBatch.push(actions.setNextToAdd(entity, newData, origin));
+
+	let newError = validators[entity](newData, state);
+	
+	if (newError != null) {
+		actionsBatch.push(actions.setNextToAddError(entity, newError, origin));
+	} else {
+		let currentError = queries.toAdd_nextError(state, entity);
+		
+		if (currentError != null) {
+			actionsBatch.push(actions.clearNextToAddError(entity, origin));
+		}
+	}
+
+	return actionsBatch;
+};
+
 let handleEntityEditUpdated = (state, entity, id, updateCommand, origin) => {
 	let { data, error } = queries.edit(state, entity, id);
 	let actionsBatch = [];
@@ -26,5 +48,6 @@ let handleEntityEditUpdated = (state, entity, id, updateCommand, origin) => {
 
 export {
     getNextEntityId,
+	handleEntityAddNextUpdated,
 	handleEntityEditUpdated
 };

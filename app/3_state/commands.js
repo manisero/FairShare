@@ -53,6 +53,9 @@ export default {
     setNextToAddError: (state, entity, error) =>
         ({ ui: { [entity]: { toAdd: { nextError: { $set: error } } } } }),
 
+    clearNextToAddError: (state, entity) =>
+        ({ ui: { [entity]: { toAdd: { nextError: { $set: null } } } } }),
+
     addToAdd: (state, entity, data) =>
         ({ ui: { [entity]: { toAdd: { items: { $push: [ data ] } } } } }),
 
