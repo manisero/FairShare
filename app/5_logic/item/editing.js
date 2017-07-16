@@ -78,7 +78,6 @@ let subscribeEditing = (events, store) => {
 			let item = { name: itemData.name, price: itemData.price };
 			let participationMode = queries.participationEditMode(state);
 			let participation = mapParticipationEditToEntity(item, participationData, participationMode);
-			let participatingParticipantIdsCache = getNewParticipatingParticipantIdsCache(participation);
 
 			store.dispatchBatch([
                 actions.updateEntity(EntityType.participation, itemId, participation, e),
@@ -86,7 +85,7 @@ let subscribeEditing = (events, store) => {
                 actions.clearFocus(EntityType.item, e),
                 actions.clearEdit(EntityType.participation, itemId, e),
                 actions.clearEdit(EntityType.item, itemId, e),
-				actions.setParticipatingParticipantIdsCache(participatingParticipantIdsCache, e)
+				...handleParticipatingParticipantIdsChange(participation, e)
 			], e);
 		});
 	
