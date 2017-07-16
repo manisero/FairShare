@@ -176,7 +176,11 @@ let createParticipationEditForNewItem = state => {
 
 	return mapToObject(
 		participantIds,
-		id => entityConstructors.participation(undefined, participatingParticipantIds.includes(id))
+		id => ({
+			contributed: false,
+			contribution: 0,
+			participates: participatingParticipantIds.includes(id)
+		})
 	);
 };
 
@@ -196,7 +200,21 @@ let createParticipationEdit = (state, itemId) => {
 
 	return mapToObject(
 		participantIds,
-		id => ifNull(itemParticipations[id], () => entityConstructors.participation())
+		id => {
+			let participation = itemParticipations[id];
+
+			return participation != null
+				? {
+					contributed: participation.contribution > 0,
+					contribution: participation.contribution,
+					participates: participation.participates
+				}
+				: {
+					contributed: false,
+					contribution: 0,
+					participates: false
+				};
+		}
 	);
 };
 

@@ -38,7 +38,7 @@ let ParticipationEditor = ({ mode, participation, participant, error, onContribu
     );
 };
 
-let ParticipationsEditor = ({ mode, participations, participants, error, onModeChange, onContributionChange, onParticipatesChange }) => {
+let ParticipationsEditor = ({ mode, participations, participants, error, onModeChange, onContributedChange, onContributionChange, onParticipatesChange }) => {
 	let participationEditors = mapObjectFields(
 		participations,
 		(participation, participantId) => (
@@ -48,6 +48,7 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
                 participation={participation}
                 participant={participants[participantId]}
                 error={safeGet(error, participantId)}
+                onContributedChange={val => onContributedChange(participantId, val)}
                 onContributionChange={val => onContributionChange(participantId, val)}
                 onParticipatesChange={val => onParticipatesChange(participantId, val)} />
         )
@@ -87,6 +88,7 @@ let mapStateToProps = (state, { itemId }) => {
 
 let mapEventsToProps = (events, { itemId }) => ({
     onModeChange: mode => events.participationEdit_ModeChanged(mode),
+    onContributedChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contributed: { $set: val } } }),
     onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
 		contribution: { $set: val.value },
 		contribution_string: { $set: val.valueString }
