@@ -16,7 +16,7 @@ export default {
             items: { [id]: { $set: data } }
         } } }),
     
-    updateEntity: (entity, id, data) =>
+    updateEntity: (state, entity, id, data) =>
         ({ [EntityCategory[entity]]: { [entity]: { items: { [id]: { $set: data } } } } }),
 
     deleteEntity: (state, entity, id) => {
