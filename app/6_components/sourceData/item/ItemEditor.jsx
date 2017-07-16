@@ -5,7 +5,7 @@ import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
-import { ParticipationsAdder, ParticipationsEditor } from './ParticipationsEditor.jsx'
+import { ParticipationsAdder, ParticipationsEditor } from '../participation/ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<div>
@@ -39,7 +39,7 @@ let adderMappings = {
 			error: itemError,
 			participationsEditorFactory: adderFactories.participationsEditor,
 			submitEnabled: itemError == null && participationsError == null
-		}
+		};
 	},
 	mapEventsToProps: (events, { itemId }) => ({
 		onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),

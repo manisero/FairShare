@@ -5,9 +5,9 @@ import queries from 'queries'
 import { Left, Right } from 'compUtils'
 import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
-import ParticipantsAdder from './participantsAdder/ParticipantsAdder.jsx'
-import ParticipantsStats from './ParticipantsStats.jsx'
-import ItemsStats from './ItemsStats.jsx'
+import ParticipantsAdder from './participant/adder/ParticipantsAdder.jsx'
+import ParticipantsStats from './participant/ParticipantsStats.jsx'
+import ItemsStats from './item/ItemsStats.jsx'
 
 let List = ({ title, entityIds, itemFactory, selectedEntityId, showAdder, adderFactory, statsFactory, onItemSelect, onAddClick }) => {
     let items = entityIds.map(id => {
