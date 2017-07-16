@@ -44,7 +44,7 @@ let subscribeAdding = (events, store) => {
 				actions.setEdit(EntityType.item, itemId, itemEdit, e),
 				actions.setEdit(EntityType.participation, itemId, participationEdit, e),
 				actions.setFocus(EntityType.item, FocusMode.edited, itemId, e)
-			]);
+			], e);
 		});
 
 };
@@ -72,12 +72,13 @@ let subscribeEditing = (events, store) => {
 
             actionsBatch.push(actions.setFocus(EntityType.item, FocusMode.edited, itemId, e));
 
-            store.dispatchBatch(actionsBatch);
+            store.dispatchBatch(actionsBatch, e);
 		});
     
     events.itemEdit_Updated.stream
 		.subscribe(e => store.dispatchBatch(
-            handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e)
+            handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e),
+			e
         ));
 
 	events.participationEdit_ModeChanged.stream
@@ -87,7 +88,8 @@ let subscribeEditing = (events, store) => {
 
     events.participationEdit_Updated.stream
 		.subscribe(e => store.dispatchBatch(
-            handleEntityEditUpdated(store.getState(), EntityType.participation, e.data.itemId, e.data.updateCommand, e)
+            handleEntityEditUpdated(store.getState(), EntityType.participation, e.data.itemId, e.data.updateCommand, e),
+			e
         ));
 	
 	events.itemEdit_Submitted.stream
@@ -115,7 +117,7 @@ let subscribeEditing = (events, store) => {
 					);
 				}
 
-				store.dispatchBatch(errorActions);
+				store.dispatchBatch(errorActions, e);
 
                 return;
             }
@@ -132,7 +134,7 @@ let subscribeEditing = (events, store) => {
                 actions.clearEdit(EntityType.participation, itemId, e),
                 actions.clearEdit(EntityType.item, itemId, e),
 				actions.setParticipatingParticipantIdsCache(participatingParticipantIdsCache, e)
-			]);
+			], e);
 		});
 	
 	events.itemEdit_Cancelled.stream
@@ -140,7 +142,7 @@ let subscribeEditing = (events, store) => {
             actions.clearFocus(EntityType.item, e),
             actions.clearEdit(EntityType.participation, e.data.itemId, e),
 		    actions.clearEdit(EntityType.item, e.data.itemId, e)
-		]));
+		], e));
 
 };
 
@@ -161,7 +163,7 @@ let subscribeDeleting = (events, store) => {
 				actions.clearFocus(EntityType.item, e),
 				actions.clearEdit(EntityType.participation, itemId, e),
 				actions.clearEdit(EntityType.item, itemId, e)
-			]);
+			], e);
 		});
 
 	events.itemDelete_Cancelled.stream

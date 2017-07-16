@@ -42,7 +42,7 @@ let subscribeAdding = (events, store) => {
 
 			actionsBatch.push(actions.setFocus(EntityType.participant, FocusMode.added, null, e));
 
-			store.dispatchBatch(actionsBatch);
+			store.dispatchBatch(actionsBatch, e);
 		});
 
 	events.participantsAdd_Added.stream
@@ -58,7 +58,7 @@ let subscribeAdding = (events, store) => {
 			store.dispatchBatch([
 				actions.addToAdd(EntityType.participant, toAdd, e),
 				actions.setNextToAdd(EntityType.participant, next, e)
-			]);
+			], e);
 		});
 	
 	events.participantsAdd_Updated.stream
@@ -113,14 +113,14 @@ let subscribeAdding = (events, store) => {
 				actionsBatch.push(actions.addParticipatingParticipantsToCache(ids, e));
 			}
 
-			store.dispatchBatch(actionsBatch);
+			store.dispatchBatch(actionsBatch, e);
 		});
 	
 	events.participantsAdd_Cancelled.stream
 		.subscribe(e => store.dispatchBatch([
 			actions.clearFocus(EntityType.participant, e),
 			actions.clearToAdd(EntityType.participant, e)
-		]));
+		], e));
 
 };
 
@@ -140,12 +140,13 @@ let subscribeEditing = (events, store) => {
 
             actionsBatch.push(actions.setFocus(EntityType.participant, FocusMode.edited, participantId, e));
 
-            store.dispatchBatch(actionsBatch);
+            store.dispatchBatch(actionsBatch, e);
 		});
     
     events.participantEdit_Updated.stream
 		.subscribe(e => store.dispatchBatch(
-            handleEntityEditUpdated(store.getState(), EntityType.participant, e.data.participantId, e.data.updateCommand, e)
+            handleEntityEditUpdated(store.getState(), EntityType.participant, e.data.participantId, e.data.updateCommand, e),
+			e
         ));
 	
 	events.participantEdit_Submitted.stream
@@ -170,14 +171,14 @@ let subscribeEditing = (events, store) => {
                 actions.updateEntity(EntityType.participant, participantId, participant, e),
                 actions.clearFocus(EntityType.participant, e),
                 actions.clearEdit(EntityType.participant, participantId, e)
-			]);
+			], e);
 		});
 	
 	events.participantEdit_Cancelled.stream
 		.subscribe(e => store.dispatchBatch([
             actions.clearFocus(EntityType.participant, e),
 		    actions.clearEdit(EntityType.participant, e.data.participantId, e)
-		]));
+		], e));
 
 };
 
@@ -202,7 +203,7 @@ let subscribeDeleting = (events, store) => {
 				actions.clearEdit(EntityType.participant, participantId, e),
 				...cleanUpParticipationsActions,
 				...cleanUpParticipationEditsActions
-			]);
+			], e);
 		});
 
 	events.participantDelete_Cancelled.stream

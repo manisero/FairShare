@@ -24,7 +24,7 @@ let subscribe = (events, store) => {
             store.dispatchBatch([
                 actions.deleteAllEntities(EntityType.payment, e),
 				...addPaymentActions
-			]);
+			], e);
         });
     
     events.settlementClipboardCopyRequested.stream

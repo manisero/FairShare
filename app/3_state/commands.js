@@ -9,7 +9,7 @@ export default {
 
     // entities:
 
-    addEntity: (entity, id, data) =>
+    addEntity: (state, entity, id, data) =>
         ({ [EntityCategory[entity]]: { [entity]: {
             lastId: { $set: id },
             ids: { $push: [ id ] },
@@ -19,7 +19,7 @@ export default {
     updateEntity: (entity, id, data) =>
         ({ [EntityCategory[entity]]: { [entity]: { items: { [id]: { $set: data } } } } }),
 
-    deleteEntity: (entity, id, state) => {
+    deleteEntity: (state, entity, id) => {
         let idIndex = state[EntityCategory[entity]][entity].ids.indexOf(id);
 
         return { [EntityCategory[entity]]: { [entity]: {
@@ -28,7 +28,7 @@ export default {
         } } };
     },
 
-    deleteAllEntities: entity => 
+    deleteAllEntities: (state, entity) => 
         ({ [EntityCategory[entity]]: { [entity]: {
             ids: { $set: [] },
             items: { $set: {} }
@@ -36,53 +36,53 @@ export default {
 
     // ui:
 
-    setFocus: (entity, mode, id) =>
+    setFocus: (state, entity, mode, id) =>
         ({ ui: { [entity]: { focus: setFocus(mode, id) } } }),
     
-    clearFocus: entity =>
+    clearFocus: (state, entity) =>
         ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
 
-    setNextToAdd: (entity, data) =>
+    setNextToAdd: (state, entity, data) =>
         ({ ui: { [entity]: { toAdd: { next: { $set: data } } } } }),
 
-    addToAdd: (entity, data) =>
+    addToAdd: (state, entity, data) =>
         ({ ui: { [entity]: { toAdd: { items: { $push: [ data ] } } } } }),
 
-    updateToAdd: (entity, index, data) =>
+    updateToAdd: (state, entity, index, data) =>
         ({ ui: { [entity]: { toAdd: { items: { [index]: { $set: data } } } } } }),
 
-    removeToAdd: (entity, index) =>
+    removeToAdd: (state, entity, index) =>
         ({ ui: { [entity]: { toAdd: { items: { $splice: [[ index, 1 ]] } } } } }),
 
-    clearToAdd: entity =>
+    clearToAdd: (state, entity) =>
         ({ ui: { [entity]: { toAdd: {
             items: { $set: [] },
             next: { $set: null }
         } } } }),
 
-    setEdit: (entity, id, data, state) =>
+    setEdit: (state, entity, id, data) =>
         state.ui[entity].edit.items[id] == null
             ? ({ ui: { [entity]: { edit: { items: { [id]: { $set: { data: data } } } } } } })
             : ({ ui: { [entity]: { edit: { items: { [id]: { data: { $set: data } } } } } } }),
 
-    clearEdit: (entity, id) =>
+    clearEdit: (state, entity, id) =>
         ({ ui: { [entity]: { edit: { items: { $unset: [id] } } } } }),
 
-    setEditError: (entity, id, error) =>
+    setEditError: (state, entity, id, error) =>
         ({ ui: { [entity]: { edit: { items: { [id]: { error: { $set: error } } } } } } }),
 
-    clearEditError: (entity, id, error) =>
+    clearEditError: (state, entity, id, error) =>
         ({ ui: { [entity]: { edit: { items: { [id]: { $unset: ['error'] } } } } } }),
 
     // non-generic:
 
-    setParticipationEditMode: mode =>
+    setParticipationEditMode: (state, mode) =>
         ({ ui: { participation: { edit: { mode: { $set: mode } } } } }),
 
-    setParticipatingParticipantIdsCache: ids =>
+    setParticipatingParticipantIdsCache: (state, ids) =>
         ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $set: ids } } } } }),
     
-    addParticipatingParticipantsToCache: ids =>
+    addParticipatingParticipantsToCache: (state, ids) =>
         ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $push: ids } } } } })
 
 };

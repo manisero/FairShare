@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "get-parameter-names": "^0.3.0",
     "immutability-helper": "^2.2.2",
     "jquery": "^3.2.1",
     "react": "^15.5.4",

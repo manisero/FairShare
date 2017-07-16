@@ -1,15 +1,43 @@
+import getParameterNames from 'get-parameter-names' 
 import { mapObject } from 'jsUtils'
 
-let createActionCreator = (dataCreator, actionType) => {
+/*
+Assumptions:
+- action data object layout: { param1, param2, ..., paramN }
+- action data creator parameters: param1, param2, ..., paramN
+- action creator parameters: [action data creator parameters], origin
+- command parameters: state, [action data creator parameters]
+*/
+
+let createActionCreatorsFromCommands = commands =>
+    mapObject(commands, createActionCreatorFromCommand);
+
+let createActionCreatorFromCommand = (command, commandName) => {
+    let actionType = commandName;
+    let commandParamNames = getParameterNames(command);
+    let actionDataFieldNames = commandParamNames.slice(1);
+
+    let actionCreator = createActionCreator(actionType, actionDataFieldNames);
+
+    return actionCreator;
+};
+
+let createActionCreator = (actionType, dataFieldNames) => {
+    let actionCreatorParamNames = [ ...dataFieldNames, 'origin' ];
+    let actionDataCreator = createActionDataCreator(actionType, dataFieldNames);
+
     let actionCreator = (...args) => {
-        let creatorParamsCount = dataCreator.length; // TODO: Consider throwing error if args.length < creatorParamsCount
-        let creatorArgs = args.slice(0, creatorParamsCount);
-        let origin = args.length > creatorParamsCount ? args[creatorParamsCount] : null;
+        if (args.length != actionCreatorParamNames.length) {
+            throw { message: 'Action creator was called with wrong arguments.', actionType, creatorParams: actionCreatorParamNames, callArgs: args };
+        }
+
+        let actionDataCreatorArgs = args.slice(0, -1);
+        let originArg = args[args.length - 1];
 
         return {
             type: actionType,
-            data: dataCreator.apply(null, creatorArgs),
-            origin
+            data: actionDataCreator.apply(null, actionDataCreatorArgs),
+            origin: originArg
         };
     };
 
@@ -18,6 +46,20 @@ let createActionCreator = (dataCreator, actionType) => {
     return actionCreator;
 };
 
-let createActions = actionDataCreators => mapObject(actionDataCreators, createActionCreator);
+let createActionDataCreator = (actionType, dataFieldNames) => {
+    return (...args) => {
+        if (args.length != dataFieldNames.length) {
+            throw { message: 'Action data creator was called with wrong arguments.', actionType, creatorParams: dataFieldNames, callArgs: args };
+        }
 
-export { createActions };
+        let actionData = {};
+
+        for (var i = 0; i < dataFieldNames.length; i++) {
+            actionData[dataFieldNames[i]] = args[i];
+        }
+
+        return actionData;
+    };
+};
+
+export { createActionCreatorsFromCommands, createActionCreator };
