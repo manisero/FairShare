@@ -23,7 +23,7 @@ let ParticipantAdder = ({ participant, onNameChange, children }) => (
 let AddedParticipants = ({ participants, onNameChange, onRemoveClick }) => {
 	let participantAdders = participants.map((p, i) => (
 		<ParticipantAdder key={i} participant={p} onNameChange={val => onNameChange(i, val)}>
-			<Button tabIndex={-1} onClick={() => onRemoveClick(i)}>X</Button>
+			<Button tabIndex={-1} onClick={() => onRemoveClick(i)}><span className='glyphicon glyphicon-remove' /></Button>
 		</ParticipantAdder>
 	));
 
