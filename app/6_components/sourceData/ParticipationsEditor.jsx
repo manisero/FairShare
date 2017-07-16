@@ -4,7 +4,7 @@ import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Center } from 'compUtils'
-import { Checkbox, NumberBox } from 'inputs'
+import { Checkbox, Dropdown, NumberBox } from 'inputs'
 
 let ParticipationEditor = ({ participation, participant, error, onContributionChange, onParticipatesChange }) => (
     <tr>
@@ -44,15 +44,10 @@ let ParticipationsEditor = ({ participations, participants, error, onContributio
 				<tr>
 					<th className='col-xs-6'>Participants</th>
 					<th className='col-xs-4'>
-                        <div className='dropdown'>
-                            <button type='button' className='btn btn-default dropdown-toggle' data-toggle='dropdown'>
-                                Paid <span className='caret' />
-                            </button>
-                            <ul className='dropdown-menu'>
-                                <li><a href='#'>Even</a></li>
-                                <li><a href='#'>Not even</a></li>
-                            </ul>
-                        </div>
+                        <Dropdown label='Paid'>
+                            <Dropdown.Option>Even</Dropdown.Option>
+                            <Dropdown.Option>Not even</Dropdown.Option>
+                        </Dropdown>
                     </th>
 					<th className='col-xs-2'>Ate</th>
 				</tr>
