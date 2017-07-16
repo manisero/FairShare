@@ -36,9 +36,10 @@ let subscribeAdding = (events, store) => {
 
 			if (toAdd == null) {
 				let newItem = entityConstructors[EntityType.item]();
-				// TODO: newParticipation
+				let newParticipation = createParticipationEditForNewItem(state);
 
 				actionsBatch.push(actions.setNextToAdd(EntityType.item, newItem, e));
+				actionsBatch.push(actions.setNextToAdd(EntityType.participation, newParticipation, e));
 			} // else TODO: handle Participants added since last add or refactor Participation to handle this automatically (display ParticiaptionEditor per Participant, not per Participation)
 
 			actionsBatch.push(actions.setFocus(EntityType.item, FocusMode.added, null, e));

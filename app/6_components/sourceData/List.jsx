@@ -7,6 +7,7 @@ import { Button } from 'inputs'
 import { ParticipantTile, ItemTile } from './Tile.jsx'
 import ParticipantsAdder from './participant/adder/ParticipantsAdder.jsx'
 import ParticipantsStats from './participant/ParticipantsStats.jsx'
+import { ItemAdder } from './item/ItemEditor.jsx'
 import ItemsStats from './item/ItemsStats.jsx'
 
 let List = ({ title, entityIds, itemFactory, selectedEntityId, showAdder, adderFactory, statsFactory, onItemSelect, onAddClick }) => {
@@ -82,20 +83,27 @@ let ParticipantList = connect(participantMappings.mapStateToProps, participantMa
 
 let itemFactories = {
     item: id => <ItemTile itemId={id} />,
+    adder: () => <ItemAdder />,
     stats: () => <ItemsStats />
 };
 
 let itemMappings = {
-    mapStateToProps: state => ({
-        title: 'Items',
-        entityIds: queries.entityIds(state, EntityType.item),
-	    itemFactory: itemFactories.item,
-        selectedEntityId: queries.focus(state, EntityType.item).itemId,
-        statsFactory: itemFactories.stats
-    }),
+    mapStateToProps: state => {
+        let { mode: focusMode, itemId: focusedId } = queries.focus(state, EntityType.item);
+
+        return {
+            title: 'Items',
+            entityIds: queries.entityIds(state, EntityType.item),
+            itemFactory: itemFactories.item,
+            selectedEntityId: focusedId,
+            showAdder: focusMode === FocusMode.added,
+            adderFactory: itemFactories.adder,
+            statsFactory: itemFactories.stats
+        };
+    },
     mapEventsToProps: events => ({
         onItemSelect: itemId => events.itemSelected(itemId),
-        onAddClick: () => events.itemAdded()
+        onAddClick: () => events.itemAdd_Started()
     })
 };
 
