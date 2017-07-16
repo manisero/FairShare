@@ -5,9 +5,13 @@ let ifNull = (object, valueGetter) => object != null ? object : valueGetter();
 let mapObject = (source, mapper) => {
     let result = {};
 
-    Object.keys(source).forEach(
-        fieldName => result[fieldName] = mapper(source[fieldName], fieldName)
-    );
+    Object.entries(source).forEach(([fieldName, value]) => {
+        let mappedValue = mapper(value, fieldName);
+
+        if (mappedValue !== undefined) {
+            result[fieldName] = mappedValue;
+        }
+    });
 
     return result;
 };

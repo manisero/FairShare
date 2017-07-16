@@ -1,5 +1,5 @@
-import { copyDeep, ifNull, mapToObject } from 'jsUtils'
-import { EntityType, entityConstructors, FocusMode } from 'model'
+import { copyDeep, ifNull, mapObject, mapToObject } from 'jsUtils'
+import { EntityType, entityConstructors, FocusMode, ParticipationMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
 import validators from './../validators'
@@ -121,7 +121,8 @@ let subscribeEditing = (events, store) => {
             }
 
 			let item = { name: itemData.name, price: itemData.price };
-			let participation = mapParticipationEditToEntity(participationData);
+			let participationMode = queries.participationEditMode(state);
+			let participation = mapParticipationEditToEntity(item, participationData, participationMode);
 			let participatingParticipantIdsCache = getNewParticipatingParticipantIdsCache(participation);
 
 			store.dispatchBatch([
@@ -218,19 +219,38 @@ let createParticipationEdit = (state, itemId) => {
 	);
 };
 
-let mapParticipationEditToEntity = participationEdit => {
-	let result = {};
-	
-	for (let [participantId, participation] of Object.entries(participationEdit)) {
-		if (participation.contribution > 0 || participation.participates) {
+let mapParticipationEditToEntity = (item, participationEdit, participationMode) => {
+	if (participationMode === ParticipationMode.even) {
+		let filteredParticipation = mapObject(
+			participationEdit,
+			participation => (participation.contributed || participation.participates) ? participation : undefined);
+
+		let contributingParticipantsCount = Object.values(filteredParticipation).filter(x => x.contributed).length;
+		let contribution = item.price / contributingParticipantsCount;
+		let result = {};
+
+		for (let [participantId, participation] of Object.entries(filteredParticipation)) {
 			result[participantId] = {
-				contribution: participation.contribution,
+				contribution: participation.contributed ? contribution : 0,
 				participates: participation.participates
 			};
 		}
-	}
 
-	return result;
+		return result;
+	} else {
+		let result = {};
+	
+		for (let [participantId, participation] of Object.entries(participationEdit)) {
+			if (participation.contribution > 0 || participation.participates) {
+				result[participantId] = {
+					contribution: participation.contribution,
+					participates: participation.participates
+				};
+			}
+		}
+
+		return result;
+	}
 };
 
 let getNewParticipatingParticipantIdsCache = itemParticipations =>
