@@ -26,6 +26,7 @@ export default {
                 (total, item) => total + item.price,
                 0),
     
+    participationEditMode: state => state.ui.participation.edit.mode,
     participatingParticipantIdsCache: state => state.ui.participation.edit.participatingParticipantIdsCache,
 
     paymentsByPayerId: state => {

@@ -31,10 +31,16 @@ let FocusMode = {
     deleted: 'deleted'
 };
 
+let ParticipationMode = {
+    even: 'even',
+    uneven: 'uneven'
+};
+
 export {
     EntityType,
     EntityCategory,
     entityConstructors,
     entityKeyGetters,
-    FocusMode
+    FocusMode,
+    ParticipationMode
 };

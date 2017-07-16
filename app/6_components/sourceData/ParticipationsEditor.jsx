@@ -1,30 +1,44 @@
 import React from 'react'
 import { safeGet, mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
-import { EntityType } from 'model'
+import { EntityType, ParticipationMode } from 'model'
 import queries from 'queries'
 import { Center } from 'compUtils'
 import { Checkbox, Dropdown, NumberBox } from 'inputs'
 
-let ParticipationEditor = ({ participation, participant, error, onContributionChange, onParticipatesChange }) => (
-    <tr>
-        <td>
-            <div className='form-control-static'>
-                {participant.name}
-            </div>
-        </td>
-        <td className='form-horizontal'>
-            <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
-        </td>
-        <td>
-            <Center>
-                <Checkbox checked={participation.participates} error={safeGet(error, 'participates')} smallMargin onChange={onParticipatesChange} />
-            </Center>
-        </td>
-    </tr>
-);
+let ParticipationEditor = ({ mode, participation, participant, error, onContributedChange, onContributionChange, onParticipatesChange }) => {
+    let contributionEditor = mode === ParticipationMode.even
+        ? (
+            <td>
+                <Center>
+                    <Checkbox checked={participation.contributed} error={safeGet(error, 'contributed')} smallMargin onChange={onContributedChange} />
+                </Center>
+            </td>
+        )
+        : (
+            <td className='form-horizontal'>
+                <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
+            </td>
+        );
 
-let ParticipationsEditor = ({ participations, participants, error, onContributionChange, onParticipatesChange }) => {
+    return (
+        <tr>
+            <td>
+                <div className='form-control-static'>
+                    {participant.name}
+                </div>
+            </td>
+            {contributionEditor}
+            <td>
+                <Center>
+                    <Checkbox checked={participation.participates} error={safeGet(error, 'participates')} smallMargin onChange={onParticipatesChange} />
+                </Center>
+            </td>
+        </tr>
+    );
+};
+
+let ParticipationsEditor = ({ mode, participations, participants, error, onContributionChange, onParticipatesChange }) => {
 	let participationEditors = mapObjectFields(
 		participations,
 		(participation, participantId) => (
@@ -63,6 +77,7 @@ let mapStateToProps = (state, { itemId }) => {
     let { data, error } = queries.edit(state, EntityType.participation, itemId);
 
     return {
+        mode: queries.participationEditMode(state),
         participations: data,
         error: error,
         participants: queries.entityAllData(state, EntityType.participant)

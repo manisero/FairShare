@@ -1,4 +1,4 @@
-import { FocusMode } from 'model'
+import { FocusMode, ParticipationMode } from 'model'
 
 // default Participants
 
@@ -142,6 +142,7 @@ export default {
 		participation: {
 			edit: {
 				items: { },
+				mode: ParticipationMode.even,
 				participatingParticipantIdsCache: null
 			}
 		}
