@@ -29,6 +29,7 @@ const item3Name = 'Item3';
 const item3Price = 300.00;
 
 // default Payments
+
 const payment1Id = '' + participant2Id + '_' + participant1Id;
 
 // state
@@ -143,7 +144,7 @@ export default {
 			edit: {
 				items: { },
 				mode: ParticipationMode.even,
-				participatingParticipantIdsCache: null
+				participatingParticipantIdsCache: [ participant1Id, participant2Id ]
 			}
 		}
 	}
