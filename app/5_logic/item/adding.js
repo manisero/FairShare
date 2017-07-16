@@ -30,7 +30,20 @@ let subscribeAdding = (events, store) => {
 
 	events.itemAdd_Started.stream
 		.subscribe(e => {
-			// TODO
+			let state = store.getState();
+			let toAdd = queries.toAdd_next(state, EntityType.item);
+			let actionsBatch = [];
+
+			if (toAdd == null) {
+				let newItem = entityConstructors[EntityType.item]();
+				// TODO: newParticipation
+
+				actionsBatch.push(actions.setNextToAdd(EntityType.item, newItem, e));
+			} // else TODO: handle Participants added since last add or refactor Participation to handle this automatically (display ParticiaptionEditor per Participant, not per Participation)
+
+			actionsBatch.push(actions.setFocus(EntityType.item, FocusMode.added, null, e));
+
+			store.dispatchBatch(actionsBatch, e);
 		});
 	
 	events.itemAdd_Updated.stream
@@ -59,7 +72,14 @@ let subscribeAdding = (events, store) => {
 	
 	events.itemAdd_Submitted.stream
 		.subscribe(e => {
-			// TODO
+			// TODO:
+			// mapping to entities
+			// validation
+			// addEntity (item)
+			// addEntity (participation)
+			// clearFocus (item)
+			// clearToAdd (participation)
+			// clearToAdd (item)
 		});
 	
 	events.itemAdd_Cancelled.stream
