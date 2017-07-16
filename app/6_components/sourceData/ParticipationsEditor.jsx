@@ -60,8 +60,8 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
 					<th className='col-xs-6'>Participants</th>
 					<th className='col-xs-4'>
                         <Dropdown label='Paid'>
-                            <Dropdown.Option onSelect={() => onModeChange(ParticipationMode.even)}>Even</Dropdown.Option>
-                            <Dropdown.Option onSelect={() => onModeChange(ParticipationMode.uneven)}>Not even</Dropdown.Option>
+                            <Dropdown.Option isSelected={mode === ParticipationMode.even} onSelect={() => onModeChange(ParticipationMode.even)}>Even</Dropdown.Option>
+                            <Dropdown.Option isSelected={mode === ParticipationMode.uneven} onSelect={() => onModeChange(ParticipationMode.uneven)}>Not even</Dropdown.Option>
                         </Dropdown>
                     </th>
 					<th className='col-xs-2'>Ate</th>

@@ -1,13 +1,5 @@
 import React from 'react'
 
-let Option = ({ children, onSelect }) => (
-    <li>
-        <a href='#' onClick={onSelect}>
-            {children}
-        </a>
-    </li>
-); 
-
 let Dropdown = ({ label, children }) => (
     <div className='dropdown'>
         <button type='button' className='btn btn-default dropdown-toggle' data-toggle='dropdown'>
@@ -19,6 +11,16 @@ let Dropdown = ({ label, children }) => (
     </div>
 );
 
-Dropdown.Option = Option;
+Dropdown.Option = ({ children, isSelected, onSelect }) => {
+    let rootClass = isSelected ? 'active' : null;
+
+    return (
+        <li className={rootClass}>
+            <a href='#' onClick={onSelect}>
+                {children}
+            </a>
+        </li>
+    );
+};
 
 export default Dropdown;
