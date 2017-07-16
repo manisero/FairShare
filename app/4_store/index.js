@@ -1,6 +1,7 @@
 import { createStore as reduxCreateStore } from 'redux'
 import initialState from 'state/initialState'
-import { actions, reducer } from './actions'
+import { actions } from './actions'
+import reducer from './reducer'
 
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
