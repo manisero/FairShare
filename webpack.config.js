@@ -1,3 +1,4 @@
+var webpack = require("webpack");
 var path = require('path');
 
 module.exports = {
@@ -56,6 +57,13 @@ module.exports = {
       inputs: path.resolve(__dirname, 'app/6_components/inputs/'),
     }
   },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery"
+      })
+  ],
 
   devtool: 'source-map',
 
