@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { copyDeep, mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
@@ -6,6 +7,7 @@ import { getNextEntityId } from '../shared'
 
 let subscribeAdding = (events, store) => {
 
+	// TODO: Remove
 	events.itemAdded.stream
 		.subscribe(e => {
 			let state = store.getState();
@@ -24,7 +26,48 @@ let subscribeAdding = (events, store) => {
 				actions.setFocus(EntityType.item, FocusMode.edited, itemId, e)
 			], e);
 		});
+	// TODO: Remove above
 
+	events.itemAdd_Started.stream
+		.subscribe(e => {
+			// TODO
+		});
+	
+	events.itemAdd_Updated.stream
+		.subscribe(e => {
+			let data = queries.toAdd_next(store.getState(), EntityType.item);
+			let newData = update(data, e.data.updateCommand);
+
+			// TODO: Validation
+
+			store.dispatch(
+				actions.setNextToAdd(EntityType.item, newData, e)
+			);
+		});
+	
+	events.participationAdd_Updated.stream
+		.subscribe(e => {
+			let data = queries.toAdd_next(store.getState(), EntityType.participation);
+			let newData = update(data, e.data.updateCommand);
+
+			// TODO: Validation
+
+			store.dispatch(
+				actions.setNextToAdd(EntityType.participation, newData, e)
+			);
+		});
+	
+	events.itemAdd_Submitted.stream
+		.subscribe(e => {
+			// TODO
+		});
+	
+	events.itemAdd_Cancelled.stream
+		.subscribe(e => store.dispatchBatch([
+			actions.clearFocus(EntityType.item, e),
+			actions.clearToAdd(EntityType.participation, e),
+			actions.clearToAdd(EntityType.item, e)
+		], e));
 };
 
 let createParticipationEditForNewItem = state => {
