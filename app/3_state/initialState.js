@@ -115,7 +115,8 @@ export default {
 					{ name: 'ToAdd1' },
 					{ name: 'ToAdd2' }
 				],
-				next: { name: 'Next' }
+				next: { name: 'Next' },
+				nextError: null
 			},
 			edit: {
 				items: {
@@ -136,11 +137,21 @@ export default {
 				itemId: null,
 				mode: null
 			},
+			toAdd: {
+				items: [],
+				next: null,
+				nextError: null
+			},
 			edit: {
 				items: { }
 			}
 		},
 		participation: {
+			toAdd: {
+				items: [],
+				next: null,
+				nextError: null
+			},
 			edit: {
 				items: { },
 				mode: ParticipationMode.even,

@@ -34,7 +34,7 @@ export default {
             items: { $set: {} }
         } } }),
 
-    // ui:
+    // ui - focus:
 
     setFocus: (state, entity, mode, id) =>
         ({ ui: { [entity]: { focus: setFocus(mode, id) } } }),
@@ -42,8 +42,16 @@ export default {
     clearFocus: (state, entity) =>
         ({ ui: { [entity]: { focus: setFocus(null, null) } } }),
 
+    // ui - adding:
+
     setNextToAdd: (state, entity, data) =>
-        ({ ui: { [entity]: { toAdd: { next: { $set: data } } } } }),
+        ({ ui: { [entity]: { toAdd: {
+            next: { $set: data },
+            nextError: { $set: null }
+        } } } }),
+    
+    setNextToAddError: (state, entity, error) =>
+        ({ ui: { [entity]: { toAdd: { nextError: { $set: error } } } } }),
 
     addToAdd: (state, entity, data) =>
         ({ ui: { [entity]: { toAdd: { items: { $push: [ data ] } } } } }),
@@ -57,8 +65,11 @@ export default {
     clearToAdd: (state, entity) =>
         ({ ui: { [entity]: { toAdd: {
             items: { $set: [] },
-            next: { $set: null }
+            next: { $set: null },
+            nextError: { $set: null }
         } } } }),
+
+    // ui - editing:
 
     setEdit: (state, entity, id, data) =>
         state.ui[entity].edit.items[id] == null

@@ -11,10 +11,11 @@ export default {
     
     // ui:
     focus: (state, entity) => state.ui[entity].focus,
+    toAdd_next: (state, entity) => state.ui[entity].toAdd.next,
+    toAdd_nextError: (state, entity) => state.ui[entity].toAdd.nextError,
     toAdd_added: (state, entity, index) => state.ui[entity].toAdd.items[index],
     toAdd_allAdded: (state, entity) => state.ui[entity].toAdd.items,
     toAdd_addedCount: (state, entity) => state.ui[entity].toAdd.items.length,
-    toAdd_next: (state, entity) => state.ui[entity].toAdd.next,
     edit: (state, entity, id) => state.ui[entity].edit.items[id],
     allEdits: (state, entity) => state.ui[entity].edit.items,
 
