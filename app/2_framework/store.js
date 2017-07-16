@@ -3,8 +3,8 @@ import { mapObject } from 'jsUtils'
 
 /*
 Assumptions:
-- action data object layout: { param1, param2, ..., paramN }
-- action data creator parameters: param1, param2, ..., paramN
+- action data object layout: { field1, field2, ..., fieldN }
+- action data creator parameters: field1, field2, ..., fieldN
 - action creator parameters: [action data creator parameters], origin
 - command parameters: state, [action data creator parameters]
 */
@@ -36,7 +36,7 @@ let createActionCreator = (actionType, dataFieldNames) => {
 
         return {
             type: actionType,
-            data: actionDataCreator.apply(null, actionDataCreatorArgs),
+            data: actionDataCreator(...actionDataCreatorArgs),
             origin: originArg
         };
     };

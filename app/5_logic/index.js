@@ -1,9 +1,9 @@
 import { createEvents } from 'framework/logic'
-import eventDataCreators from './events'
+import eventsDataFieldNames from './events'
 import subscribe from './eventHandlers/index.js'
 
 let initLogic = store => {
-	let events = createEvents(eventDataCreators);
+	let events = createEvents(eventsDataFieldNames);
 	subscribe(events, store);
 
 	return events;
