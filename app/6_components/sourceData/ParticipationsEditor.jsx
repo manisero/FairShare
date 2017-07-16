@@ -81,7 +81,7 @@ let adderMappings = {
     mapStateToProps: (state, { itemId }) => ({
         mode: queries.participationEditMode(state),
         participations: queries.toAdd_next(state, EntityType.participation),
-        error: null, // TODO
+        error: queries.toAdd_nextError(state, EntityType.participation),
         participants: queries.entityAllData(state, EntityType.participant)
     }),
     mapEventsToProps: (events, { itemId }) => ({

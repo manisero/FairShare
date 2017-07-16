@@ -30,12 +30,17 @@ let adderFactories = {
 };
 
 let adderMappings = {
-	mapStateToProps: (state, { itemId }) => ({
-		item: queries.toAdd_next(state, EntityType.item),
-		error: null, // TODO
-		participationsEditorFactory: adderFactories.participationsEditor,
-		submitEnabled: true // TODO
-	}),
+	mapStateToProps: (state, { itemId }) => {
+		let itemError = queries.toAdd_nextError(state, EntityType.item);
+		let participationsError = queries.toAdd_nextError(state, EntityType.participation);
+
+		return {
+			item: queries.toAdd_next(state, EntityType.item),
+			error: itemError,
+			participationsEditorFactory: adderFactories.participationsEditor,
+			submitEnabled: itemError == null && participationsError == null
+		}
+	},
 	mapEventsToProps: (events, { itemId }) => ({
 		onNameChange: name => events.itemEdit_Updated(itemId, { name: { $set: name } }),
 		onPriceChange: price => events.itemEdit_Updated(itemId, {
