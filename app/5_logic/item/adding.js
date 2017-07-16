@@ -1,5 +1,4 @@
-import update from 'immutability-helper'
-import { copyDeep, mapToObject } from 'jsUtils'
+import { mapToObject } from 'jsUtils'
 import { EntityType, entityConstructors, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -8,27 +7,6 @@ import { getNextEntityId, handleEntityAddNextUpdated } from '../shared'
 import { mapParticipationEditToEntity, handleParticipatingParticipantIdsChange } from './shared'
 
 let subscribeAdding = (events, store) => {
-
-	// TODO: Remove
-	events.itemAdded.stream
-		.subscribe(e => {
-			let state = store.getState();
-			
-			let itemId = getNextEntityId(state, EntityType.item);
-			let item = entityConstructors[EntityType.item]();
-			let participation = {};
-			let itemEdit = copyDeep(item);
-			let participationEdit = createParticipationEditForNewItem(state);
-
-			store.dispatchBatch([
-				actions.addEntity(EntityType.item, itemId, item, e),
-				actions.addEntity(EntityType.participation, itemId, participation, e),
-				actions.setEdit(EntityType.item, itemId, itemEdit, e),
-				actions.setEdit(EntityType.participation, itemId, participationEdit, e),
-				actions.setFocus(EntityType.item, FocusMode.edited, itemId, e)
-			], e);
-		});
-	// TODO: Remove above
 
 	events.itemAdd_Started.stream
 		.subscribe(e => {

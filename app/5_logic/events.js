@@ -19,7 +19,6 @@ let eventsDataFieldNames = {
 	// Item:
 	itemSelected: [ 'itemId' ],
 	itemDeselected: [],
-	itemAdded: [], // TODO: Remove
 	itemAdd_Started: [],
 	itemAdd_Updated: [ 'updateCommand' ],
 	participationAdd_Updated: [ 'updateCommand' ],
