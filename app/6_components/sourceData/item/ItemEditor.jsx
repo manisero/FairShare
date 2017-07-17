@@ -8,7 +8,7 @@ import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
 import { ParticipationsAdder, ParticipationsEditor } from '../participation/ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
-	<div>
+	<form>
 		<div className='form-horizontal'>
 			<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
 			<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
@@ -16,11 +16,11 @@ let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnab
 		{participationsEditorFactory(itemId)}
 		<Right>
 			<ButtonGroup>
-				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
+				<Button isSubmit onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
 				<Button onClick={onCancelClick}>Cancel</Button>
 			</ButtonGroup>
 		</Right>
-	</div>
+	</form>
 );
 
 // Adder
