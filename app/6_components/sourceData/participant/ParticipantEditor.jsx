@@ -10,7 +10,7 @@ let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onCo
 	<div>
 		<div className='form-horizontal'>
 			<TextBox label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-			<NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} />
+			<span className='hidden'><NumberBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} /></span>
 		</div>
 		<Right>
 			<ButtonGroup>
