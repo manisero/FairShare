@@ -143,7 +143,14 @@ export default {
 				nextError: null
 			},
 			edit: {
-				items: { }
+				items: {
+					[item1Id]: {
+						data: {
+							name: item1Name + 'b',
+							price: item1Price + 10
+						}
+					}
+				}
 			}
 		},
 		participation: {
@@ -153,7 +160,27 @@ export default {
 				nextError: null
 			},
 			edit: {
-				items: { },
+				items: {
+					[item1Id]: {
+						data: {
+							[participant1Id]: {
+								contributed: true,
+								contribution: item1Price,
+								participates: true
+							},
+							[participant2Id]: {
+								contributed: false,
+								contribution: 0,
+								participates: false
+							},
+							[participant3Id]: {
+								contributed: false,
+								contribution: 0,
+								participates: false
+							}
+						}
+					}
+				},
 				mode: ParticipationMode.even,
 				participatingParticipantIdsCache: [ participant1Id, participant2Id ]
 			}
