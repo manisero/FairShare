@@ -45,8 +45,8 @@ let subscribeAdding = (events, store) => {
 			let itemData = queries.toAdd_next(state, EntityType.item);
             let participationData = queries.toAdd_next(state, EntityType.participation);
 
-			let itemError = validators.item(itemData, state);
-			let participationError = validators.participation(participationData, state);
+			let itemError = validators.item.add(itemData, state);
+			let participationError = validators.participation.add(participationData, state);
 
 			if (itemError != null || participationError != null) {
 				let errorActions = [];

@@ -1,3 +1,7 @@
+let validateParticipantAdd = (participant, state) => validateParticipant(participant, state); 
+
+let validateParticipantEdit = (participantId, participant, state) => validateParticipant(participant, state);
+
 let validateParticipant = (participant, state) => {
 	let invalid = false;
 	let error = {};
@@ -15,4 +19,4 @@ let validateParticipant = (participant, state) => {
 	return invalid ? error : null;
 };
 
-export default validateParticipant;
+export { validateParticipantAdd, validateParticipantEdit };

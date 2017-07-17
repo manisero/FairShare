@@ -1,15 +1,28 @@
-import { ParticipationMode } from 'model'
+import { EntityType, ParticipationMode } from 'model'
 import queries from 'queries'
 
-let validateParticipations = (participations, state) => {
-	let mode  = queries.participationEditMode(state);
+let validateParticipationsAdd = (participations, state) => {
+    let item = queries.toAdd_next(state, EntityType.item);
+    let mode = queries.participationEditMode(state);
+
+    return validateParticipations(participations, item, mode);
+};
+
+let validateParticipationsEdit = (itemId, participations, state) => {
+    let item = queries.edit(state, EntityType.item, itemId).data;
+    let mode = queries.participationEditMode(state);
+
+    return validateParticipations(participations, item, mode);
+};
+
+let validateParticipations = (participations, item, mode) => {
 	let error = {};
 
     if (mode === ParticipationMode.even) {
-        validateGeneralForEven(participations, error);
+        validateGeneralForEven(participations, item, error);
     } else {
         validateContribution(participations, error);
-        validateGeneralForUnven(participations, error);
+        validateGeneralForUnven(participations, item, error);
     }
 
 	return Object.keys(error).length > 0 ? error : null;
@@ -25,7 +38,7 @@ let validateContribution = (participations, error) => {
 	});
 };
 
-let validateGeneralForEven = (participations, error) => {
+let validateGeneralForEven = (participations, item, error) => {
     let errors = [];
 
     let anyoneContributed = Object.values(participations)
@@ -49,7 +62,7 @@ let validateGeneralForEven = (participations, error) => {
     }
 };
 
-let validateGeneralForUnven = (participations, error) => {
+let validateGeneralForUnven = (participations, item, error) => {
     let errors = [];
 
     let anyoneContributed = Object.values(participations)
@@ -73,4 +86,4 @@ let validateGeneralForUnven = (participations, error) => {
     }
 };
 
-export default validateParticipations;
+export { validateParticipationsAdd, validateParticipationsEdit };

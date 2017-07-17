@@ -56,8 +56,8 @@ let subscribeEditing = (events, store) => {
             let itemData = queries.edit(state, EntityType.item, itemId).data;
             let participationData = queries.edit(state, EntityType.participation, itemId).data;
 
-			let itemError = validators.item(itemData, state);
-			let participationError = validators.participation(participationData, state);
+			let itemError = validators.item.edit(itemId, itemData, state);
+			let participationError = validators.participation.edit(itemId, participationData, state);
 
             if (itemError != null || participationError != null) {
 				let errorActions = [];

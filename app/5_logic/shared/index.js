@@ -13,7 +13,7 @@ let handleEntityAddNextUpdated = (state, entity, updateCommand, origin) => {
 	let newData = update(data, updateCommand);
 	actionsBatch.push(actions.setNextToAdd(entity, newData, origin));
 
-	let newError = validators[entity](newData, state);
+	let newError = validators[entity].add(newData, state);
 	
 	if (newError != null) {
 		actionsBatch.push(actions.setNextToAddError(entity, newError, origin));
@@ -35,7 +35,7 @@ let handleEntityEditUpdated = (state, entity, id, updateCommand, origin) => {
 	let newData = update(data, updateCommand);
 	actionsBatch.push(actions.setEdit(entity, id, newData, origin));
 
-	let newError = validators[entity](newData, state);
+	let newError = validators[entity].edit(id, newData, state);
 
 	if (newError != null) {
 		actionsBatch.push(actions.setEditError(entity, id, newError, origin));

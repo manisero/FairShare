@@ -1,3 +1,8 @@
+let validateItemAdd = (item, state) => validateItem(item, state); 
+
+let validateItemEdit = (itemId, item, state) => validateItem(item, state);
+
+
 let validateItem = (item, state) => {
 	let invalid = false;
 	let error = {};
@@ -15,4 +20,4 @@ let validateItem = (item, state) => {
 	return invalid ? error : null;
 };
 
-export default validateItem;
+export { validateItemAdd, validateItemEdit };

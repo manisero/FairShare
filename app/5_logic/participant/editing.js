@@ -36,7 +36,7 @@ let subscribeEditing = (events, store) => {
 			let participantId = e.data.participantId;
             let data = queries.edit(state, EntityType.participant, participantId).data;
 
-			let error = validators.participant(data, state);
+			let error = validators.participant.edit(participantId, data, state);
 
             if (error != null) {
                 store.dispatch(
