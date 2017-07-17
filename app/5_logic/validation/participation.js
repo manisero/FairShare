@@ -17,15 +17,59 @@ let validateParticipationsEdit = (itemId, participations, state) => {
 
 let validateParticipations = (participations, item, mode) => {
 	let error = {};
+    let generalErrors = [];
 
     if (mode === ParticipationMode.even) {
-        validateGeneralForEven(participations, item, error);
+        validateGeneralContributed(participations, generalErrors);
     } else {
+        validateGeneralContribution(participations, item, generalErrors);
         validateContribution(participations, error);
-        validateGeneralForUnven(participations, item, error);
+    }
+
+    validateGeneralParticipates(participations, generalErrors);
+
+    if (generalErrors.length != 0) {
+        error._general = generalErrors;
     }
 
 	return Object.keys(error).length > 0 ? error : null;
+};
+
+let validateGeneralContributed = (participations, errors) => {
+    let anyoneContributed = Object.values(participations)
+        .map(x => x.contributed)
+        .reduce((x, y) => x || y);
+
+    if (!anyoneContributed) {
+        errors.push('Someone must have paid for the item.');
+    }
+};
+
+let validateGeneralContribution = (participations, item, errors) => {
+    let totalContribution = Object.values(participations)
+        .filter(x => x.contribution > 0)
+        .map(x => x.contribution)
+        .reduce(
+            (x, y) => x + y,
+            0);
+    
+    if (totalContribution == 0) {
+        errors.push('Someone must have paid for the item.');
+    } else if (totalContribution < item.price) {
+        errors.push('Total contribution is less than item price.');
+    } else if (totalContribution > item.price) {
+        errors.push('Total contribution is greater than item price.');
+    }
+};
+
+let validateGeneralParticipates = (participations, errors) => {
+    let anyoneParticipates = Object.values(participations)
+        .map(x => x.participates)
+        .reduce((x, y) => x || y);
+
+    if (!anyoneParticipates) {
+        errors.push('Someone must participate in item settlement.');
+    }
 };
 
 let validateContribution = (participations, error) => {
@@ -36,54 +80,6 @@ let validateContribution = (participations, error) => {
             };
 		}
 	});
-};
-
-let validateGeneralForEven = (participations, item, error) => {
-    let errors = [];
-
-    let anyoneContributed = Object.values(participations)
-        .map(x => x.contributed)
-        .reduce((x, y) => x || y);
-
-    if (!anyoneContributed) {
-        errors.push('Someone must have paid for the item.');
-    }
-
-    let anyoneParticipates = Object.values(participations)
-        .map(x => x.participates)
-        .reduce((x, y) => x || y);
-
-    if (!anyoneParticipates) {
-        errors.push('Someone must participate in item settlement.');
-    }
-
-    if (errors.length != 0) {
-        error._general = errors;
-    }
-};
-
-let validateGeneralForUnven = (participations, item, error) => {
-    let errors = [];
-
-    let anyoneContributed = Object.values(participations)
-        .map(x => x.contribution > 0)
-        .reduce((x, y) => x || y);
-    
-    if (!anyoneContributed) {
-        errors.push('Someone must have paid for the item.');
-    }
-
-    let anyoneParticipates = Object.values(participations)
-        .map(x => x.participates)
-        .reduce((x, y) => x || y);
-
-    if (!anyoneParticipates) {
-        errors.push('Someone must participate in item settlement.');
-    }
-
-    if (errors.length != 0) {
-        error._general = errors;
-    }
 };
 
 export { validateParticipationsAdd, validateParticipationsEdit };
