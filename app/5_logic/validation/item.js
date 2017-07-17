@@ -12,9 +12,9 @@ let validateItem = (item, state) => {
 		error.name = 'Name cannot be empty.'
 	}
 
-	if (item.price != null && item.price < 0) {
+	if (!(item.price > 0)) {
 		invalid = true;
-		error.price = 'Price cannot be negative.'
+		error.price = 'Price must be greater than 0.'
 	}
 
 	return invalid ? error : null;
