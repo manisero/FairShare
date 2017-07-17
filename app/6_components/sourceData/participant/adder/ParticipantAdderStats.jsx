@@ -5,9 +5,7 @@ import queries from 'queries'
 
 let ParticipantAdderStats = ({ participantsCount, toAddCount }) => (
 	<ul className='list-inline text-info'>
-		<li>#: {participantsCount}</li>
-        <li>|</li>
-        <li>To add: {toAddCount}</li>
+		<li>#: {participantsCount} + {toAddCount}</li>
 	</ul>
 );
 
