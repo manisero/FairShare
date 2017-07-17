@@ -16,7 +16,7 @@ let List = ({ title, entityIds, itemFactory, selectedEntityId, showAdder, adderF
 
         return id === selectedEntityId
             ? (<div key={id} className='list-group-item'>{item}</div>)
-            : (<a key={id} href='#' onClick={() => onItemSelect(id)} className='list-group-item'>{item}</a>);
+            : (<a key={id} href='#' onClick={e => {onItemSelect(id); e.preventDefault();}} className='list-group-item'>{item}</a>);
     });
 
     let footer = showAdder

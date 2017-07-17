@@ -16,7 +16,7 @@ Dropdown.Option = ({ children, isSelected, onSelect }) => {
 
     return (
         <li className={rootClass}>
-            <a href='#' onClick={onSelect}>
+            <a href='#' onClick={e => {onSelect(); e.preventDefault();}}>
                 {children}
             </a>
         </li>
