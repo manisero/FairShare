@@ -39,7 +39,7 @@ module.exports = {
       actions: path.resolve(__dirname, 'app/4_store/actions'),
       // logic:
       logic: path.resolve(__dirname, 'app/5_logic/'),
-      validators: path.resolve(__dirname, 'app/5_logic/validators'),
+      validators: path.resolve(__dirname, 'app/5_logic/validation'),
       // components:
       components: path.resolve(__dirname, 'app/6_components/'),
       compUtils: path.resolve(__dirname, 'app/6_components/compUtils/'),
