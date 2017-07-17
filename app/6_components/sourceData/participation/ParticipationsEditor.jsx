@@ -3,7 +3,7 @@ import { safeGet, mapObjectFields } from 'jsUtils'
 import { connect } from 'reactReduxUtils'
 import { EntityType, ParticipationMode } from 'model'
 import queries from 'queries'
-import { Center } from 'compUtils'
+import { Center, Error } from 'compUtils'
 import { Checkbox, Dropdown, NumberBox } from 'inputs'
 
 let ParticipationEditor = ({ mode, participation, participant, error, onContributedChange, onContributionChange, onParticipatesChange }) => {
@@ -55,23 +55,26 @@ let ParticipationsEditor = ({ mode, participations, participants, error, onModeC
 	);
 
 	return (
-		<table className="table table-striped table-condensed">
-			<thead>
-				<tr>
-					<th className='col-xs-6'>Participants</th>
-					<th className='col-xs-4'>
-                        <Dropdown label='Paid'>
-                            <Dropdown.Option isSelected={mode === ParticipationMode.even} onSelect={() => onModeChange(ParticipationMode.even)}>Even</Dropdown.Option>
-                            <Dropdown.Option isSelected={mode === ParticipationMode.uneven} onSelect={() => onModeChange(ParticipationMode.uneven)}>Not even</Dropdown.Option>
-                        </Dropdown>
-                    </th>
-					<th className='col-xs-2'>Ate</th>
-				</tr>
-			</thead>
-			<tbody>
-				{participationEditors}
-			</tbody>
-		</table>
+        <div>
+            <table className="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th className='col-xs-6'>Participants</th>
+                        <th className='col-xs-4'>
+                            <Dropdown label='Paid'>
+                                <Dropdown.Option isSelected={mode === ParticipationMode.even} onSelect={() => onModeChange(ParticipationMode.even)}>Even</Dropdown.Option>
+                                <Dropdown.Option isSelected={mode === ParticipationMode.uneven} onSelect={() => onModeChange(ParticipationMode.uneven)}>Not even</Dropdown.Option>
+                            </Dropdown>
+                        </th>
+                        <th className='col-xs-2'>Ate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {participationEditors}
+                </tbody>
+            </table>
+            <Error error={safeGet(error, '_general')} />
+        </div>
 	);
 };
 

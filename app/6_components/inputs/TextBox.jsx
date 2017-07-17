@@ -1,4 +1,5 @@
 import React from 'react'
+import { Error } from 'compUtils'
 
 class TextBox extends React.Component {
 
@@ -48,7 +49,7 @@ class TextBox extends React.Component {
 
 		let errorElement = error == null
 			? null
-			: <span className='col-xs-12 help-block'>{error}</span>;
+			: <span className='col-xs-12'><Error error={error} /></span>;
 
 		return (
 			<div className={rootClass} style={rootStyle}>
