@@ -72,11 +72,13 @@ let subscribeAdding = (events, store) => {
 			store.dispatchBatch([
 				actions.addEntity(EntityType.item, itemId, item, e),
 				actions.addEntity(EntityType.participation, itemId, participation, e),
-				actions.clearFocus(EntityType.item, e), // TODO: Start adding next Item
+				actions.clearFocus(EntityType.item, e),
 				actions.clearToAdd(EntityType.participation, e),
 				actions.clearToAdd(EntityType.item, e),
 				...handleParticipatingParticipantIdsChange(participation, e)
 			], e);
+
+			events.itemAdd_Started();
 		});
 	
 	events.itemAdd_Cancelled.stream
