@@ -4,7 +4,7 @@ import { connect } from 'reactReduxUtils'
 import { EntityType, ParticipationMode } from 'model'
 import queries from 'queries'
 import { Center, Error } from 'compUtils'
-import { Checkbox, Dropdown, NumberBox } from 'inputs'
+import { Checkbox, Dropdown, MoneyBox } from 'inputs'
 
 let ParticipationEditor = ({ mode, participation, participant, error, onContributedChange, onContributionChange, onParticipatesChange }) => {
     let contributionEditor = mode === ParticipationMode.even
@@ -17,7 +17,7 @@ let ParticipationEditor = ({ mode, participation, participant, error, onContribu
         )
         : (
             <td className='form-horizontal'>
-                <NumberBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
+                <MoneyBox valueString={participation.contribution_string} initialValue={participation.contribution} error={safeGet(error, 'contribution')} noMargin onChange={onContributionChange} />
             </td>
         );
 

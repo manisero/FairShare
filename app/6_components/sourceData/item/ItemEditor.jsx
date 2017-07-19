@@ -4,14 +4,14 @@ import { connect } from 'reactReduxUtils'
 import { EntityType } from 'model'
 import queries from 'queries'
 import { Right } from 'compUtils'
-import { Button, ButtonGroup, TextBox, NumberBox } from 'inputs'
+import { Button, ButtonGroup, TextBox, MoneyBox } from 'inputs'
 import { ParticipationsAdder, ParticipationsEditor } from '../participation/ParticipationsEditor.jsx'
 
 let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
 	<form>
 		<div className='form-horizontal'>
 			<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-			<NumberBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
+			<MoneyBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
 		</div>
 		{participationsEditorFactory(itemId)}
 		<Right>

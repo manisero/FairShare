@@ -1,7 +1,7 @@
 import React from 'react'
 import TextBox from './TextBox.jsx'
 
-class NumberBox extends TextBox {
+class MoneyBox extends TextBox {
 
 	formatInitialValueToString(value) {
 		let valueString = value.toString();
@@ -25,4 +25,4 @@ class NumberBox extends TextBox {
 
 };
 
-export default NumberBox;
+export default MoneyBox;
