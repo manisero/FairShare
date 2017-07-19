@@ -4,7 +4,14 @@ import TextBox from './TextBox.jsx'
 class NumberBox extends TextBox {
 
 	formatInitialValueToString(value) {
-		return value.toString();
+		let valueString = value.toString();
+
+		if (valueString.indexOf('.') === valueString.length -2) {
+			// E.g. value is '10.1', let's change it to '10.10'
+			valueString += '0';
+		}
+
+		return valueString;
 	}
 
 	formatNewValueToReport(valueString) {
