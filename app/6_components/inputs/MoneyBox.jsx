@@ -5,8 +5,9 @@ class MoneyBox extends TextBox {
 
 	formatInitialValueToString(value) {
 		let valueString = value.toString();
-
-		if (valueString.indexOf('.') === valueString.length -2) {
+		let decimalSeparatorIndex = valueString.indexOf('.');
+		
+		if (decimalSeparatorIndex > 0 && decimalSeparatorIndex === valueString.length -2) {
 			// E.g. value is '10.1', let's change it to '10.10'
 			valueString += '0';
 		}
