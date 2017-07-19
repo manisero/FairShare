@@ -8,6 +8,8 @@ class NumberBox extends TextBox {
 	}
 
 	formatNewValueToReport(valueString) {
+		valueString = valueString.replace(',', '.');
+		
 		let value = parseFloat(valueString);
 		value = !isNaN(value) ? value : 0;
 
