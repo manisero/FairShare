@@ -17,6 +17,7 @@ export default {
     toAdd_allAdded: (state, entity) => state.ui[entity].toAdd.items,
     toAdd_addedCount: (state, entity) => state.ui[entity].toAdd.items.length,
     edit: (state, entity, id) => state.ui[entity].edit.items[id],
+    allEditIds: (state, entity) => Object.keys(state.ui[entity].edit.items),
     allEdits: (state, entity) => state.ui[entity].edit.items,
 
     // non-generic:

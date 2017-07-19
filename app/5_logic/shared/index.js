@@ -8,10 +8,18 @@ let getNextEntityId = (state, entity) => ifNull(queries.entityLastId(state, enti
 
 let handleEntityAddNextUpdated = (state, entity, updateCommand, origin) => {
 	let data = queries.toAdd_next(state, entity);
-	let actionsBatch = [];
 
-	let newData = update(data, updateCommand);
-	actionsBatch.push(actions.setNextToAdd(entity, newData, origin));
+	if (data == null) {
+		return [];
+	}
+
+	let actionsBatch = [];
+	let newData = data;
+
+	if (updateCommand != null) {
+		let newData = update(data, updateCommand);
+		actionsBatch.push(actions.setNextToAdd(entity, newData, origin));
+	}
 
 	let newError = validators[entity].add(newData, state);
 	
@@ -32,8 +40,12 @@ let handleEntityEditUpdated = (state, entity, id, updateCommand, origin) => {
 	let { data, error } = queries.edit(state, entity, id);
 	let actionsBatch = [];
 
-	let newData = update(data, updateCommand);
-	actionsBatch.push(actions.setEdit(entity, id, newData, origin));
+	let newData = data;
+
+	if (updateCommand != null) {
+		newData = update(data, updateCommand);
+		actionsBatch.push(actions.setEdit(entity, id, newData, origin));
+	}
 
 	let newError = validators[entity].edit(id, newData, state);
 
