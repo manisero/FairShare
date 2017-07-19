@@ -76,6 +76,8 @@ let subscribeEditing = (events, store) => {
                 actions.clearEdit(EntityType.item, itemId, e),
 				...handleParticipatingParticipantIdsChange(participation, e)
 			], e);
+
+			events.settlementRequested();
 		});
 	
 	events.itemEdit_Cancelled.stream

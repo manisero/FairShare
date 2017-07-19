@@ -19,6 +19,8 @@ let subscribeDeleting = (events, store) => {
 				actions.clearEdit(EntityType.participation, itemId, e),
 				actions.clearEdit(EntityType.item, itemId, e)
 			], e);
+
+			events.settlementRequested();
 		});
 
 	events.itemDelete_Cancelled.stream

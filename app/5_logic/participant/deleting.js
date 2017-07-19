@@ -24,6 +24,8 @@ let subscribeDeleting = (events, store) => {
 				...cleanUpParticipationsActions,
 				...cleanUpParticipationEditsActions
 			], e);
+
+			events.settlementRequested();
 		});
 
 	events.participantDelete_Cancelled.stream

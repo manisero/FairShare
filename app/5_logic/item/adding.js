@@ -73,6 +73,7 @@ let subscribeAdding = (events, store) => {
 			], e);
 
 			events.itemAdd_Started();
+			events.settlementRequested();
 		});
 	
 	events.itemAdd_Cancelled.stream

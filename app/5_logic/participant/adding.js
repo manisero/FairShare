@@ -91,6 +91,8 @@ let subscribeAdding = (events, store) => {
 			}
 
 			store.dispatchBatch(actionsBatch, e);
+
+			events.settlementRequested();
 		});
 	
 	events.participantsAdd_Cancelled.stream
