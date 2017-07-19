@@ -37,17 +37,6 @@ let subscribeEditing = (events, store) => {
             handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e),
 			e
         ));
-
-	events.participationEdit_ModeChanged.stream
-		.subscribe(e => store.dispatch(
-            actions.setParticipationEditMode(e.data.mode, e)
-        ));
-
-    events.participationEdit_Updated.stream
-		.subscribe(e => store.dispatchBatch(
-            handleEntityEditUpdated(store.getState(), EntityType.participation, e.data.itemId, e.data.updateCommand, e),
-			e
-        ));
 	
 	events.itemEdit_Submitted.stream
 		.subscribe(e => {

@@ -33,12 +33,6 @@ let subscribeAdding = (events, store) => {
 			e)
 		);
 	
-	events.participationAdd_Updated.stream
-		.subscribe(e => store.dispatchBatch(
-			handleEntityAddNextUpdated(store.getState(), EntityType.participation, e.data.updateCommand, e),
-			e)
-		);
-	
 	events.itemAdd_Submitted.stream
 		.subscribe(e => {
 			let state = store.getState();

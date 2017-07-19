@@ -21,18 +21,19 @@ let eventsDataFieldNames = {
 	itemDeselected: [],
 	itemAdd_Started: [],
 	itemAdd_Updated: [ 'updateCommand' ],
-	participationAdd_Updated: [ 'updateCommand' ],
 	itemAdd_Submitted: [],
 	itemAdd_Cancelled: [],
 	itemEdit_Started: [ 'itemId' ],
 	itemEdit_Updated: [ 'itemId', 'updateCommand' ],
-	participationEdit_ModeChanged: [ 'mode' ],
-	participationEdit_Updated: [ 'itemId', 'updateCommand' ],
 	itemEdit_Submitted: [ 'itemId' ],
 	itemEdit_Cancelled: [ 'itemId' ],
 	itemDelete_Started: [ 'itemId' ],
 	itemDelete_Submitted: [ 'itemId' ],
 	itemDelete_Cancelled: [ 'itemId' ],
+	// Participation
+	participationEdit_ModeChanged: [ 'mode' ],
+	participationAdd_Updated: [ 'updateCommand' ],
+	participationEdit_Updated: [ 'itemId', 'updateCommand' ],
 	// Settlement
 	settlementRequested: [],
 	settlementClipboardCopyRequested: []
