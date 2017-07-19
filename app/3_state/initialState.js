@@ -181,9 +181,9 @@ export default {
 						}
 					}
 				},
-				mode: ParticipationMode.even,
-				participatingParticipantIdsCache: [ participant1Id, participant2Id ]
-			}
+			},
+			editMode: ParticipationMode.even,
+			participatingParticipantIdsCache: [ participant1Id, participant2Id ]
 		}
 	}
 };

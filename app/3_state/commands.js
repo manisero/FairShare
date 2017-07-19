@@ -91,12 +91,12 @@ export default {
     // non-generic:
 
     setParticipationEditMode: (state, mode) =>
-        ({ ui: { participation: { edit: { mode: { $set: mode } } } } }),
+        ({ ui: { participation: { editMode: { $set: mode } } } }),
 
     setParticipatingParticipantIdsCache: (state, ids) =>
-        ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $set: ids } } } } }),
+        ({ ui: { participation: { participatingParticipantIdsCache: { $set: ids } } } }),
     
     addParticipatingParticipantsToCache: (state, ids) =>
-        ({ ui: { participation: { edit: { participatingParticipantIdsCache: { $push: ids } } } } })
+        ({ ui: { participation: { participatingParticipantIdsCache: { $push: ids } } } })
 
 };

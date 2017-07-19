@@ -4,7 +4,7 @@ import { handleEntityAddNextUpdated, handleEntityEditUpdated } from '../shared'
 
 let subscribe = (events, store) => {
 	
-    events.participationEdit_ModeChanged.stream
+    events.participationEditModeChanged.stream
 		.subscribe(e => store.dispatch(
             actions.setParticipationEditMode(e.data.mode, e)
         ));

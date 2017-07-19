@@ -88,7 +88,7 @@ let adderMappings = {
         participants: queries.entityAllData(state, EntityType.participant)
     }),
     mapEventsToProps: events => ({
-        onModeChange: mode => events.participationEdit_ModeChanged(mode),
+        onModeChange: mode => events.participationEditModeChanged(mode),
         onContributedChange: (participantId, val) => events.participationAdd_Updated({ [participantId]: { contributed: { $set: val } } }),
         onContributionChange: (participantId, val) => events.participationAdd_Updated({ [participantId]: {
             contribution: { $set: val.value },
@@ -114,7 +114,7 @@ let editorMappings = {
         };
     },
     mapEventsToProps: (events, { itemId }) => ({
-        onModeChange: mode => events.participationEdit_ModeChanged(mode),
+        onModeChange: mode => events.participationEditModeChanged(mode),
         onContributedChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: { contributed: { $set: val } } }),
         onContributionChange: (participantId, val) => events.participationEdit_Updated(itemId, { [participantId]: {
             contribution: { $set: val.value },
