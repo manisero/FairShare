@@ -33,10 +33,13 @@ let subscribeEditing = (events, store) => {
 		});
     
     events.itemEdit_Updated.stream
-		.subscribe(e => store.dispatchBatch(
-            handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e),
-			e
-        ));
+		.subscribe(e => {
+			store.dispatchBatch(
+            	handleEntityEditUpdated(store.getState(), EntityType.item, e.data.itemId, e.data.updateCommand, e),
+			e);
+
+			events.participationEditValidationRequested(e.data.itemId);
+		});
 	
 	events.itemEdit_Submitted.stream
 		.subscribe(e => {
