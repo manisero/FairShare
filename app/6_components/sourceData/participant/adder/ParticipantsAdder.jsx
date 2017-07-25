@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'reactReduxUtils'
 import { Left, Right } from 'compUtils'
 import { Button, ButtonGroup } from 'inputs'
-import { AddedParticipants, NextParticipant } from './ParticipantAdders.jsx'
+import AddedParticipants from './AddedParticipants.jsx'
+import NextParticipant from './NextParticipant.jsx'
 import ParticipantAdderStats from './ParticipantAdderStats.jsx'
 
 let ParticipantsAdder = ({ onSubmitClick, onCancelClick }) => (
