@@ -15,18 +15,18 @@ class ParticipantEditor extends React.Component {
 		let { participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick } = this.props;
 
 		return (
-			<div>
+			<form>
 				<div className='form-horizontal'>
 					<TextBox ref={x => this.nameInput = x} label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
 					<span className='hidden'><MoneyBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} /></span>
 				</div>
 				<Right>
 					<ButtonGroup>
-						<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
+						<Button isSubmit onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
 						<Button onClick={onCancelClick}>Cancel</Button>
 					</ButtonGroup>
 				</Right>
-			</div>
+			</form>
 		);
 	}
 };
