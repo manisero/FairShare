@@ -32,7 +32,9 @@ let eventsDataFieldNames = {
 	itemDelete_Cancelled: [ 'itemId' ],
 	// Participation
 	participationEditModeChanged: [ 'mode' ],
-	participationsRevalidationRequested: [],
+	participationAddValidationRequested: [],
+	participationEditValidationRequested: [ 'itemId' ],
+	participationsValidationRequested: [],
 	participationAdd_Updated: [ 'updateCommand' ],
 	participationEdit_Updated: [ 'itemId', 'updateCommand' ],
 	// Settlement

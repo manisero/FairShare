@@ -10,15 +10,26 @@ let subscribe = (events, store) => {
         .subscribe(e => {
             store.dispatch(actions.setParticipationEditMode(e.data.mode, e));
 
-            events.participationsRevalidationRequested();
+            events.participationsValidationRequested();
         });
 
-    events.participationsRevalidationRequested.stream
+    events.participationAddValidationRequested.stream
         .subscribe(e => store.dispatchBatch(
-            handleAllParticiaptionsRevalidation(store.getState(), e),
+            handleEntityAddNextUpdated(store.getState(), EntityType.participation, null, e),
             e
         ));
     
+    events.participationEditValidationRequested.stream
+        .subscribe(e => store.dispatchBatch(
+            handleEntityEditUpdated(store.getState(), EntityType.participation, e.data.itemId, null, e),
+            e
+        ));
+
+    events.participationsValidationRequested.stream
+        .subscribe(e => store.dispatchBatch(
+            handleAllParticiaptionsValidation(store.getState(), e),
+            e
+        ));
 
     events.participationAdd_Updated.stream
         .subscribe(e => store.dispatchBatch(
@@ -34,7 +45,7 @@ let subscribe = (events, store) => {
 
 };
 
-let handleAllParticiaptionsRevalidation = (state, origin) => {
+let handleAllParticiaptionsValidation = (state, origin) => {
     let actions = [];
 
     let addActions = handleEntityAddNextUpdated(state, EntityType.participation, null, origin);

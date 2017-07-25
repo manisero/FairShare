@@ -28,10 +28,13 @@ let subscribeAdding = (events, store) => {
 		});
 	
 	events.itemAdd_Updated.stream
-		.subscribe(e => store.dispatchBatch(
-			handleEntityAddNextUpdated(store.getState(), EntityType.item, e.data.updateCommand, e),
-			e)
-		);
+		.subscribe(e => {
+			store.dispatchBatch(
+				handleEntityAddNextUpdated(store.getState(), EntityType.item, e.data.updateCommand, e),
+			e);
+
+			events.participationAddValidationRequested();
+		});
 	
 	events.itemAdd_Submitted.stream
 		.subscribe(e => {
