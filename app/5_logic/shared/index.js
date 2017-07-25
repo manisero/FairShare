@@ -17,7 +17,7 @@ let handleEntityAddNextUpdated = (state, entity, updateCommand, origin) => {
 	let newData = data;
 
 	if (updateCommand != null) {
-		let newData = update(data, updateCommand);
+		newData = update(data, updateCommand);
 		actionsBatch.push(actions.setNextToAdd(entity, newData, origin));
 	}
 
