@@ -7,21 +7,31 @@ import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, MoneyBox } from 'inputs'
 import { ParticipationsAdder, ParticipationsEditor } from '../participation/ParticipationsEditor.jsx'
 
-let ItemEditor = ({ itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick }) => (
-	<form>
-		<div className='form-horizontal'>
-			<TextBox label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-			<MoneyBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
-		</div>
-		{participationsEditorFactory(itemId)}
-		<Right>
-			<ButtonGroup>
-				<Button isSubmit onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
-				<Button onClick={onCancelClick}>Cancel</Button>
-			</ButtonGroup>
-		</Right>
-	</form>
-);
+class ItemEditor extends React.Component {
+	componentDidMount() {
+		this.nameInput.focus();
+	}
+
+	render() {
+		let { itemId, item, error, participationsEditorFactory, submitEnabled, onNameChange, onPriceChange, onSubmitClick, onCancelClick } = this.props;
+
+		return (
+			<form>
+				<div className='form-horizontal'>
+					<TextBox ref={x => this.nameInput = x} label='Name' valueString={item.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
+					<MoneyBox label='Price' valueString={item.price_string} initialValue={item.price} error={safeGet(error, 'price')} onChange={x => onPriceChange(x)} />
+				</div>
+				{participationsEditorFactory(itemId)}
+				<Right>
+					<ButtonGroup>
+						<Button isSubmit onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
+						<Button onClick={onCancelClick}>Cancel</Button>
+					</ButtonGroup>
+				</Right>
+			</form>
+		);
+	}
+};
 
 // Adder
 
