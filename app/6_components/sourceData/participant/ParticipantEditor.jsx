@@ -6,20 +6,30 @@ import queries from 'queries'
 import { Right } from 'compUtils'
 import { Button, ButtonGroup, TextBox, MoneyBox } from 'inputs'
 
-let ParticipantEditor = ({ participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick }) => (
-	<div>
-		<div className='form-horizontal'>
-			<TextBox label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
-			<span className='hidden'><MoneyBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} /></span>
-		</div>
-		<Right>
-			<ButtonGroup>
-				<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
-				<Button onClick={onCancelClick}>Cancel</Button>
-			</ButtonGroup>
-		</Right>
-	</div>
-);
+class ParticipantEditor extends React.Component {
+	componentDidMount() {
+		this.nameInput.focus();
+	}
+
+	render() {
+		let { participant, error, submitEnabled, onNameChange, onContributionChange, onSubmitClick, onCancelClick } = this.props;
+
+		return (
+			<div>
+				<div className='form-horizontal'>
+					<TextBox ref={x => this.nameInput = x} label='Name' valueString={participant.name} error={safeGet(error, 'name')} onChange={x => onNameChange(x)} />
+					<span className='hidden'><MoneyBox label='Contribution' valueString={participant.contribution_string} initialValue={participant.contribution} error={safeGet(error, 'contribution')} onChange={x => onContributionChange(x)} /></span>
+				</div>
+				<Right>
+					<ButtonGroup>
+						<Button onClick={onSubmitClick} disabled={!submitEnabled}>Submit</Button>
+						<Button onClick={onCancelClick}>Cancel</Button>
+					</ButtonGroup>
+				</Right>
+			</div>
+		);
+	}
+};
 
 let mapStateToProps = (state, { participantId }) => {
 	let { data, error } = queries.edit(state, EntityType.participant, participantId);
