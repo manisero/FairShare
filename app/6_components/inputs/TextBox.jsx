@@ -2,7 +2,6 @@ import React from 'react'
 import { Error } from 'compUtils'
 
 class TextBox extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.formatInitialValueToString = this.formatInitialValueToString.bind(this);
@@ -67,7 +66,6 @@ class TextBox extends React.Component {
 			</div>
 		);
 	}
-	
 };
 
 export default TextBox;
