@@ -37,16 +37,7 @@ let subscribeDeleting = (events, store) => {
 				return;
 			}
 
-			let cleanUpParticipationsToAddActions = getCleanUpParticipationsToAddActions(state, participantId, e);
-			let cleanUpParticipationEditsActions = getCleanUpParticipationEditsActions(state, participantId, e);
-
-			store.dispatchBatch([
-				actions.clearFocus(EntityType.participant, e),
-				...cleanUpParticipationsToAddActions,
-				...cleanUpParticipationEditsActions,
-				actions.clearEdit(EntityType.participant, participantId, e),
-				actions.deleteEntity(EntityType.participant, participantId, e)
-			], e);
+			store.dispatch(actions.deleteEntity(EntityType.participant, participantId, e));
 
 			events.participantDelete_Deleted(e.data.participantId);
 		});
@@ -57,7 +48,20 @@ let subscribeDeleting = (events, store) => {
         ));
 
 	events.participantDelete_Deleted.stream
-		.subscribe(e => events.settlementRequested());
+		.subscribe(e => {
+			let state = store.getState();
+			let participantId = e.data.participantId;
+
+			let cleanUpParticipationToAddActions = getCleanUpParticipationToAddActions(state, participantId, e);
+			let cleanUpParticipationEditsActions = getCleanUpParticipationEditsActions(state, participantId, e);
+
+			store.dispatchBatch([
+				actions.clearFocus(EntityType.participant, e),
+				...cleanUpParticipationToAddActions,
+				...cleanUpParticipationEditsActions,
+				actions.clearEdit(EntityType.participant, participantId, e)
+			], e);
+		});
 
 };
 
@@ -67,11 +71,11 @@ let shouldAllowDeletion = (state, participantId) => {
 	return itemsParticipantIsInvolvedIn.length === 0;
 };
 
-let getCleanUpParticipationsToAddActions = (state, participantId, origin) => {
+let getCleanUpParticipationToAddActions = (state, participantId, origin) => {
 	let participationsToAddNext = queries.toAdd_next(state, EntityType.participation);
 	let result = [];
 
-	if (participationsToAddNext.hasOwnProperty(participantId)) {
+	if (participationsToAddNext != null && participationsToAddNext.hasOwnProperty(participantId)) {
 		let newToAdd = update(participationsToAddNext, { $unset: [participantId] });
 
 		result.push(
