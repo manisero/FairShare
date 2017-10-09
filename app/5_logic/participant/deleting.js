@@ -4,6 +4,14 @@ import { actions } from 'actions'
 
 let subscribeDeleting = (events, store) => {
 
+	events.participantDelete_Requested.stream
+		.subscribe(e => events.participantDelete_Rejected(e.data.participantId));
+	
+	events.participantDelete_Rejected.stream
+		.subscribe(e => store.dispatch(
+            actions.setFocus(EntityType.participant, FocusMode.deleteRejected, e.data.participantId, e)
+        ));
+
     events.participantDelete_Started.stream
 		.subscribe(e => store.dispatch(
             actions.setFocus(EntityType.participant, FocusMode.deleted, e.data.participantId, e)

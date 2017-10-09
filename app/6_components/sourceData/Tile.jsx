@@ -8,9 +8,10 @@ import { ItemEditor } from './item/ItemEditor.jsx'
 import ParticipantShowcase from './participant/ParticipantShowcase.jsx'
 import ParticipantDetails from './participant/ParticipantDetails.jsx'
 import ParticipantEditor from './participant/ParticipantEditor.jsx'
+import ParticipantDeleteRejector from './participant/ParticipantDeleteRejector.jsx'
 import { ParticipantDeletor, ItemDeletor } from './Deletor.jsx'
 
-let Tile = ({ entityId, focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory }) => {
+let Tile = ({ entityId, focusMode, showcaseFactory, detailsFactory, editorFactory, deletorFactory, deleteRejectorFactory }) => {
 	switch (focusMode) {
 	case FocusMode.noFocus:
 		return showcaseFactory(entityId);
@@ -20,6 +21,8 @@ let Tile = ({ entityId, focusMode, showcaseFactory, detailsFactory, editorFactor
 		return editorFactory(entityId);
 	case FocusMode.deleted:
 		return deletorFactory(entityId);
+	case FocusMode.deleteRejected:
+		return deleteRejectorFactory(entityId);
 	default:
 		return null;
 	}
@@ -31,7 +34,8 @@ let participantFactories = {
 	showcase: id => <ParticipantShowcase participantId={id} />,
 	details: id => <ParticipantDetails participantId={id} />,
 	editor: id => <ParticipantEditor participantId={id} />,
-	deletor: id => <ParticipantDeletor participantId={id} />
+	deletor: id => <ParticipantDeletor participantId={id} />,
+	deleteRejector: id => <ParticipantDeleteRejector participantId={id} />
 };
 
 let participantMapStateToProps = (state, { participantId }) => {
@@ -43,7 +47,8 @@ let participantMapStateToProps = (state, { participantId }) => {
 		showcaseFactory: participantFactories.showcase,
 		detailsFactory: participantFactories.details,
 		editorFactory: participantFactories.editor,
-		deletorFactory: participantFactories.deletor
+		deletorFactory: participantFactories.deletor,
+		deleteRejectorFactory: participantFactories.deleteRejector
 	}
 };
 

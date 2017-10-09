@@ -25,7 +25,7 @@ let mapStateToProps = (state, { participantId }) => ({
 
 let mapEventsToProps = (events, { participantId }) => ({
 	onEditClick: () => events.participantEdit_Started(participantId),
-	onDeleteClick: () => events.participantDelete_Started(participantId),
+	onDeleteClick: () => events.participantDelete_Requested(participantId),
 	onCancelClick: () => events.participantDeselected()
 });
 

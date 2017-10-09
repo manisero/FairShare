@@ -28,7 +28,8 @@ let FocusMode = {
     selected: 'selected',
     added: 'added',
     edited: 'edited',
-    deleted: 'deleted'
+    deleted: 'deleted',
+    deleteRejected: 'deleteRejected'
 };
 
 let ParticipationMode = {

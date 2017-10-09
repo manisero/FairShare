@@ -22,6 +22,11 @@ export default {
 
     // non-generic:
 
+    itemsParticipantIsInvolvedIn: (state, participantId) =>
+        Object.entries(state.sourceData.participation.items)
+            .filter(([ itemId, participations ]) => participations.hasOwnProperty(participantId))
+            .map(([ itemId, _ ]) => state.sourceData.item.items[itemId]),
+
     totalItemsCost: state =>
         Object.values(state.sourceData.item.items)
             .reduce(
