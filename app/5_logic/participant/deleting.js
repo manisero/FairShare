@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import { EntityType, FocusMode } from 'model'
 import queries from 'queries'
 import { actions } from 'actions'
@@ -36,10 +37,12 @@ let subscribeDeleting = (events, store) => {
 				return;
 			}
 
+			let cleanUpParticipationsToAddActions = getCleanUpParticipationsToAddActions(state, participantId, e);
 			let cleanUpParticipationEditsActions = getCleanUpParticipationEditsActions(state, participantId, e);
 
 			store.dispatchBatch([
 				actions.clearFocus(EntityType.participant, e),
+				...cleanUpParticipationsToAddActions,
 				...cleanUpParticipationEditsActions,
 				actions.clearEdit(EntityType.participant, participantId, e),
 				actions.deleteEntity(EntityType.participant, participantId, e)
@@ -62,6 +65,22 @@ let shouldAllowDeletion = (state, participantId) => {
 	let itemsParticipantIsInvolvedIn = queries.itemsParticipantIsInvolvedIn(state, participantId);
 	
 	return itemsParticipantIsInvolvedIn.length === 0;
+};
+
+let getCleanUpParticipationsToAddActions = (state, participantId, origin) => {
+	let participationsToAddNext = queries.toAdd_next(state, EntityType.participation);
+	let result = [];
+
+	if (participationsToAddNext.hasOwnProperty(participantId)) {
+		let newToAdd = update(participationsToAddNext, { $unset: [participantId] });
+
+		result.push(
+			actions.setNextToAdd(EntityType.participation, newToAdd, origin),
+			actions.clearNextToAddError(EntityType.participation, origin)
+		);
+	}
+
+	return result;
 };
 
 let getCleanUpParticipationEditsActions = (state, participantId, origin) => {
