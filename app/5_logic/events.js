@@ -14,9 +14,8 @@ let eventsDataFieldNames = {
 	participantEdit_Submitted: [ 'participantId' ],
 	participantEdit_Cancelled: [ 'participantId' ],
 	participantDelete_Requested: [ 'participantId' ],
-	participantDelete_Rejected: [ 'participantId' ],
 	participantDelete_Allowed: [ 'participantId' ],
-	participantDelete_Started: [ 'participantId' ],
+	participantDelete_Rejected: [ 'participantId' ],
 	participantDelete_Submitted: [ 'participantId' ],
 	participantDelete_Cancelled: [ 'participantId' ],
 	// Item:

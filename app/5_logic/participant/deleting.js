@@ -5,16 +5,25 @@ import { actions } from 'actions'
 let subscribeDeleting = (events, store) => {
 
 	events.participantDelete_Requested.stream
-		.subscribe(e => events.participantDelete_Rejected(e.data.participantId));
+		.subscribe(e => {
+			let state = store.getState();
+			let participantId = e.data.participantId;
+			
+			if (shouldAllowDeletion(state, participantId)) {
+				events.participantDelete_Allowed(e.data.participantId);
+			} else {
+				events.participantDelete_Rejected(e.data.participantId);
+			}
+		});
 	
+	events.participantDelete_Allowed.stream
+		.subscribe(e => store.dispatch(
+            actions.setFocus(EntityType.participant, FocusMode.deleted, e.data.participantId, e)
+        ));
+
 	events.participantDelete_Rejected.stream
 		.subscribe(e => store.dispatch(
             actions.setFocus(EntityType.participant, FocusMode.deleteRejected, e.data.participantId, e)
-        ));
-
-    events.participantDelete_Started.stream
-		.subscribe(e => store.dispatch(
-            actions.setFocus(EntityType.participant, FocusMode.deleted, e.data.participantId, e)
         ));
     
     events.participantDelete_Submitted.stream
@@ -22,15 +31,20 @@ let subscribeDeleting = (events, store) => {
 			let state = store.getState();
 			let participantId = e.data.participantId;
 
+			if (!shouldAllowDeletion(state, participantId)) {
+				events.participantDelete_Rejected(e.data.participantId);
+				return;
+			}
+
 			let cleanUpParticipationsActions = getCleanUpParticipationsActions(state, participantId, e);
 			let cleanUpParticipationEditsActions = getCleanUpParticipationEditsActions(state, participantId, e);
 
 			store.dispatchBatch([
-				actions.deleteEntity(EntityType.participant, participantId, e),
 				actions.clearFocus(EntityType.participant, e),
+				...cleanUpParticipationEditsActions,
 				actions.clearEdit(EntityType.participant, participantId, e),
 				...cleanUpParticipationsActions,
-				...cleanUpParticipationEditsActions
+				actions.deleteEntity(EntityType.participant, participantId, e)
 			], e);
 
 			events.settlementRequested();
@@ -41,6 +55,12 @@ let subscribeDeleting = (events, store) => {
             actions.clearFocus(EntityType.participant, e)
         ));
 
+};
+
+let shouldAllowDeletion = (state, participantId) => {
+	let itemsParticipantIsInvolvedIn = queries.itemsParticipantIsInvolvedIn(state, participantId);
+	
+	return itemsParticipantIsInvolvedIn.length === 0;
 };
 
 let getCleanUpParticipationsActions = (state, participantId, origin) => {

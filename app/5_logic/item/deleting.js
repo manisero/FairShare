@@ -13,11 +13,11 @@ let subscribeDeleting = (events, store) => {
 			let itemId = e.data.itemId;
 
 			store.dispatchBatch([
-				actions.deleteEntity(EntityType.participation, itemId, e),
-				actions.deleteEntity(EntityType.item, itemId, e),
 				actions.clearFocus(EntityType.item, e),
 				actions.clearEdit(EntityType.participation, itemId, e),
-				actions.clearEdit(EntityType.item, itemId, e)
+				actions.clearEdit(EntityType.item, itemId, e),
+				actions.deleteEntity(EntityType.participation, itemId, e),
+				actions.deleteEntity(EntityType.item, itemId, e)
 			], e);
 
 			events.settlementRequested();
