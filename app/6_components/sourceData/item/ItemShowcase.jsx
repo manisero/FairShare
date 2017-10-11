@@ -6,8 +6,7 @@ import { Money } from 'compUtils'
 
 let ItemShowcase = ({ item }) => (
 	<div>
-		<div>Name: {item.name}</div>
-		<div>Price: <Money amount={item.price} /></div>
+		<div>{item.name} (<Money amount={item.price} />)</div>
 	</div>
 );
 

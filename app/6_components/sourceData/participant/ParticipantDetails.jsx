@@ -8,7 +8,7 @@ import { Button, ButtonGroup } from 'inputs'
 let ParticipantDetails = ({ participant, onEditClick, onDeleteClick, onCancelClick }) => (
 	<div>
 		<div>Name: {participant.name}</div>
-		<div>Contribution: <Money amount={participant.contribution} /></div>
+		<div className='hidden'>Contribution: <Money amount={participant.contribution} /></div>
 		<Right>
 			<ButtonGroup>
 				<Button onClick={onEditClick}>Edit</Button>
