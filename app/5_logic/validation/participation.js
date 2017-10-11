@@ -36,9 +36,7 @@ let validateParticipations = (participations, item, mode) => {
 };
 
 let validateGeneralContributed = (participations, errors) => {
-    let anyoneContributed = Object.values(participations)
-        .map(x => x.contributed)
-        .reduce((x, y) => x || y);
+    let anyoneContributed = Object.values(participations).some(x => x.contributed);
 
     if (!anyoneContributed) {
         errors.push('Someone must have paid for the item.');
@@ -63,9 +61,7 @@ let validateGeneralContribution = (participations, item, errors) => {
 };
 
 let validateGeneralParticipates = (participations, errors) => {
-    let anyoneParticipates = Object.values(participations)
-        .map(x => x.participates)
-        .reduce((x, y) => x || y);
+    let anyoneParticipates = Object.values(participations).some(x => x.participates)
 
     if (!anyoneParticipates) {
         errors.push('Someone must participate in item settlement.');
